@@ -4,7 +4,7 @@ import {App} from "./App";
 import { MetaMaskProvider } from "@metamask/sdk-react";
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+  document.getElementById("root")
 );
 
 root.render(
@@ -17,7 +17,6 @@ root.render(
           url: window.location.href,
         },
         infuraAPIKey: import.meta.env.VITE_INFURA_API_KEY,
-        // Other options
       }}
     >
       <App />
