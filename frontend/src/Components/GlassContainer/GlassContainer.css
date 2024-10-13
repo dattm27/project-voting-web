@@ -1,0 +1,21 @@
+
+  .glass_container {
+    background-color: rgba(89, 89, 89, 0);
+    backdrop-filter: blur(1px);
+    background-color: transparent;
+    width: 80%;
+    height: 80vh;
+    align-content: center;
+    border-radius: 30px;
+    /* border: 2px solid var(--violet); */
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    /* margin: 10px; */
+    flex-direction: column;
+    align-items: center;
+}
+
+
+

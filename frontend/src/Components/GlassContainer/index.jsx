@@ -1,8 +1,8 @@
-import styles from "./GlassContainer.module.css";
+import './GlassContainer.css'
 
 
 function GlassContainer({ children }) {
-  return <div className={styles.glass_card}>{children}</div>;
+  return <div className="glass_container">{children}</div>;
 }
 
 export default GlassContainer;
