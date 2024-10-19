@@ -1,9 +1,13 @@
 .main-layout{
-    position: relative;
+    // position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     min-height: 100%;
-    padding-left: 250px;
-  }
+    margin-top: 80px;
+}
+
+.default-layout{
+  position: relative;
+}
 

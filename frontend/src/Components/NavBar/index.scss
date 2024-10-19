@@ -1,44 +1,201 @@
 .nav-bar{
-    width: 250px;
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    height: 100%;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    height: 80px;
     top: 0;
     left:0;
+    right: 0;
     position: fixed;
     z-index: 10;
-    border-right: 1px var(--white) solid;
+    flex-grow: 1;
   }
   
   .nav-tabs{
-    width: 100%;
-    height: 100px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: flex-end;
     align-items: center;
+    flex-grow: 1;
+    // padding-right: 30px;
   }
   .nav-tab{
-    color: #cfcfcf;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 2rem;
-    width: 100%;
+    color: var(--white);
+    font-weight: 200;
+    font-size: 1.6rem;
+    max-width: 200px;
+    height: 100%;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    margin: 0 30px;
+    text-wrap:nowrap;
   }
+
   
   .nav-tab:hover{
-    color: var(--blue);
-    background-color: rgba(89, 89, 89, 0.4);
-    backdrop-filter: blur(20px);
+    color: var(--white-hover);
   }
   
-  .nav-tab:active{
-    color: var(--violet);
+.nav-tab img{
+    margin: 10px 0px;
   }
-  
-  .nav-tab img{
-    margin: 30px 0px;
+.nav-logo{
+  width: 200px;
+  margin: 10px 0 0 20px;
+}
+
+.accountId{
+  position: absolute;
+  transform: translateY(50px);
+  display: none;
+}
+
+
+.accountAvatar:hover ~ .accountId{
+  display: block;
+}
+
+
+
+
+.connect_btn {
+  appearance: none;
+  backface-visibility: hidden;
+  background-color: var(--active-green) ;
+  border-radius: 80px;
+  border-style: none;
+  box-shadow: rgba(39, 174, 96, .15) 0 4px 9px;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Inter,-apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: normal;
+  line-height: 1.5;
+  outline: none;
+  overflow: hidden;
+  padding: 8px 12px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transform: translate3d(0, 0, 0);
+  transition: all .3s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: top;
+  white-space: nowrap;
+  min-width: 130px;
+}
+
+.connected:hover {
+  background-color: #1e8449;
+  opacity: 1;
+  transform: translateY(0);
+  transition-duration: .35s;
+}
+
+.connect:hover {
+  background-color: #2e8a548a;
+  opacity: 1;
+  transform: translateY(0);
+  transition-duration: .35s;
+}
+
+.connect_btn:active {
+  transform: translateY(2px);
+  transition-duration: .35s;
+}
+
+.connect {
+  background-color: transparent;
+  border: 2px solid var(--active-green);
+  color: var(--active-green);
+}
+
+.connected {
+  background-color: var(--active-green);
+  border: 2px solid transparent;
+  color: var(--white);
+}
+
+.nav-bar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  padding: 0 20px;
+  background: var(--navbar-bg);
+}
+
+.nav-logo {
+  margin: 10px 0;
+}
+
+.nav-tabs {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+  transition: max-height 0.3s ease;
+}
+
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 20;
+}
+
+.hamburger .bar {
+  width: 25px;
+  height: 3px;
+  background-color: var(--white);
+  transition: all 0.3s;
+}
+
+/* Small screens */
+@media (max-width: 768px) {
+  .nav-tabs {
+    position: absolute;
+    top: 80px;
+    right: 0;
+    background: var(--navbar-bg);
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
   }
+
+  .nav-tabs.open {
+    max-height: 300px;
+    background-color: rgba(18, 18, 18, 0.749);
+    border-bottom: 1px solid #fff;
+    width: 200px;
+  }
+
+  .hamburger {
+    display: flex;
+    
+  }
+
+  .accountAvatar:hover ~ .accountId{
+    display: none;
+  }
+}

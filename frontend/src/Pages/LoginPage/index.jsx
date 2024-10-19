@@ -2,7 +2,6 @@ import { useSDK } from "@metamask/sdk-react";
 import React, { useState } from "react";
 import './LoginPage.scss';
 import model from '../../Assets/images/3d-model.png';
-import GlassCard from '../../Components/GlassCard';
 
 function LoginPage() {
   const [account, setAccount] = useState();
@@ -12,7 +11,9 @@ function LoginPage() {
     try {
       const accounts = await sdk?.connect();
       if (accounts?.length) {
-        setAccount(accounts[0]);
+        setAccount(accounts[0])
+        setLogin(accounts[0])
+        localStorage.setItem("wallet_addr", accounts[0]);
       } else {
         console.warn("No accounts found.");
       }
@@ -24,7 +25,7 @@ function LoginPage() {
 
   return (
     <div className="login-container"> 
-        <GlassCard>
+        <div className="login-container-card">
           <div className="login-card">
 
           <h1 className="login-title">Unlock New Horizons <br></br> Login to Explore!</h1>
@@ -42,7 +43,7 @@ function LoginPage() {
               </div>
             )}
           </div>
-        </GlassCard>
+        </div>
         <img src={model} alt="3D model" />
     </div>
   );

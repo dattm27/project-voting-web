@@ -4,11 +4,12 @@
     --blue: #497CFF;
     --violet: #B07AE9;
     --aqua: #1DDEF4;
-    --white: #dedfd5;
     --primary: #fe2c55;
     --black: #000;
     --white: #fff;
+    --white-hover: #bbbbbb;
     --text-color: #161823;
+    --active-green: #27ae60;
     --font-family: 'ProximaNova', sans-serif;
 
     // Default layout
@@ -40,7 +41,7 @@ body {
 
 html *::-webkit-scrollbar {
     border-radius: 0;
-    width: 8px;
+    width: 0px;
 }
 
 html *::-webkit-scrollbar-thumb {
@@ -91,9 +92,13 @@ a {
 }
 
 .glassmophsism{
-    background-color: rgba(0, 0, 0, 0.734);
+    background-color: rgba(0, 0, 0, 0.764);
     backdrop-filter: blur(20px);
-  }
+}
+.glassmophsism:hover{
+    background-color: #000000d5;
+}
+
 .w-boder{
 
     border: 1px solid rgb(255, 255, 255);
@@ -101,6 +106,7 @@ a {
 
 .btn {
     background-color: #4caf50;
+    
     color: white;
     border: none;
     border-radius: 5px;
@@ -113,3 +119,35 @@ a {
   .btn:hover {
     background-color: #45a036;
   }
+
+  //random text gradient
+  // Define a list of predefined colors
+$colors: (
+    #FF6B6B,  // Red
+    #4ECDC4,  // Teal
+    #1A535C,  // Dark Blue
+    #FFB400,  // Yellow
+    #6B4E71,  // Purple
+    #FFE66D   // Light Yellow
+  );
+  
+  // SCSS function to select a random color from the list
+  @function random-color() {
+    $index: random(length($colors)); // Pick a random index
+    @return nth($colors, $index);    // Get the color at that index
+  }
+  
+  // SCSS function to generate a random gradient
+  @function random-gradient() {
+    $color1: random-color();
+    $color2: random-color();
+    @return linear-gradient(120deg, $color1, $color2);
+  }
+  
+  // Gradient Text Class
+//   .gradient-text {
+//     // background-image: random-gradient(); // Ensures proper clipping of text
+//     // background-image: linear-gradient(120deg, var(--violet), blue);
+//     color: transparent;
+//     background-clip: text;
+//   }

@@ -6,6 +6,7 @@ import LoginPage from '../Pages/LoginPage'
 import DefaultLayout from '../Layout/DefaultLayout'
 import OtherLayout from '../Layout/OtherLayout'
 import VotePage from '../Pages/VotesPage'
+import { useState} from "react";
 //public routes
 
 function HomeSite() {
@@ -17,6 +18,8 @@ function HomeSite() {
 }
 
 function LoginSite() {
+
+    const [login, setLogin] = useState(null)
     return (
         
             <MetaMaskProvider
@@ -29,8 +32,8 @@ function LoginSite() {
                     infuraAPIKey: import.meta.env.VITE_INFURA_API_KEY,
                 }}
             >
-                <DefaultLayout>
-                <LoginPage />
+                <DefaultLayout login={login}>
+                <LoginPage setLogin={setLogin}/>
                 </DefaultLayout>
             </MetaMaskProvider>
         
@@ -38,7 +41,7 @@ function LoginSite() {
 }
 function VoteSite() {
     return (
-        <OtherLayout>
+        <OtherLayout >
             <VotePage />
         </OtherLayout>
     )

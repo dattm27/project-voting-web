@@ -1,18 +1,18 @@
-import { Fragment } from "react";
-import GradientBg from "../../Components/GradientBg";
+import { Fragment, useState } from "react";
 import NavBar from "../../Components/NavBar";
 import './index.scss'
 
-function DefaultLayout({ children }) {
+function DefaultLayout({ children, login }) {
+    
+
     return (
         <Fragment>
-            <GradientBg />
+            
             <div className="default-layout">
-                <NavBar/>
-                <div className="nav1"></div>
+                <NavBar login={login} />
                 <div className="main-layout">
                     {children}
-                </div>
+                </div>  
             </div>
         </Fragment>
     );

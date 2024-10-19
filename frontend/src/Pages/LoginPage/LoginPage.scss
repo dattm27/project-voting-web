@@ -56,3 +56,26 @@
         transform: translate(0px, 0px);
     }
     }  
+
+    .login-container-card {
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-sizing: border-box;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      /* transition: box-shadow 0.4s ease-in-out, transform 0.4s; */
+      cursor: pointer;
+      overflow: hidden;
+      padding-bottom: 16px;
+      padding-left: 16px;
+    }
+    
+    
+    /* Glow effect on hover
+    .login-container-card:hover {
+    box-shadow: 0 0 20px rgba(99, 31, 122, 0.7), 
+                0 0 60px rgba(70, 23, 114, 0.5);
+    transform: scale(1.01);
+    border: none;
+    } */
