@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import GradientBg from "./Components/GradientBg";
 import { publicRoutes } from './Routes'
-import './App.css';
 
 
 function App() {

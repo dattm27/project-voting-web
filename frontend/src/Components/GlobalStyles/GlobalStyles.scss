@@ -1,18 +1,22 @@
 @import 'normalize.css';
 
 :root {
+    // Color Variables
     --blue: #497CFF;
     --violet: #B07AE9;
     --aqua: #1DDEF4;
     --primary: #fe2c55;
     --black: #000;
-    --white: #fff;
+    --white: #e3e3e3;
     --white-hover: #bbbbbb;
     --text-color: #161823;
     --active-green: #27ae60;
+    --hover-green: #219552;
+    
+    // Font
     --font-family: 'ProximaNova', sans-serif;
 
-    // Default layout
+    // Default Layout
     --default-layout-header-height: 60px;
     --default-layout-width: 1150px;
     --default-layout-horizontal-spacer: 24px;
@@ -33,15 +37,14 @@ body {
     font-size: 1.6rem;
     line-height: 1.5;
     text-rendering: optimizespeed;
-    color: var(--text-color);
-    overflow-y: overlay;
+    color: var(--white);
+    overflow-y: overlay; // Ensure overlay works properly
 }
 
-//scrollbarcss
-
+// Scrollbar Styles
 html *::-webkit-scrollbar {
-    border-radius: 0;
     width: 0px;
+    border-radius: 0;
 }
 
 html *::-webkit-scrollbar-thumb {
@@ -66,88 +69,27 @@ a {
     text-decoration: none;
 }
 
-// Fonts emmbeded
+// Font Faces
 @font-face {
     font-family: ProximaNova;
-    src: url('/assets/fonts/Proxima-Nova-Regular.woff2');
+    src: url('/assets/fonts/Proxima-Nova-Regular.woff2') format('woff2');
     font-weight: 400;
 }
 
 @font-face {
     font-family: ProximaNova;
-    src: url('/assets/fonts/ProximaNova-Semibold.woff2');
+    src: url('/assets/fonts/ProximaNova-Semibold.woff2') format('woff2');
     font-weight: 600;
 }
 
 @font-face {
     font-family: ProximaNova;
-    src: url('/assets/fonts/Proxima-Nova-Bold.woff');
+    src: url('/assets/fonts/Proxima-Nova-Bold.woff') format('woff');
     font-weight: 700;
 }
 
 @font-face {
     font-family: SofiaPro;
-    src: url('/assets/fonts/sofiapro-bold.woff');
+    src: url('/assets/fonts/sofiapro-bold.woff') format('woff');
     font-weight: 700;
 }
-
-.glassmophsism{
-    background-color: rgba(0, 0, 0, 0.764);
-    backdrop-filter: blur(20px);
-}
-.glassmophsism:hover{
-    background-color: #000000d5;
-}
-
-.w-boder{
-
-    border: 1px solid rgb(255, 255, 255);
-}
-
-.btn {
-    background-color: #4caf50;
-    
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    width: 40%;
-    padding: 12px;
-  }
-  
-  .btn:hover {
-    background-color: #45a036;
-  }
-
-  //random text gradient
-  // Define a list of predefined colors
-$colors: (
-    #FF6B6B,  // Red
-    #4ECDC4,  // Teal
-    #1A535C,  // Dark Blue
-    #FFB400,  // Yellow
-    #6B4E71,  // Purple
-    #FFE66D   // Light Yellow
-  );
-  
-  // SCSS function to select a random color from the list
-  @function random-color() {
-    $index: random(length($colors)); // Pick a random index
-    @return nth($colors, $index);    // Get the color at that index
-  }
-  
-  // SCSS function to generate a random gradient
-  @function random-gradient() {
-    $color1: random-color();
-    $color2: random-color();
-    @return linear-gradient(120deg, $color1, $color2);
-  }
-  
-  // Gradient Text Class
-//   .gradient-text {
-//     // background-image: random-gradient(); // Ensures proper clipping of text
-//     // background-image: linear-gradient(120deg, var(--violet), blue);
-//     color: transparent;
-//     background-clip: text;
-//   }

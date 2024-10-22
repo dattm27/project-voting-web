@@ -1,6 +1,7 @@
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import NavBar from "../../Components/NavBar";
-import './index.scss'
+
+import styles from './DefaultLayout.module.scss'
 
 function DefaultLayout({ children, login }) {
     
@@ -8,9 +9,9 @@ function DefaultLayout({ children, login }) {
     return (
         <Fragment>
             
-            <div className="default-layout">
+            <div className={styles['default-layout']}>
                 <NavBar login={login} />
-                <div className="main-layout">
+                <div className={styles["main-layout"]}>
                     {children}
                 </div>  
             </div>

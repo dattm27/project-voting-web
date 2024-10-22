@@ -1,12 +1,14 @@
-import './index.scss';
-import logo from "../../Assets/images/logo-voting.png";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import styles from './NavBar.module.scss';
+
+import { app_logo } from "../../Assets/images";
+import { Link } from "react-router-dom";
 import { MetaMaskAvatar } from 'react-metamask-avatar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function NavBar() {
     const [connect, setConnect] = useState(localStorage.getItem("connect") || "connect");
     const [menuOpen, setMenuOpen] = useState(false);
+    const walletAddress = localStorage.getItem('wallet_addr');
 
     const toggleConnect = () => {
         const newStatus = connect === "connect" ? "connected" : "connect";
@@ -14,35 +16,45 @@ function NavBar() {
         localStorage.setItem("connect", newStatus);
     };
 
+    // Close menu when clicking outside
+    useEffect(() => {
+        const closeMenu = () => setMenuOpen(false);
+        window.addEventListener('click', closeMenu);
+        return () => window.removeEventListener('click', closeMenu);
+    }, []);
+
     return (
-        <nav className="nav-bar glassmophsism">
-            <Link className="nav-logo" to="/">
-                <img style={{ height: "60px" }} src={logo} alt="logo" />
+        <nav className={`${styles.navBar} ${styles['nav-bar']} ${styles.glassmorphism}`}>
+            <Link className={styles.navLogo} to="/">
+                <img style={{ height: "60px" }} src={app_logo} alt="logo" />
             </Link>
 
-            <div className={`nav-tabs ${menuOpen ? 'open' : ''}`}>
-                <Link className="nav-tab" to="/">Home page</Link>
-                <Link className="nav-tab" to='/votes'>Vote page</Link>
-                <Link className="nav-tab" to='/login'>
+            <div className={`${styles.navTabs} ${styles['nav-tabs']} ${menuOpen ? styles.open : ''}`}>
+                <Link className={styles.navTab} to='/login'>
                     <button 
                         onClick={toggleConnect} 
-                        className={`connect_btn ${connect}`} 
-                        role="button">
+                        className={`${styles['connect_btn']} ${styles.connect}`} 
+                        role="button"
+                        aria-pressed={connect === "connected"}>
                         {connect.toUpperCase()}
                     </button>
                 </Link>
-                <MetaMaskAvatar 
-                    className='accountAvatar' 
-                    address={localStorage.getItem('wallet_addr')} 
-                    size={36} 
-                />
-                <span className='accountId'>{localStorage.getItem('wallet_addr')}</span>
+                {walletAddress && (
+                    <>
+                        <MetaMaskAvatar 
+                            className={styles.accountAvatar} 
+                            address={walletAddress} 
+                            size={36} 
+                        />
+                        <span className={styles.accountId}>{walletAddress}</span>
+                    </>
+                )}
             </div>
 
-            <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
-                <span className="bar"></span>
-                <span className="bar"></span>
-                <span className="bar"></span>
+            <button className={styles.hamburger} onClick={() => setMenuOpen(!menuOpen)}>
+                <span className={styles.bar}></span>
+                <span className={styles.bar}></span>
+                <span className={styles.bar}></span>
             </button>
         </nav>
     );

@@ -1,28 +1,23 @@
 :root {
   --color-bg1: rgb(0, 0, 0);
   --color-bg2: rgb(0, 0, 0);
-   --color1: 18, 113, 255;//blue
-  --color2: 221, 74, 255;//purple
-  --color3: 100, 220, 255;//aqua
-   --color4: 200, 50, 50;//red
-   --color5: 180, 180, 50;//yellow
+  --color1: 18, 113, 255; // blue
+  --color2: 221, 74, 255; // purple
+  --color3: 100, 220, 255; // aqua
+  --color4: 200, 50, 50; // red (uncomment if needed)
+  // --color5: 180, 180, 50; // yellow (uncomment if needed)
   --color-interactive: 140, 100, 255;
   --circle-size: 100%; // change the circle gradient here
   --blending: hard-light;
 }
 
-
-
-
 @keyframes moveInCircle {
   0% {
     transform: rotate(0deg);
   }
-
   50% {
     transform: rotate(180deg);
   }
-
   100% {
     transform: rotate(360deg);
   }
@@ -32,11 +27,9 @@
   0% {
     transform: translateY(-50%);
   }
-
   50% {
     transform: translateY(50%);
   }
-
   100% {
     transform: translateY(-50%);
   }
@@ -46,16 +39,13 @@
   0% {
     transform: translateX(-50%) translateY(-10%);
   }
-
   50% {
     transform: translateX(50%) translateY(10%);
   }
-
   100% {
     transform: translateX(-50%) translateY(-10%);
   }
 }
-
 
 .gradient-bg {
   width: 100vw;
@@ -68,9 +58,8 @@
   z-index: 0;
 
   svg {
-    display: none;
+    display: none; // Hides the SVG filter since it's applied to the gradients
   }
-
 
   .gradients-container {
     filter: url(#goo) blur(40px);
@@ -78,85 +67,53 @@
     height: 100%;
   }
 
-  .g1 {
+  // Circle Styles
+  .g1,
+  .g2,
+  .g3,
+  .g4,
+  .g5 {
     position: absolute;
-    background: radial-gradient(circle at center, rgba(var(--color1), 0.8) 0, rgba(var(--color1), 0) 50%) no-repeat;
-    mix-blend-mode: var(--blending);
-
     width: var(--circle-size);
     height: var(--circle-size);
     top: calc(50% - var(--circle-size) / 2);
     left: calc(50% - var(--circle-size) / 2);
+    mix-blend-mode: var(--blending);
+    opacity: 1; // Default opacity for all circles
+  }
 
-    transform-origin: center center;
+  .g1 {
+    background: radial-gradient(circle at center, rgba(var(--color1), 0.8) 0, rgba(var(--color1), 0) 50%) no-repeat;
     animation: moveVertical 30s ease infinite;
-
-    opacity: 1;
   }
 
   .g2 {
-    position: absolute;
     background: radial-gradient(circle at center, rgba(var(--color2), 0.8) 0, rgba(var(--color2), 0) 50%) no-repeat;
-    mix-blend-mode: var(--blending);
-
-    width: var(--circle-size);
-    height: var(--circle-size);
-    top: calc(50% - var(--circle-size) / 2);
-    left: calc(50% - var(--circle-size) / 2);
-
     transform-origin: calc(50% - 400px);
     animation: moveInCircle 20s reverse infinite;
-
-    opacity: 1;
   }
 
   .g3 {
-    position: absolute;
     background: radial-gradient(circle at center, rgba(var(--color3), 0.8) 0, rgba(var(--color3), 0) 50%) no-repeat;
-    mix-blend-mode: var(--blending);
-
-    width: var(--circle-size);
-    height: var(--circle-size);
     top: calc(50% - var(--circle-size) / 2 + 200px);
     left: calc(50% - var(--circle-size) / 2 - 500px);
-
     transform-origin: calc(50% + 400px);
     animation: moveInCircle 40s linear infinite;
-
-    opacity: 1;
   }
 
   .g4 {
-    position: absolute;
     background: radial-gradient(circle at center, rgba(var(--color4), 0.8) 0, rgba(var(--color4), 0) 50%) no-repeat;
-    mix-blend-mode: var(--blending);
-
-    width: var(--circle-size);
-    height: var(--circle-size);
-    top: calc(50% - var(--circle-size) / 2);
-    left: calc(50% - var(--circle-size) / 2);
-
-    transform-origin: calc(50% - 200px);
     animation: moveHorizontal 40s ease infinite;
-
-    opacity: 0.7;
+    opacity: 0.7; // Adjust opacity if necessary
   }
 
   .g5 {
-    position: absolute;
     background: radial-gradient(circle at center, rgba(var(--color5), 0.8) 0, rgba(var(--color5), 0) 50%) no-repeat;
-    mix-blend-mode: var(--blending);
-
     width: calc(var(--circle-size) * 2);
     height: calc(var(--circle-size) * 2);
     top: calc(50% - var(--circle-size));
     left: calc(50% - var(--circle-size));
-
     transform-origin: calc(50% - 800px) calc(50% + 200px);
     animation: moveInCircle 20s ease infinite;
-
-    opacity: 1;
   }
-
-
 }
