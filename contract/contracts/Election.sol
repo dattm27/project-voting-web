@@ -3,7 +3,8 @@ pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Voting is Ownable {
+
+contract Election is Ownable {
     struct Candidate {
         uint id;
         string name;
@@ -13,13 +14,16 @@ contract Voting is Ownable {
 
     mapping (uint => Candidate) public candidates;
     mapping (address => bool) public voters;
+
+    event NewVote(address election, address indexed voter, uint256 candidateId, uint256 timestamp);
  
-    
+    uint public electionId;
     uint public countCandidates;
     bool public isActive;
 
     // Constructor to initialize the voting start and end dates
-    constructor() Ownable(msg.sender) {
+    constructor(uint256 _electionId ,address _owner) Ownable(_owner) {
+        electionId = _electionId;
         isActive = false;
     }
 
