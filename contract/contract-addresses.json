@@ -2,6 +2,10 @@
     "my_polygon": {
         "Voting": {
             "address": "0x1239def2c8Dba1c5699EDB8CA1e0B070262802d5"
+        },
+        "ElectionFactory": {
+            "address": "0x130559aB237019Eb1C7750cc1715503b500f0FE1",
+            "impl": "0x89DB8F98D776894E62C6D3f24F0c607CE1D69121"
         }
     }
 }
