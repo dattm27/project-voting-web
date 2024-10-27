@@ -1,0 +1,32 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: OptimizedTransparentUpgradeableProxy
+    network: polygon-amoy
+    source:
+      address: "0x130559aB237019Eb1C7750cc1715503b500f0FE1"
+      abi: OptimizedTransparentUpgradeableProxy
+      startBlock: 13678995
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - AdminChanged
+        - BeaconUpgraded
+        - Upgraded
+      abis:
+        - name: OptimizedTransparentUpgradeableProxy
+          file: ./abis/OptimizedTransparentUpgradeableProxy.json
+      eventHandlers:
+        - event: AdminChanged(address,address)
+          handler: handleAdminChanged
+        - event: BeaconUpgraded(indexed address)
+          handler: handleBeaconUpgraded
+        - event: Upgraded(indexed address)
+          handler: handleUpgraded
+      file: ./src/optimized-transparent-upgradeable-proxy.ts
