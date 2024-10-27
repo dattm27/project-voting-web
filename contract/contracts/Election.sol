@@ -15,8 +15,8 @@ contract Election is Ownable {
     mapping (uint => Candidate) public candidates;
     mapping (address => bool) public voters;
 
-    event NewVote(address election, address indexed voter, uint256 candidateId, uint256 timestamp);
- 
+    event NewVote(uint256 electionId, address indexed voter, uint256 candidateId, uint256 timestamp);
+    event NewCandidate(uint256 electionId, uint256 candidateId, string name, string patry);
     uint public electionId;
     uint public countCandidates;
     bool public isActive;
@@ -31,6 +31,7 @@ contract Election is Ownable {
     function addCandidate(string memory name, string memory party) public onlyOwner returns(uint) {
         countCandidates++;
         candidates[countCandidates] = Candidate(countCandidates, name, party, 0);
+        emit NewCandidate(electionId, countCandidates, name, party);
         return countCandidates;
     }
 
@@ -39,13 +40,15 @@ contract Election is Ownable {
     }
 
     // Vote for a candidate
-    function vote(uint candidateID) public {
+    function vote(uint _candidateId) public {
         require(isActive, "Voting is not active");
-        require(candidateID > 0 && candidateID <= countCandidates, "Invalid candidate ID");
+        require(_candidateId > 0 && _candidateId <= countCandidates, "Invalid candidate ID");
         require(!voters[msg.sender], "You have already voted");
 
         voters[msg.sender] = true;
-        candidates[candidateID].voteCount++;
+        candidates[_candidateId].voteCount++;
+
+        emit NewVote(electionId, msg.sender, _candidateId, block.timestamp);
     }
 
     // Check if the caller has voted
