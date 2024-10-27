@@ -1,8 +1,8 @@
 {
   "polygon-amoy": {
-    "OptimizedTransparentUpgradeableProxy": {
-      "address": "0x130559aB237019Eb1C7750cc1715503b500f0FE1",
-      "startBlock": 13678995
+    "ElectionFactory": {
+      "address": "0x89DB8F98D776894E62C6D3f24F0c607CE1D69121",
+      "startBlock": 13678893
     }
   }
 }
