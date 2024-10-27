@@ -8,7 +8,7 @@ dataSources:
     name: ElectionFactory
     network: polygon-amoy
     source:
-      address: "0x89DB8F98D776894E62C6D3f24F0c607CE1D69121"
+      address: "0x130559aB237019Eb1C7750cc1715503b500f0FE1"
       abi: ElectionFactory
       startBlock: 13678893
     mapping:

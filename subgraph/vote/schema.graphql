@@ -8,12 +8,13 @@ type Initialized @entity(immutable: true) {
 
 type NewElection @entity(immutable: true) {
   id: Bytes!
-  ElectionFactory_id: BigInt! # uint256
-  election: Bytes! # address
+  electionId: BigInt! # uint256
+  electionAddr: Bytes! # address
   owner: Bytes! # address
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
+  totalVotes: Int!
 }
 
 type RoleAdminChanged @entity(immutable: true) {
