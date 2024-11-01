@@ -1,37 +1,31 @@
 
 
 import { useState, useEffect } from 'react';
-import { app_logo as Logo } from "../../Assets/index";  // Adjust the path as needed
+import { app_logo as Logo } from "../../Assets";
 import styles from './Navbar.module.scss';
 import { Link, useLocation } from "react-router-dom";
-import { MetaMaskAvatar } from 'react-metamask-avatar';
-import { search, createVote, homeIcon } from '../../Assets/index';
+import { search, createVote, homeIcon } from '../../Assets';
 
-import { useSDK } from "@metamask/sdk-react";
+import { ConnectButton } from "thirdweb/react";
+import { createWallet, inAppWallet } from "thirdweb/wallets";
+import { createThirdwebClient } from "thirdweb";
+
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [activeTab, setActiveTab] = useState('');
     // const [account, setAccount] = useState();
     const location = useLocation();
+    const wallets = [
+        inAppWallet(),
+        createWallet("io.metamask"),
 
-    const { sdk} = useSDK();
+    ];
 
-    const connectt = async () => {
-      try {
-        const accounts = await sdk?.connect();
-        if (accounts?.length) {
-        //   setAccount(accounts[0])
-          localStorage.setItem("wallet_addr", accounts[0]);
-        } else {
-          console.warn("No accounts found.");
-        }
-      } catch (err) {
-        console.error("Failed to connect:", err);
-        alert("MetaMask connection failed. Please try again.");
-      }
-    };
 
+    const client = createThirdwebClient({
+        clientId: "<your_client_id>",
+    });
     useEffect(() => {
         switch (location.pathname) {
             case '/create-vote':
@@ -49,16 +43,6 @@ const Navbar = () => {
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
-    };
-
-    const [connect, setConnect] = useState(localStorage.getItem("connect") || "connect");
-    const walletAddress = localStorage.getItem('wallet_addr');
-
-    const toggleConnect = () => {
-        connectt();
-        const newStatus = connect === "connect" ? "connected" : "connect";
-        setConnect(newStatus);
-        localStorage.setItem("connect", newStatus);
     };
 
     return (
@@ -88,22 +72,9 @@ const Navbar = () => {
             </ul>
 
             <div className={`${styles.navRight}`}>
-                
-                    <button
-                        onClick={toggleConnect}
-                        className={`${styles['connect_btn']} ${connect === "connect" ? styles.connect : styles.connected}`}
-                        role="button"
-                        aria-pressed={connect === "connected"}>
-                        {connect.toUpperCase()}
-                    </button>
-                {connect === "connected" && (
-                    <MetaMaskAvatar
-                        className={styles.accountAvatar}
-                        address={walletAddress}
-                        size={36}
-                    />
-                )}
-                <span className={styles.accountId}>{walletAddress}</span>
+                <div >
+                    <ConnectButton  client={client} wallets={wallets} />
+                </div>
             </div>
             <div
                 className={`${styles.hamburger} ${isOpen ? styles.hamburgerActive : ''}`}
