@@ -3,14 +3,14 @@ import NavBar from "../../Components/NavBar";
 
 import styles from './DefaultLayout.module.scss'
 
-function DefaultLayout({ children, login }) {
+function DefaultLayout({children}) {
     
 
     return (
         <Fragment>
             
             <div className={styles['default-layout']}>
-                <NavBar login={login} />
+                <NavBar />
                 <div className={styles["main-layout"]}>
                     {children}
                 </div>  

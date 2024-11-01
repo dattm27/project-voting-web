@@ -1,0 +1,47 @@
+.votePage {
+    text-align: center;
+}
+
+.candidatesList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.candidateCard {
+    border: 1px solid #dddddd7d;
+    padding: 20px;
+    margin: 10px;
+    width: 350px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.051);
+    backdrop-filter: blur(20px);
+}
+
+.candidateImage {
+    max-width: 100%;
+    border-radius: 10px;
+    height: auto;
+}
+
+.voteButton {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.voteButton.voted {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.voteCount {
+    font-weight: bold;
+    margin-top: 5px;
+}

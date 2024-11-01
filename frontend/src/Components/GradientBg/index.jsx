@@ -1,6 +1,6 @@
 import styles from './GradientBg.module.scss'
 
-function GradientBg({children}) {
+function GradientBg() {
     return (
         <>
             <div className={styles['gradient-bg']}>

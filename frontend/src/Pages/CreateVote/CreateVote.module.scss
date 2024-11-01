@@ -7,10 +7,11 @@
   margin-top: 50px;
   position: relative;
   width: 100%;
-  background: #ffffff76;
+  background: #ffffff16;
   padding: 25px;
   border-radius: 8px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0);
+  border: 2px solid rgba(255,255,255,0.08)
 }
 
 .input-box input {
@@ -19,7 +20,7 @@
 
 .container header {
   font-size: 3rem;  /* Corrected font size */
-  color: #000;
+  color: var(--text-white);
   font-weight: 600;
   text-align: center;
 }
@@ -34,7 +35,7 @@
 }
 
 .input-box label {
-  color: #000;
+  color: var(--text-white);
   font-weight: 600;
 }
 
@@ -46,7 +47,7 @@
   font-size: 3rem;  /* Corrected font size */
   color: transparent;
   margin-top: 5px;
-  border: 1px solid #000000;
+  border: 1px solid #3d3d3d;
   border-radius: 6px;
   padding: 0 15px;
   background: #ffffff;
@@ -85,7 +86,7 @@
 }
 
 .gender label {
-  color: #000;
+  color: var(--text-white);
 }
 
 .address :where(input, .select-box) {

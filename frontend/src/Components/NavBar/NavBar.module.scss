@@ -1,68 +1,25 @@
-.nav-bar {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between; // Ensures logo and tabs are spaced out
-  height: 80px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  padding: 0 20px; // Adds padding to the sides
-  background: var(--navbar-bg); // Ensure the navbar has a background color
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
+
+* {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Poppins", sans-serif;
 }
 
 .glassmorphism {
-  background-color: rgba(0, 0, 0, 0.764);
+  // background-color: rgba(0, 0, 0, 0.764);
+  background-color: #14161fbc;
   backdrop-filter: blur(20px);
-}
 
-.glassmorphism:hover {
-  background-color: #000000d5;
-}
-
-.w-border { /* Updated spelling */
-  border: 1px solid rgb(200, 120, 212);
-}
-
-.nav-logo {
-  width: 200px;
-  margin: 10px 0; // Top and bottom margin for centering
-}
-
-.nav-tabs {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end; // Aligns tabs to the right
-  gap: 20px; // Spacing between nav tabs
-}
-
-.nav-tab {
-  color: var(--white);
-  font-weight: 200;
-  font-size: 1.6rem;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 30px; // Margin on left and right
-  white-space: nowrap; // Prevents text from wrapping
-}
-
-.nav-tab:hover {
-  color: var(--white-hover); // Hover effect for nav tabs
-}
-
-.accountId {
-  position: absolute; // Allows it to be positioned relative to the parent
-  transform: translateY(50px);
-  display: none; // Hidden by default
-}
-
-.accountAvatar:hover ~ .accountId {
-  display: block; // Show on hover
+  // &:hover {
+  //   background-color: #000000d5;
+  // }
 }
 
 .connect_btn {
@@ -71,7 +28,7 @@
   background-color: var(--active-green);
   border-radius: 80px;
   border: 2px solid var(--active-green);
-  box-shadow: rgba(39, 174, 96, .15) 0 4px 9px;
+  box-shadow: rgba(39, 174, 96, 0.15) 0 4px 9px;
   color: #fff;
   cursor: pointer;
   display: inline-block;
@@ -81,72 +38,195 @@
   padding: 8px 12px;
   position: relative;
   text-align: center;
-  transition: all .3s;
+  transition: all 0.3s;
   min-width: 130px;
+
+  &.connect {
+    background-color: transparent; // Transparent when disconnected
+    color: var(--active-green);
+  }
+
+  &.connected {
+    background-color: var(--active-green);
+    border: 2px solid transparent; // Border becomes transparent when connected
+    color: var(--white);
+  }
+
+  &:hover {
+    opacity: 0.8; // Slight opacity change on hover
+  }
+
+  &:active {
+    transform: translateY(2px); // Button presses down on click
+  }
 }
 
-.connect {
-  background-color: transparent; // Transparent when disconnected
-  color: var(--active-green);
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 80px;
+  padding: 0px 48px;
 }
 
-.connected {
-  background-color: var(--active-green);
-  border: 2px solid transparent; // Border becomes transparent when connected
-  color: var(--white);
+.logo {
+  img {
+    height: 40px;
+    width: auto;
+    margin-right: 10px;
+  }
 }
 
-.connect_btn:hover {
-  opacity: 0.8; // Slight opacity change on hover
-}
+.navLinks {
+  list-style: none;
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 100%;
+  li {
+    display: flex;
+    min-width: 128px;
+    flex-direction: column;
+    justify-content: flex-end;
+    text-decoration: none;
+    align-items: center;
+    color: var(--white);
+    font-size: 1.8rem;
+    font-weight: 400;
+    padding: 5px 12px;
+    height: 100%;
+    &:hover {
+      color: var(--primary-red);
+    }
 
-.connect_btn:active {
-  transform: translateY(2px); // Button presses down on click
+    &.active {
+      background-color: #ffffff4a;
+      color: var(--primary-red);
+    }
+
+    img {
+      max-width: 36px;
+
+    }
+  }
+}
+.navRight{
+  display: flex;
+  align-items: center;
+  min-width: 180px;
+  justify-content: space-between;
 }
 
 .hamburger {
-  display: none; // Hidden by default
-  background: none;
-  border: none;
+  display: none;
   cursor: pointer;
+
+  .line {
+    width: 25px;
+    height: 1px;
+    background-color: #ffffff;
+    display: block;
+    margin: 7px auto;
+    transition: all 0.3s ease-in-out;
+  }
+
+  &.Active {
+    transition: all 0.3s ease-in-out;
+    transition-delay: 0.6s;
+    transform: rotate(45deg);
+
+    .line:nth-child(2) {
+      width: 0px;
+    }
+
+    .line:nth-child(1),
+    .line:nth-child(3) {
+      transition-delay: 0.3s;
+    }
+
+    .line:nth-child(1) {
+      transform: translateY(12px);
+    }
+
+    .line:nth-child(3) {
+      transform: translateY(-5px) rotate(90deg);
+    }
+  }
+}
+
+.menubar {
+  display: flex;
   flex-direction: column;
-  gap: 5px;
-  z-index: 20; // Above nav tabs
-}
+  align-items: center;
+  padding-top: 20%;
+  position: absolute;
+  top: 0;
+  left: -100%; 
+  width: 40%;
+  height: 100vh;
+  background: rgb(0, 0, 0);
+  transition: left 0.3s ease;
+  z-index: 3;
 
-.hamburger .bar {
-  width: 25px;
-  height: 3px;
-  background-color: var(--white);
-  transition: all 0.3s;
-}
-
-// Small screens
-@media (max-width: 768px) {
-  .nav-tabs {
-      position: absolute;
-      top: 80px;
-      right: 0;
-      background: var(--navbar-bg); // Ensure the dropdown has a background
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      max-height: 0; // Hidden by default
-      overflow: hidden; // Prevent overflow when not visible
-      transition: max-height 0.3s ease; // Smooth transition for opening
+  &.active {
+    left: 0; 
   }
 
-  .nav-tabs.open {
-      max-height: 300px; // Allow for a maximum height when open
-      background-color: rgba(18, 18, 18, 0.749); // Background color for dropdown
-      border-bottom: 1px solid #fff; // Border for dropdown
-  }
+  ul {
+    padding: 0;
+    list-style: none;
 
+    li {
+      margin-bottom: 32px;
+      text-decoration: none;
+      color: #f5f5f5;
+      font-size: 2.4rem;
+      font-weight: 400;
+      border-radius: 5px;
+      background: linear-gradient(to right, #b927fc 0%, #2c64fc 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+
+      &:hover {
+        background-color: #f5f5f5;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 790px) {
   .hamburger {
-      display: flex; // Show hamburger icon on small screens
+    display: block;
   }
 
-  .accountAvatar:hover ~ .accountId {
-      display: none; // Hide account ID on avatar hover in mobile
+  .navLinks {
+    display: none;
   }
+
+  .menubar {
+    &.active {
+      left: 0; // slide in when active
+    }
+  }
+}
+
+.accountId {
+  position: absolute; 
+  transform: translateY(50px);
+  top: 40px;
+  right: 20px;
+  display: none; 
+}
+
+.accountAvatar:hover ~ .accountId {
+  display: block; 
 }
