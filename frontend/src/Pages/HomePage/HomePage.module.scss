@@ -1,0 +1,120 @@
+/* Home Page Styling */
+.home-page {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+.glassmorphism {
+  background-color: rgba(0, 0, 0, 0.764);
+  backdrop-filter: blur(20px);
+}
+
+.glassmorphism:hover {
+  background-color: #000000d5;
+}
+
+.w-border { /* Updated spelling */
+  border: 1px solid rgb(200, 120, 212);
+}
+
+/* Card Container */
+.card-container { /* Updated spelling */
+  display: grid;
+  gap: 100px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  margin-top: 120px;
+  width: 100%;
+  max-width: 1200px;
+  padding: 1rem;
+}
+
+/* Card Styling */
+.home-container-card {
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.35s ease-in-out, transform 0.35s;
+  cursor: pointer;
+  overflow: hidden;
+  width: 400px;
+  margin: 0 auto;
+  height: 100%;
+}
+
+.home-container-card:hover {
+  box-shadow: 0 10px 30px rgba(99, 31, 122, 0.3), 
+              0 0 40px rgba(70, 23, 114, 0.2);
+  transform: scale(1.04);
+}
+
+/* Image Styling - Fixed height and width with fill */
+.home-image-card {
+  width: 100%;
+  height: 310px;
+  object-fit: cover;
+  object-position: center;
+  margin-bottom: 1rem;
+}
+
+/* Card Titles */
+.home-card-title {
+  margin: 20px 0;
+  font-weight: 900;
+  font-size: 3rem;
+  text-align: left;
+  background-image: linear-gradient(120deg, var(--violet), rgb(59, 111, 178));
+  background-clip: text;
+  color: transparent;
+  padding-left: 14px;
+  padding-right: 14px;
+  width: 100%;
+}
+
+/* Page Title */
+.home-page-title {
+  font-size: 4rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+  text-align: var(--white);
+}
+
+/* Card Description */
+.card-description {
+  font-weight: 300;
+  font-size: 1.8rem;
+  text-align: left;
+  color: #6b6b6b;
+  margin-bottom: 30px;
+  padding-left: 14px;
+  padding-right: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .home-page-title {
+    font-size: 3rem;
+  }
+
+  .home-card-title {
+    font-size: 1.8rem;
+  }
+
+  .card-description {
+    font-size: 1.4rem;
+  }
+
+  .card-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}

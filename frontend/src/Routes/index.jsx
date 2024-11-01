@@ -4,8 +4,10 @@ import { MetaMaskProvider } from "@metamask/sdk-react";
 import HomePage from '../Pages/HomePage'
 import LoginPage from '../Pages/LoginPage'
 import DefaultLayout from '../Layout/DefaultLayout'
-import OtherLayout from '../Layout/OtherLayout'
-import VotePage from '../Pages/VotesPage'
+import VotePage from '../Pages/MakeVote'
+import { useState} from "react";
+import VotesPage from "../Pages/VotesPage";
+import CreateVote from "../Pages/CreateVote";
 //public routes
 
 function HomeSite() {
@@ -17,6 +19,8 @@ function HomeSite() {
 }
 
 function LoginSite() {
+
+    const [login, setLogin] = useState(null)
     return (
         
             <MetaMaskProvider
@@ -29,8 +33,8 @@ function LoginSite() {
                     infuraAPIKey: import.meta.env.VITE_INFURA_API_KEY,
                 }}
             >
-                <DefaultLayout>
-                <LoginPage />
+                <DefaultLayout login={login}>
+                <LoginPage setLogin={setLogin}/>
                 </DefaultLayout>
             </MetaMaskProvider>
         
@@ -38,9 +42,25 @@ function LoginSite() {
 }
 function VoteSite() {
     return (
-        <OtherLayout>
+        <DefaultLayout >
             <VotePage />
-        </OtherLayout>
+        </DefaultLayout>
+    )
+}
+
+function VotesSite() {
+    return (
+        <DefaultLayout >
+            <VotesPage />
+        </DefaultLayout>
+    )
+}
+
+function CreateVoteSite() {
+    return (
+        <DefaultLayout >
+            <CreateVote />
+        </DefaultLayout>
     )
 }
 
@@ -48,7 +68,9 @@ function VoteSite() {
 const publicRoutes = [
     { path: '/', component: HomeSite },
     { path: '/login', component: LoginSite },
-    { path: '/votes', component: VoteSite },
+    { path: '/votes', component: VotesSite },
+    { path: '/vote', component: VoteSite },
+    { path: '/create-vote', component: CreateVoteSite },
 ]
 
 const privateRoutes = [

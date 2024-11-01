@@ -1,51 +1,54 @@
-import GlassCard from '../../Components/GlassCard/index.jsx'
-import GlassButton from "../../Components/GlassButton/index.jsx";
-import CircleIcon from "../../Components/CircleIcon/index.jsx"
-import GlassContainer from "../../Components/GlassContainer/index.jsx";
-import './HomePage.css'
-import { useSDK } from "@metamask/sdk-react";
-import { useState } from "react";
+import { Link } from "react-router-dom";
+import { create_vote, make_vote, newsfeed_vote } from '../../Assets/images';
 
-function HomePage(){
+import styles from './HomePage.module.scss';
 
-  const [account, setAccount] = useState();
-  const { sdk, connected, connecting, provider, chainId } = useSDK();
+function HomePage() {
 
-  const connect = async () => {
-    try {
-      const accounts = await sdk?.connect();
-      setAccount(accounts?.[0]);
-    } catch (err) {
-      console.warn("failed to connect..", err);
-    }
-  };
+  return (
+    <div className={styles['home-page']}>
 
-    return (
-        <div className='home-page'>
+      <h2 className={styles['home-page-title']}>Creating Voting With Us</h2>
 
-        <h2>Creating Voting With Us</h2>
-        <div className="card-conainer">
-          <GlassCard>
-            <h2>Create Vote</h2>
-            <CircleIcon></CircleIcon>
-            <h4 className="card-description">Ask people for things you can't decide on your own</h4>
-            <GlassButton clickHandler={connect}></GlassButton>
-          </GlassCard>
-          <GlassCard>
-            <h2>Vote others</h2>
-            <CircleIcon ></CircleIcon>
-            <h4 className="card-description">Help with your thoughts about what they can't decide</h4>
-            <GlassButton clickHandler={connect}></GlassButton>
-          </GlassCard>
-          <GlassCard>
-            <h2>Vote lists</h2>
-            <CircleIcon></CircleIcon>
-            <h4 className="card-description">Views all the votes you created tto update or view results</h4>
-            <GlassButton clickHandler={connect}></GlassButton>
-          </GlassCard>
-        </div>
-        </div>
-    )
+      <div className={styles['card-container']}>
+        <Link to="/create-vote">
+          <div className={`${styles['home-container-card']} ${styles.glassmorphism} ${styles['w-border']}`}>
+            <div className={styles['home-image-div']}>
+              <img className={styles['home-image-card']} src={create_vote} alt="make_vote" />
+            </div>
+            <h2 className={`${styles['home-card-title']} ${styles['gradient-text']}`}>Create Vote</h2>
+            <h4 className={styles['card-description']}>
+              Start a poll to gather opinions and make decisions easier. Whether it’s for events, projects, or casual fun, get feedback instantly.
+            </h4>
+          </div>
+        </Link>
+
+        <Link to="/vote">
+          <div className={`${styles['home-container-card']} ${styles.glassmorphism} ${styles['w-border']}`}>
+            <div>
+              <img className={styles['home-image-card']} src={make_vote} alt="newsfeed_vote" />
+            </div>
+            <h2 className={`${styles['home-card-title']} ${styles['gradient-text']}`}>Vote others</h2>
+            <h4 className={styles['card-description']}>
+              Join polls created by others and share your opinion. Help shape decisions that matter to you.
+            </h4>
+          </div>
+        </Link>
+
+        <Link to="/votes">
+          <div className={`${styles['home-container-card']} ${styles.glassmorphism} ${styles['w-border']}`}>
+            <div>
+              <img className={styles['home-image-card']} src={newsfeed_vote} alt="create_vote" />
+            </div>
+            <h2 className={`${styles['home-card-title']} ${styles['gradient-text']}`}>Vote lists</h2>
+            <h4 className={styles['card-description']}>
+              Discover and follow ongoing and past polls. Stay engaged with what’s trending and see the results unfold.
+            </h4>
+          </div>
+        </Link>
+      </div>
+    </div>
+  );
 }
 
 export default HomePage;

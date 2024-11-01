@@ -1,8 +1,8 @@
 import { useSDK } from "@metamask/sdk-react";
-import React, { useState } from "react";
-import './LoginPage.scss';
+import { useState } from "react";
 import model from '../../Assets/images/3d-model.png';
-import GlassCard from '../../Components/GlassCard';
+
+import styles from './LoginPage.module.scss';
 
 function LoginPage() {
   const [account, setAccount] = useState();
@@ -12,7 +12,8 @@ function LoginPage() {
     try {
       const accounts = await sdk?.connect();
       if (accounts?.length) {
-        setAccount(accounts[0]);
+        setAccount(accounts[0])
+        localStorage.setItem("wallet_addr", accounts[0]);
       } else {
         console.warn("No accounts found.");
       }
@@ -23,27 +24,28 @@ function LoginPage() {
   };
 
   return (
-    <div className="login-container"> 
-        <GlassCard>
-          <div className="login-card">
-
-          <h1 className="login-title">Unlock New Horizons <br></br> Login to Explore!</h1>
-            <button className="btn" onClick={connect}>
-              {connecting ? "Connecting..." : "Connect"}
-            </button>
-            {connected && (
-              <div className="details">
-                {chainId && <p>Connected chain: {chainId}</p>}
-                {account ? (
-                  <p>Connected account: {account}</p>
-                ) : (
-                  <p>No account connected</p>
-                )}
-              </div>
-            )}
-          </div>
-        </GlassCard>
-        <img src={model} alt="3D model" />
+    <div className={styles['login-container']}>
+      <div className={styles['login-container-card']}>
+        <div className={styles['login-card']}>
+          <h1 className={styles['login-title']}>
+            Unlock New Horizons <br /> Login to Explore!
+          </h1>
+          <button className={styles.btn} onClick={connect}>
+            {connecting ? "Connecting..." : "Connect"}
+          </button>
+          {connected && (
+            <div className={styles.details}>
+              {chainId && <p>Connected chain: {chainId}</p>}
+              {account ? (
+                <p>Connected account: {account}</p>
+              ) : (
+                <p>No account connected</p>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+      <img src={model} alt="3D model" />
     </div>
   );
 }
