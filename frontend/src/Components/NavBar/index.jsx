@@ -8,8 +8,7 @@ import { search, createVote, homeIcon } from '../../Assets';
 
 import { ConnectButton } from "thirdweb/react";
 import { createWallet, inAppWallet } from "thirdweb/wallets";
-import { createThirdwebClient } from "thirdweb";
-
+import { client } from '../../Utils/constant.js';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -22,10 +21,6 @@ const Navbar = () => {
 
     ];
 
-
-    const client = createThirdwebClient({
-        clientId: "<your_client_id>",
-    });
     useEffect(() => {
         switch (location.pathname) {
             case '/create-vote':
