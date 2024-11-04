@@ -5,6 +5,11 @@ import {
   RoleGranted as RoleGrantedEvent,
   RoleRevoked as RoleRevokedEvent
 } from "../generated/ElectionFactory/ElectionFactory"
+
+import {
+  Election as ElectionIns
+} from "../generated/templates";
+
 import {
   Initialized,
   NewElection,
@@ -37,8 +42,11 @@ export function handleNewElection(event: NewElectionEvent): void {
   entity.blockNumber = event.block.number
   entity.blockTimestamp = event.block.timestamp
   entity.transactionHash = event.transaction.hash
-
+  entity.title = event.params.title;
   entity.save()
+
+  //create Election Instance
+  ElectionIns.create(event.params.election);
 }
 
 export function handleRoleAdminChanged(event: RoleAdminChangedEvent): void {

@@ -9,6 +9,7 @@ type Initialized @entity(immutable: true) {
 type NewElection @entity(immutable: true) {
   id: Bytes!
   electionId: BigInt! # uint256
+  title: String!
   electionAddr: Bytes! # address
   owner: Bytes! # address
   blockNumber: BigInt!
@@ -42,6 +43,36 @@ type RoleRevoked @entity(immutable: true) {
   role: Bytes! # bytes32
   account: Bytes! # address
   sender: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+type NewCandidate @entity(immutable: true) {
+  id: Bytes!
+  electionId: BigInt! # uint256
+  candidateId: BigInt! # uint256
+  name: String! # string
+  patry: String! # string
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NewVote @entity(immutable: true) {
+  id: Bytes!
+  electionId: BigInt! # uint256
+  voter: Bytes! # address
+  candidateId: BigInt! # uint256
+  timestamp: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type OwnershipTransferred @entity(immutable: true) {
+  id: Bytes!
+  previousOwner: Bytes! # address
+  newOwner: Bytes! # address
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
