@@ -6,8 +6,8 @@ type Initialized @entity(immutable: true) {
   transactionHash: Bytes!
 }
 
-type NewElection @entity(immutable: true) {
-  id: Bytes!
+type NewElection @entity(immutable: false) {
+  id: String!
   electionId: BigInt! # uint256
   title: String!
   electionAddr: Bytes! # address
@@ -16,6 +16,7 @@ type NewElection @entity(immutable: true) {
   blockTimestamp: BigInt!
   transactionHash: Bytes!
   totalVotes: Int!
+  numOfCandidates: Int!
 }
 
 type RoleAdminChanged @entity(immutable: true) {
@@ -48,8 +49,8 @@ type RoleRevoked @entity(immutable: true) {
   transactionHash: Bytes!
 }
 type NewCandidate @entity(immutable: true) {
-  id: Bytes!
-  electionId: BigInt! # uint256
+  id: String!
+  electionId: NewElection! # uint256
   candidateId: BigInt! # uint256
   name: String! # string
   patry: String! # string
@@ -60,9 +61,9 @@ type NewCandidate @entity(immutable: true) {
 
 type NewVote @entity(immutable: true) {
   id: Bytes!
-  electionId: BigInt! # uint256
+  electionId: NewElection! # uint256
   voter: Bytes! # address
-  candidateId: BigInt! # uint256
+  candidateId: NewCandidate! # uint256
   timestamp: BigInt! # uint256
   blockNumber: BigInt!
   blockTimestamp: BigInt!

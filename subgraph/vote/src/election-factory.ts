@@ -33,12 +33,13 @@ export function handleInitialized(event: InitializedEvent): void {
 
 export function handleNewElection(event: NewElectionEvent): void {
   let entity = new NewElection(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
+    event.params.id.toString()
   )
   entity.electionId = event.params.id
   entity.electionAddr = event.params.election
   entity.owner = event.params.owner
   entity.totalVotes = 0;
+  entity.numOfCandidates = 0;
   entity.blockNumber = event.block.number
   entity.blockTimestamp = event.block.timestamp
   entity.transactionHash = event.transaction.hash
