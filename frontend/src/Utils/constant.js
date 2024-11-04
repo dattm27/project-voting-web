@@ -1,13 +1,9 @@
 import { createThirdwebClient, defineChain, getContract } from "thirdweb";
 
-// const CLIENT_ID = import.meta.env.THIRDWEB_CLIENT_ID;
-
-export const client = createThirdwebClient({ clientId: "a6ffc0711082777c093eeaf3a7137bab" });
+export const client = createThirdwebClient({ clientId:  import.meta.env.VITE_THIRDWEB_CLIENT_ID});
 
 export const chain = defineChain(43113);
-
-// const contractAddress =  "0x58Bae326da65f5192E7c272224FFfd868964C5f9";
-const contractAddress =  "0x58Bae326da65f5192E7c272224FFfd868964C5f9";
+const contractAddress =  import.meta.env.VITE_CONTRACT_ADDR;
 const contractABI = [
     {
       "inputs": [],

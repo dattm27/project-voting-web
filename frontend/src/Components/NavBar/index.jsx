@@ -6,8 +6,8 @@ import styles from './Navbar.module.scss';
 import { Link, useLocation } from "react-router-dom";
 import { search, createVote, homeIcon } from '../../Assets';
 
-import { ConnectButton } from "thirdweb/react";
-import { createWallet, inAppWallet } from "thirdweb/wallets";
+import { ConnectButton,darkTheme } from "thirdweb/react";
+import { createWallet, inAppWallet} from "thirdweb/wallets";
 import { client } from '../../Utils/constant.js';
 
 const Navbar = () => {
@@ -16,9 +16,12 @@ const Navbar = () => {
     // const [account, setAccount] = useState();
     const location = useLocation();
     const wallets = [
-        inAppWallet(),
+        inAppWallet({
+            auth: {
+                options: ["passkey", "google", "x"],
+            },
+        }),
         createWallet("io.metamask"),
-
     ];
 
     useEffect(() => {
@@ -66,9 +69,20 @@ const Navbar = () => {
                 </Link>
             </ul>
 
-            <div className={`${styles.navRight}`}>
+            <div className={styles.navRight}>
                 <div >
-                    <ConnectButton  client={client} wallets={wallets} />
+                    <ConnectButton
+                        client={client}
+                        wallets={wallets}
+                        theme={darkTheme({
+                            colors: {
+                                primaryButtonBg: "hsl(112, 72%, 33%)",
+                                primaryButtonText: "hsl(0, 0%, 100%)",
+                            },
+                        })}
+                        connectModal={{ size: "compact" }}
+                        // className={styles.transactBtn}
+                    />
                 </div>
             </div>
             <div
