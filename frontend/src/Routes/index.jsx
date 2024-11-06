@@ -10,6 +10,7 @@ import VotesPage from "../Pages/VotesPage";
 import CreateVote from "../Pages/CreateVote";
 import VoteDetailPage from '../Pages/VoteDetailPage';
 import TestPage from "../Pages/TestPage";
+import NotFoundPage from "../Pages/NotFoundPage";
 //public routes
 
 function HomeSite() {
@@ -81,6 +82,14 @@ function TestSite() {
     )
 }
 
+function NotFoundSite() {
+    return (
+        <DefaultLayout >
+            <NotFoundPage />
+        </DefaultLayout>
+    )
+}
+
 
 const publicRoutes = [
     { path: '/', component: VotesSite },
@@ -90,6 +99,9 @@ const publicRoutes = [
     { path: '/test', component: TestSite },
     { path: '/search', component: SearchSite },
     { path: '/create-vote', component: CreateVoteSite },
+
+    //every path that have no match go here
+    { path: '*' , component: NotFoundSite}
 ]
 
 const privateRoutes = [

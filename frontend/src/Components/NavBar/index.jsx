@@ -33,8 +33,10 @@ const Navbar = () => {
                 setActiveTab('search');
                 break;
             case '/':
-            default:
                 setActiveTab('votes');
+                break;
+            default:
+                setActiveTab('no-active');
                 break;
         }
     }, [location]);

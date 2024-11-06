@@ -20,17 +20,22 @@ function TestPage() {
     });
 
     // GraphQL query
-    const { data } = useQuery(GET_ELECTION);
+    const { refetch } = useQuery(GET_ELECTION); // Add `refetch`
+
     // Handler to display only title and owner from election data
-    const handleGetElectionData = () => {
-        if (data && data.newElections) {
-            // Assuming `data.elections` is an array of election objects
-            const formattedData = data.newElections.map((election) => ({
-                title: election.title,
-                owner: election.owner,
-                id: election.electionId,
-            }));
-            setFilteredElectionData(formattedData);
+    const handleGetElectionData = async () => {
+        try {
+            const { data } = await refetch(); // Use `refetch` to get fresh data
+            if (data && data.newElections) {
+                const formattedData = data.newElections.map((election) => ({
+                    title: election.title,
+                    owner: election.owner,
+                    id: election.electionId,
+                }));
+                setFilteredElectionData(formattedData);
+            }
+        } catch (error) {
+            console.error("Failed to fetch updated data:", error);
         }
     };
 
