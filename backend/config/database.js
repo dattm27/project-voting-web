@@ -1,12 +1,22 @@
-const { Pool } = require('pg');
+const { DataSource } = require('typeorm');
 require('dotenv').config();
 
-const pool = new Pool({
+const AppDataSource = new DataSource({
+  type: 'postgres',
   host: process.env.DB_HOST,
-  user: process.env.DB_USER,
+  port: process.env.DB_PORT,
+  username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  port: process.env.DB_PORT,
+  synchronize: true,
+  logging: false,
+  entities: [
+    'backend/models/*.js'
+  ]
 });
 
-module.exports = pool;
+AppDataSource.initialize()
+  .then(() => console.log('Connected to the database'))
+  .catch((err) => console.error('Error connecting to the database', err));
+
+module.exports = AppDataSource;
