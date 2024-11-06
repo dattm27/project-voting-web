@@ -1,47 +1,131 @@
 .votePage {
-    text-align: center;
-}
-
-.candidatesList {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.candidateCard {
-    border: 1px solid #dddddd7d;
     padding: 20px;
-    margin: 10px;
-    width: 350px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
     text-align: center;
-    background-color: rgba(255, 255, 255, 0.051);
-    backdrop-filter: blur(20px);
-}
 
-.candidateImage {
-    max-width: 100%;
-    border-radius: 10px;
-    height: auto;
-}
+    h1 {
+        font-size: 4.6rem;
+        margin-bottom: 20px;
+        color:#bdcfd7;
+    }
+    h2 {
+        color: #ccc;
+    }
+    .candidatesList {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+    }
 
-.voteButton {
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
+    .candidateCard {
+        border: 1px solid #dddddd7d;
+        padding: 20px;
+        margin: 10px;
+        width: 350px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        background-color: rgba(255, 255, 255, 0.051);
+        backdrop-filter: blur(20px);
+        transition: transform 0.2s;
 
-.voteButton.voted {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
+        &:hover {
+            transform: translateY(-5px);
+        }
 
-.voteCount {
-    font-weight: bold;
-    margin-top: 5px;
+        .candidateImage {
+            max-width: 100%;
+            border-radius: 10px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 18px;
+            color: #ffffff;
+            margin: 10px 0;
+        }
+
+        p {
+            font-size: 14px;
+            color: #ffffff;
+            margin: 5px 0;
+        }
+
+        .transactBtn {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+
+
+            &__vote {
+                &:hover {
+                    background-color: #218838;
+                }
+            }
+
+            &__voted {
+                background-color: #ccc;
+                cursor: not-allowed;
+
+            }
+
+            &__allow {
+                cursor: not-allowed;
+            }
+        }
+
+        .voteCount {
+            font-weight: bold;
+            margin-top: 5px;
+            font-size: 16px;
+            color: #ffffff;
+        }
+    }
+
+    .addCandidateForm {
+        margin-top: 30px;
+        text-align: center;
+
+        h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .inputField {
+            width: 200px;
+            padding: 8px;
+            margin: 0 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.3s;
+
+            &:focus {
+                border-color: #007bff;
+            }
+        }
+
+        .transactBtn {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 15px;
+
+            &:hover {
+                background-color: #218838;
+            }
+        }
+
+    }
 }

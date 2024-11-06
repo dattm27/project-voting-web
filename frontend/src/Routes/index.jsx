@@ -94,7 +94,7 @@ function NotFoundSite() {
 const publicRoutes = [
     { path: '/', component: VotesSite },
     { path: '/home', component: HomeSite },
-    { path: '/vote', component: VoteDetailSite },
+    { path: '/vote/:voteAddr', component: VoteDetailSite },
     { path: '/login', component: LoginSite },
     { path: '/test', component: TestSite },
     { path: '/search', component: SearchSite },

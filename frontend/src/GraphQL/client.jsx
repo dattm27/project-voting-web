@@ -68,3 +68,43 @@ export const GET_ELECTION_CANDIDATES = gql`
   }
 }
 `;
+
+export const GET_VOTER = gql`
+ query MyQuery($voterAddr: String!, $electionAddr: String!) {
+  newVotes(where: {voter: $voterAddr, electionId_: { electionAddr: $electionAddr}}) {
+    voter
+    electionId {
+       electionAddr
+    }
+    candidateId {
+      candidateId
+    }
+  }
+}
+`;
+
+export const GET_NEW_VOTE = gql`
+query MyQuery($owner: String!) {
+  newElections(
+    first: 1
+    where: {owner: $owner}
+    orderBy: electionId
+    orderDirection: desc
+  ) {
+    title
+    owner
+    electionAddr
+    id
+    electionId
+  }
+}
+`;
+
+export const GET_ELECTION_TITLE = gql`
+query MyQuery($electionAddr: String!) {
+  newElections(where: {electionAddr: $electionAddr}) {
+    title
+    owner
+  }
+}
+`;

@@ -14,7 +14,7 @@ body {
 
 .glassmorphism {
   // background-color: rgba(0, 0, 0, 0.764);
-  background-color: #14161fbc;
+  background-color: #000000;
   backdrop-filter: blur(20px);
 
   // &:hover {
@@ -22,44 +22,44 @@ body {
   // }
 }
 
-.connect_btn {
-  appearance: none;
-  backface-visibility: hidden;
-  background-color: var(--active-green);
-  border-radius: 80px;
-  border: 2px solid var(--active-green);
-  box-shadow: rgba(39, 174, 96, 0.15) 0 4px 9px;
-  color: #fff;
-  cursor: pointer;
-  display: inline-block;
-  font-family: Inter, -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  padding: 8px 12px;
-  position: relative;
-  text-align: center;
-  transition: all 0.3s;
-  min-width: 130px;
+// .connect_btn {
+//   appearance: none;
+//   backface-visibility: hidden;
+//   background-color: var(--active-green);
+//   border-radius: 80px;
+//   border: 2px solid var(--active-green);
+//   box-shadow: rgba(39, 174, 96, 0.15) 0 4px 9px;
+//   color: #fff;
+//   cursor: pointer;
+//   display: inline-block;
+//   font-family: Inter, -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+//   font-size: 16px;
+//   font-weight: 600;
+//   padding: 8px 12px;
+//   position: relative;
+//   text-align: center;
+//   transition: all 0.3s;
+//   min-width: 130px;
 
-  &.connect {
-    background-color: transparent; // Transparent when disconnected
-    color: var(--active-green);
-  }
+//   &.connect {
+//     background-color: transparent; // Transparent when disconnected
+//     color: var(--active-green);
+//   }
 
-  &.connected {
-    background-color: var(--active-green);
-    border: 2px solid transparent; // Border becomes transparent when connected
-    color: var(--white);
-  }
+//   &.connected {
+//     background-color: var(--active-green);
+//     border: 2px solid transparent; // Border becomes transparent when connected
+//     color: var(--white);
+//   }
 
-  &:hover {
-    opacity: 0.8; // Slight opacity change on hover
-  }
+//   &:hover {
+//     opacity: 0.8; // Slight opacity change on hover
+//   }
 
-  &:active {
-    transform: translateY(2px); // Button presses down on click
-  }
-}
+//   &:active {
+//     transform: translateY(2px); // Button presses down on click
+//   }
+// }
 
 .navbar {
   display: flex;
@@ -77,7 +77,7 @@ body {
 
 .logo {
   img {
-    height: 40px;
+    height: 62px;
     width: auto;
     margin-right: 10px;
   }
@@ -98,8 +98,8 @@ body {
     justify-content: flex-end;
     text-decoration: none;
     align-items: center;
-    color: var(--white);
-    font-size: 1.8rem;
+    color: #909090;
+    font-size: 1.6rem;
     font-weight: 400;
     padding: 5px 12px;
     height: 100%;
@@ -108,11 +108,12 @@ body {
     }
 
     &.active {
-      background-color: #ffffff4a;
+      background-color: #bdbdbd22;
       color: var(--primary-red);
     }
 
     img {
+      padding-bottom: 5px;
       max-width: 36px;
 
     }

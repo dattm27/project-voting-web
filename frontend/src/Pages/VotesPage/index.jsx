@@ -77,7 +77,8 @@ function VotesPage() {
                 displayedElections.map((election, index) => (
                     <div className={styles['vote-card']} key={index}>
                         <Link
-                            to="/vote"
+                            to={`/vote/${election.electionAddr}`}
+                            // to='/vote'
                             state={{ voteAddr: election.electionAddr }}
                             className={styles['vote-card__card-link']}></Link>
                         <img
