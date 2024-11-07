@@ -48,12 +48,13 @@ type RoleRevoked @entity(immutable: true) {
   blockTimestamp: BigInt!
   transactionHash: Bytes!
 }
-type NewCandidate @entity(immutable: true) {
+type NewCandidate @entity(immutable: false) {
   id: String!
   electionId: NewElection! # uint256
   candidateId: BigInt! # uint256
   name: String! # string
   patry: String! # string
+  voteCount: Int! 
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!

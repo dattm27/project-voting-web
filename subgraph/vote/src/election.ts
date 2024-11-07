@@ -20,7 +20,7 @@ export function handleNewCandidate(event: NewCandidateEvent): void {
   entity.candidateId = event.params.candidateId
   entity.name = event.params.name
   entity.patry = event.params.patry
-
+  entity.voteCount = 0;
   entity.blockNumber = event.block.number
   entity.blockTimestamp = event.block.timestamp
   entity.transactionHash = event.transaction.hash
@@ -55,6 +55,10 @@ export function handleNewVote(event: NewVoteEvent): void {
   //update total votes
   election.totalVotes =   election.totalVotes + 1;
   election.save();
+
+  //update voteCount for each candidate
+  candidate.voteCount = candidate.voteCount + 1;
+  candidate.save();
 }
 
 export function handleOwnershipTransferred(
