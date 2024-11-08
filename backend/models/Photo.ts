@@ -12,7 +12,7 @@ export class Photo {
   @Column()
   description: string;
 
-  @OneToOne(() => Candidate, candidate => candidate.avatarId)
+  @OneToOne(() => Candidate, candidate => candidate.photo)
   candidate : Candidate;
 
   constructor(link: string, description: string) {

@@ -30,7 +30,11 @@ export const getElections = async (req: Request, res: Response) => {
 // Get an election by ID
 export const getElectionById = async (req: Request, res: Response) => {
     try {
-        const election = await electionRepository.findOne(req.body.id);
+        const id = req.params.id;
+        const election = await electionRepository.findOne({
+            where: { id: parseInt(id, 10) },
+            relations: ['candidates'],
+        })
         if (!election) {
             res.status(404).json({ error: 'Election not found' });
         } else {

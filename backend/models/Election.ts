@@ -22,7 +22,7 @@ export class Election{
     @Column()
     status : number;
 
-    @OneToMany(() => Candidate, candidate => candidate.electionId)
+    @OneToMany(() => Candidate, candidate => candidate.election)
     candidates: Candidate[];
 
     constructor(name, startDate, endDate, description, status){
