@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
+import Candidate from './Candidate';
 
 @Entity()
 export class Photo {
@@ -10,6 +11,9 @@ export class Photo {
 
   @Column()
   description: string;
+
+  @OneToOne(() => Candidate, candidate => candidate.avatarId)
+  candidate : Candidate;
 
   constructor(link: string, description: string) {
     this.link = link;

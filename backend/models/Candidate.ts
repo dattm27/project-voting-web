@@ -1,21 +1,47 @@
-import { Entity, Column, PrimaryColumn } from "typeorm"
+import { Entity, Column, PrimaryColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm"
+import Election from "./Election";
+import Photo from "./Photo";
 
 @Entity()
-export class Photo {
-    @PrimaryColumn() abc : number;
+export class Candidate {
+    @PrimaryGeneratedColumn() id : number;
 
     @Column()
     name: string
 
     @Column()
+    avatarId: number
+
+    @Column()
+    birthDay: Date
+
+    @Column()
     description: string
 
     @Column()
-    filename: string
+    roll: string
 
     @Column()
-    views: number
+    votes: number
 
     @Column()
-    isPublished: boolean
+    electionId: number
+
+    @ManyToOne(() => Election, election => election.candidates)
+    election: Election;
+
+    @OneToOne(() => Photo, photo => photo.candidate)
+    photo: Photo;
+
+    constructor (name: string, avatarId: number, birthDay: Date ,description: string, roll: string, votes: number, electionId: number) {
+        this.name = name
+        this.avatarId = avatarId
+        this.birthDay = birthDay
+        this.description = description
+        this.roll = roll
+        this.votes = votes
+        this.electionId = electionId
+    }
 }
+
+export default Candidate

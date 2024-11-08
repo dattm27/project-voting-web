@@ -5,15 +5,13 @@ const photoRepository = AppDataSource.getRepository(Photo);
 
 const createPhoto = async (req, res) => {
     try {
-        const photo = photoRepository.create(req.body);
-        await photoRepository.save(photo);
-        res.status(201).json(photo);
-        return;
-        return;
-    }
-    catch (err) {
-        console.error('ERROR creating photo', err);
-        res.status(500).json({ error: 'Internal Server Error' });
+        const { link, description } = req.body;
+        const photo = new Photo(link, description);
+        console.log('photo', photo);
+        const savedPhoto = await photoRepository.save(photo);
+        res.status(201).json(savedPhoto);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
 }
 

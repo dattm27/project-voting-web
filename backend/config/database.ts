@@ -1,6 +1,8 @@
 import { DataSource } from 'typeorm';
 import { config as configDotenv } from 'dotenv';
 import Photo from '../models/Photo';
+import Candidate from '../models/Candidate';
+import Election from '../models/Election';
 
 configDotenv();
 
@@ -13,7 +15,7 @@ const AppDataSource = new DataSource({
   database: process.env.DB_NAME,
   synchronize: true,
   logging: false,
-  entities: [Photo],
+  entities: [Photo, Election, Candidate],
 });
 
 export default AppDataSource;

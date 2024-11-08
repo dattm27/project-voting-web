@@ -1,6 +1,8 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { config as configDotenv } from 'dotenv';
 import photoRoutes from './routes/PhotoRoutes';
+import electionRoutes from './routes/ElectionRoutes';
+import candidateRoutes from './routes/CandidateRoutes';
 import AppDataSource from './config/database'
 
 configDotenv();
@@ -10,7 +12,7 @@ const app = express();
 app.use(express.json());
 
 // Sử dụng các routes
-app.use('/users', photoRoutes);
+app.use('/api', photoRoutes, electionRoutes, candidateRoutes);
 
 const PORT = process.env.PORT || 5000;
 
