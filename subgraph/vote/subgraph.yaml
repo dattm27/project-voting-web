@@ -1,0 +1,63 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: ElectionFactory
+    network: fuji
+    source:
+      address: "0x58Bae326da65f5192E7c272224FFfd868964C5f9"
+      abi: ElectionFactory
+      startBlock: 36486519
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Initialized
+        - NewElection
+        - RoleAdminChanged
+        - RoleGranted
+        - RoleRevoked
+      abis:
+        - name: ElectionFactory
+          file: ./abis/ElectionFactory.json
+      eventHandlers:
+        - event: Initialized(uint64)
+          handler: handleInitialized
+        - event: NewElection(uint256,string,indexed address,address)
+          handler: handleNewElection
+        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
+          handler: handleRoleAdminChanged
+        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleGranted
+        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleRevoked
+      file: ./src/election-factory.ts
+templates:
+  - kind: ethereum
+    name: Election
+    network: fuji
+    source:
+      abi: Election
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - NewCandidate
+        - NewVote
+        - OwnershipTransferred
+      abis:
+        - name: Election
+          file: ./abis/Election.json
+      eventHandlers:
+        - event: NewCandidate(uint256,uint256,string,string)
+          handler: handleNewCandidate
+        - event: NewVote(uint256,indexed address,uint256,uint256)
+          handler: handleNewVote
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+      file: ./src/election.ts

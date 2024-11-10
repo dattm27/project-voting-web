@@ -1,0 +1,11 @@
+{
+  "fuji": {
+    "ElectionFactory": {
+      "address": "0x58Bae326da65f5192E7c272224FFfd868964C5f9",
+      "startBlock": 36486519
+    },
+    "Election": {
+      "address": "0x4cc8357346dAa273fC5B97752f46b701ef7164D7"
+    }
+  }
+}
