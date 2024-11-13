@@ -9,7 +9,7 @@ contract ElectionFactory is Initializable, AccessControlUpgradeable {
 
     mapping (uint256 => address) electionAddr;
     mapping (string title => bool) existingElection;
-    event NewElection(uint256 id, string title, address indexed election, address owner );
+    event NewElection(uint256 id, string title, address indexed election, address owner,  uint duration );
     
        /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -29,7 +29,7 @@ contract ElectionFactory is Initializable, AccessControlUpgradeable {
         Election _election = new Election(_electionId ,msg.sender, duration);
         existingElection[_title] = true;
         electionAddr[_electionId] = address(_election);
-        emit NewElection(_electionId, _title, address(_election), msg.sender);
+        emit NewElection(_electionId, _title, address(_election), msg.sender, duration);
     
     }
 

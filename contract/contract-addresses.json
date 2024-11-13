@@ -10,11 +10,11 @@
     },
     "fuji": {
         "Election": {
-            "address": "0xf471eF28b63fb18c8e3402d3ba0b737c31e7fA1B"
+            "address": "0xD4f933e43e334f71A2857eb8AC91Ec7A717d7beD"
         },
         "ElectionFactory": {
-            "address": "0xf6C632b8af5Bea8C904E29933D70fF632e174Eab",
-            "impl": "0xd1ef06EE66Ba02ccB143199c4fdC2d7C7d385EAB"
+            "address": "0x49c736232045404150A5aE78D5C7972304ec7C59",
+            "impl": "0xA262166e8aa81983ccA430a925bE7D164EE659b9"
         }
     }
 }

@@ -18,8 +18,8 @@ contract Election is Ownable {
 
     event NewVote(uint256 electionId, address indexed voter, uint256 candidateId, uint256 timestamp);
     event NewCandidate(uint256 electionId, uint256 candidateId, string name, string patry);
-    event Pause();
-    event Unpause();
+    event Pause(uint256 electionId);
+    event Unpause(uint256 electionId);
 
     uint public electionId;
     uint public countCandidates;
@@ -51,14 +51,14 @@ contract Election is Ownable {
     function pause () public onlyOwner() {
         require(isActive == true, "Election is already paused");
         isActive = false;
-        emit Pause();
+        emit Pause(electionId);
 
     }
 
     function unpause () public onlyOwner() {
         require(isActive == false && block.timestamp <= endElectionTime, "Unable to unpaused");
         isActive = true;
-        emit Unpause();
+        emit Unpause(electionId);
     }
 
     // Vote for a candidate
