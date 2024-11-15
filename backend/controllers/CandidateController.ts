@@ -2,14 +2,19 @@ import { Request, Response } from 'express';
 import { Candidate } from '../models/Candidate';
 import Photo from '../models/Photo';
 import AppDataSource from '../config/database';
+import { DropBoxServices } from '../services/DropboxServices';
 
 const candidateRepository = AppDataSource.getRepository(Candidate);
+const photoRepository = AppDataSource.getRepository(Photo);
+const dropBoxServices = new DropBoxServices();
 
 // Create a new candidate
 export const createCandidate = async (req: Request, res: Response) : Promise<void> => {
     try {
-        const {name, birthDay, avatarId, description, roll, votes, electionId, photoLink, photoDescription} = req.body;
+        const {name, birthDay, avatarId, description, roll, votes, electionId, photoBase64} = req.body;
+        const {photoLink, photoDescription} = await dropBoxServices.convertBase64ToFile(photoBase64);
         const photo = new Photo(photoLink, photoDescription);
+        await photoRepository.save(photo);
         const candidate = new Candidate(name, avatarId, new Date(birthDay), description, roll, votes, electionId, photo);
         const savedCandidate = await candidateRepository.save(candidate);
         res.status(201).json(savedCandidate);

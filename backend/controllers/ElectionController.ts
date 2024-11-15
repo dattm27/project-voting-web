@@ -1,15 +1,20 @@
 import { Request, Response } from 'express';
 import { Election } from '../models/Election';
+import { DropBoxServices } from '../services/DropboxServices';
 import AppDataSource from '../config/database';
 import Photo from '../models/Photo';
+import Candidate from '../models/Candidate';
 
 const electionRepository = AppDataSource.getRepository(Election);
+const candidateRepository = AppDataSource.getRepository(Candidate);
 const photoRepository = AppDataSource.getRepository(Photo);
+const dropBoxServices = new DropBoxServices();
 
 // Create a new election
 export const createElection = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { name, startDate, endDate, description, status, photoLink, photoDescription } = req.body;
+        const { name, startDate, endDate, description, status, photoBase64 } = req.body;
+        const {photoLink, photoDescription} = await dropBoxServices.convertBase64ToFile(photoBase64);
         const photo = new Photo(photoLink, photoDescription);
         await photoRepository.save(photo);
         const election = new Election(name, new Date(startDate), new Date(endDate), description, status, photo);
@@ -37,7 +42,7 @@ export const getElectionById = async (req: Request, res: Response) => {
         const id = req.params.id;
         const election = await electionRepository.findOne({
             where: { id: parseInt(id, 10) },
-            relations: ['candidates'],
+            relations: ['candidates', 'candidates.photo', 'photo'],
         })
         if (!election) {
             res.status(404).json({ error: 'Election not found' });
@@ -87,21 +92,41 @@ export const updateElection = async (req: Request, res: Response): Promise<void>
 };
 
 // Delete an election by ID
-export const deleteElection = async (req: Request, res: Response) => {
+export const deleteElection = async (req: Request, res: Response): Promise<void> => {
     try {
-        const election = await electionRepository.findOne(req.body.id);
+        const id = req.params.id;
+        const election = await electionRepository.findOne({
+            where: { id: parseInt(id, 10) },
+            relations: ['candidates', 'photo'],
+        });
+
         if (!election) {
             res.status(404).json({ error: 'Election not found' });
-        } else {
-            await electionRepository.delete(election);
-            res.status(204).end();
+            return;
         }
+
+        // Xóa các đối tượng liên quan (candidates và photos)
+        if (election.candidates && election.candidates.length > 0) {
+            for (const candidate of election.candidates) {
+                if (candidate.photo) {
+                    await photoRepository.remove(candidate.photo);
+                }
+                await candidateRepository.remove(candidate);
+            }
+        }
+
+        if (election.photo) {
+            await photoRepository.remove(election.photo);
+        }
+
+        // Xóa election
+        await electionRepository.remove(election);
+        res.status(204).json({ message: 'Election deleted with id ' + id });
     } catch (error) {
         console.error('ERROR deleting election', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
-
 export const getCandidatesByElectionId = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
     try {
