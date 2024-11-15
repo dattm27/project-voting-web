@@ -1,0 +1,32 @@
+.container {
+    text-align: center;
+    margin-top: 100px;
+  }
+  
+  .heading {
+    font-size: 4rem;  /* Larger font size for the heading */
+    color: #ff4c4c;
+    margin-bottom: 20px;
+  }
+  
+  .message {
+    font-size: 1.5rem;  /* Larger font size for the message */
+    margin: 30px 0;
+    color: #fdfdfd;
+  }
+  
+  .backButton {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    padding: 15px 30px;  /* Larger padding for a bigger button */
+    font-size: 1.2rem;  /* Larger font size for the button text */
+    border-radius: 8px;  /* Slightly more rounded corners */
+    transition: background-color 0.3s;
+  }
+  
+  .backButton:hover {
+    background-color: #0056b3;
+  }
+  

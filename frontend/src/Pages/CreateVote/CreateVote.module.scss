@@ -1,169 +1,66 @@
-.create-vote-page-container {
-  min-width: 60%;
-}
-
-/* From Uiverse.io by mi-series */
 .container {
-  margin-top: 50px;
-  position: relative;
-  width: 100%;
-  background: #ffffff76;
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-}
-
-.input-box input {
-  color: #000;
-}
-
-.container header {
-  font-size: 3rem;  /* Corrected font size */
-  color: #000;
-  font-weight: 600;
-  text-align: center;
-}
-
-.container .form {
-  margin-top: 15px;
-}
-
-.form .input-box {
-  width: 100%;
-  margin-top: 10px;
-}
-
-.input-box label {
-  color: #000;
-  font-weight: 600;
-}
-
-.form :where(.input-box input, .select-box) {
-  position: relative;
-  height: 60px;
-  width: 100%;
-  outline: none;
-  font-size: 3rem;  /* Corrected font size */
-  color: transparent;
-  margin-top: 5px;
-  border: 1px solid #000000;
-  border-radius: 6px;
-  padding: 0 15px;
-  background: #ffffff;
-}
-
-.input-box input:focus {
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-}
-
-.form .column {
-  display: flex;
-  column-gap: 15px;
-}
-
-.form .gender-box {
-  margin-top: 10px;
-}
-
-.form :where(.gender-option, .gender) {
-  display: flex;
-  align-items: center;
-  column-gap: 50px;
-  flex-wrap: wrap;
-}
-
-.form .gender {
-  column-gap: 5px;
-}
-
-.gender input {
-  accent-color: #EE4E34;
-}
-
-.form :where(.gender input, .gender label) {
-  cursor: pointer;
-}
-
-.gender label {
-  color: #000;
-}
-
-.address :where(input, .select-box) {
-  margin-top: 10px;
-}
-
-.select-box {
-  width: 100%;
-  background-color: #fff;
-}
-
-.select-box select {
-  height: 100%;
-  width: 100%;
-  outline: none;
-  border: none;
-  color: #2b2b2b;
-  font-size: 3rem;  /* Corrected font size */
-  background: #fff;
-}
-
-.form button {
-  height: 40px;
-  width: 100%;
-  color: #ffffff;
-  font-size: 3rem;  /* Corrected font size */
-  font-weight: 400;
-  margin-top: 15px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  background: var(--active-green);
-}
-
-.form button:hover {
-  background: var(--hover-green);
-}
-
-/* From Uiverse.io by csemszepp */
-.custom-file-upload {  /* Corrected class name */
-  height: 200px;
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;  /* Fixed alignment */
-  gap: 20px;
-  cursor: pointer;
-  justify-content: center;  /* Fixed alignment */
-  border: 2px dashed #e8e8e8;
-  background-color: #212121;
-  padding: 4.5rem;  /* Fixed multiplication */
+  margin-top: 100px;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  color: #333;
+  background-color: #333;
   border-radius: 10px;
-  box-shadow: 0px 48px 35px -48px #e8e8e8;
-}
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.564);
+  backdrop-filter: blur(20px);
+  border: 1px solid #dddddd7d;
 
-.custom-file-upload .icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  h1 {
+    font-size: 4.6rem;
+    margin-bottom: 20px;
+    color: transparent;
+    background-image: linear-gradient(120deg, var(--violet), rgb(59, 111, 178));
+    background-clip: text;
+  }
 
-.custom-file-upload .icon svg {
-  height: 80px;
-  fill: #e8e8e8;
-}
+  label {
+    font-weight: bold;
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
 
-.custom-file-upload .text {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  input {
+    margin-bottom: 15px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 400px;
+    background-color: #dbdbdbae;
+  }
 
-.custom-file-upload .text span {
-  font-weight: 400;
-  color: #e8e8e8;
-}
+  .transactBtn,
+  .fetchBtn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 
-.custom-file-upload input {
-  display: none;
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+
+  .fetchBtn {
+    background-color: #28a745;
+
+    &:hover {
+      background-color: #218838;
+    }
+  }
+
+
 }
