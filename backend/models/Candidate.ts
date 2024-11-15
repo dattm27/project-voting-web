@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm"
+import { Entity, Column, PrimaryColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, JoinColumn } from "typeorm"
 import Election from "./Election";
 import Photo from "./Photo";
 
@@ -31,9 +31,10 @@ export class Candidate {
     election: Election;
 
     @OneToOne(() => Photo, photo => photo.candidate)
+    @JoinColumn()
     photo: Photo;
 
-    constructor (name: string, avatarId: number, birthDay: Date ,description: string, roll: string, votes: number, electionId: number) {
+    constructor (name: string, avatarId: number, birthDay: Date ,description: string, roll: string, votes: number, electionId: number, photo: Photo) {
         this.name = name
         this.avatarId = avatarId
         this.birthDay = birthDay
@@ -41,6 +42,7 @@ export class Candidate {
         this.roll = roll
         this.votes = votes
         this.electionId = electionId
+        this.photo = photo
     }
 }
 

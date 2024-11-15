@@ -1,14 +1,18 @@
 import { Request, Response } from 'express';
 import { Election } from '../models/Election';
 import AppDataSource from '../config/database';
+import Photo from '../models/Photo';
 
 const electionRepository = AppDataSource.getRepository(Election);
+const photoRepository = AppDataSource.getRepository(Photo);
 
 // Create a new election
 export const createElection = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { name, startDate, endDate, description, status } = req.body;
-        const election = new Election(name, new Date(startDate), new Date(endDate), description, status);
+        const { name, startDate, endDate, description, status, photoLink, photoDescription } = req.body;
+        const photo = new Photo(photoLink, photoDescription);
+        await photoRepository.save(photo);
+        const election = new Election(name, new Date(startDate), new Date(endDate), description, status, photo);
         const savedElection = await electionRepository.save(election);
         res.status(201).json(savedElection);
     } catch (error) {
@@ -19,7 +23,7 @@ export const createElection = async (req: Request, res: Response): Promise<void>
 // Get all elections
 export const getElections = async (req: Request, res: Response) => {
     try {
-        const elections = await electionRepository.find();
+        const elections = await electionRepository.find({relations: ['photo']});
         res.status(200).json(elections);
     } catch (error) {
         console.error('ERROR getting elections', error);
@@ -47,16 +51,35 @@ export const getElectionById = async (req: Request, res: Response) => {
 };
 
 // Update an election by ID
-export const updateElection = async (req: Request, res: Response) => {
+export const updateElection = async (req: Request, res: Response): Promise<void> => {
     try {
-        const election = await electionRepository.findOne(req.body.id);
+        const id = req.params.id;
+        const { name, startDate, endDate, description, status, photoLink, photoDescription } = req.body;
+
+        const election = await electionRepository.findOne({ where: { id: parseInt(id, 10) } });
         if (!election) {
             res.status(404).json({ error: 'Election not found' });
-        } else {
-            electionRepository.merge(election, req.body);
-            await electionRepository.save(election);
-            res.status(200).json(election);
+            return;
         }
+
+        // Update the election fields
+        election.name = name;
+        election.startDate = new Date(startDate);
+        election.endDate = new Date(endDate);
+        election.description = description;
+        election.status = status;
+
+        // Update the photo if provided
+        if (photoLink && photoDescription) {
+            if (!election.photo) {
+                election.photo = new Photo(photoLink, photoDescription);
+            }
+            election.photo.link = photoLink;
+            election.photo.description = photoDescription;
+        }
+
+        const updatedElection = await electionRepository.save(election);
+        res.status(200).json(updatedElection);
     } catch (error) {
         console.error('ERROR updating election', error);
         res.status(500).json({ error: 'Internal Server Error' });

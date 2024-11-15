@@ -25,12 +25,17 @@ export class Election{
     @OneToMany(() => Candidate, candidate => candidate.election)
     candidates: Candidate[];
 
-    constructor(name, startDate, endDate, description, status){
+    @OneToOne(() => Photo, photo => photo.election)
+    @JoinColumn()
+    photo: Photo;
+
+    constructor(name, startDate, endDate, description, status, photo: Photo){
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
         this.description = description;
         this.status = status;
+        this.photo = photo;
     }
 }
 
