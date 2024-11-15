@@ -19,6 +19,7 @@
     "@types/express": "^5.0.0",
     "@types/node": "^22.9.0",
     "dotenv": "^16.4.5",
+    "dropbox": "^10.34.0",
     "express": "^4.21.1",
     "nodejs": "^0.0.0",
     "pg": "^8.13.1",
