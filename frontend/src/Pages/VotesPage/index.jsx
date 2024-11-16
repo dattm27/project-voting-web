@@ -42,7 +42,7 @@ function VotesPage() {
                 id: election.electionId,
                 totalVotes: election.totalVotes,
                 electionAddr: election.electionAddr,
-
+                electionDue: election.electionEndTime
             }));
             setFilteredElectionData(formattedData);
         }
@@ -91,9 +91,13 @@ function VotesPage() {
                             <div className={styles['vote-card__total-votes']}>
                                 {`Total votes: ${election.totalVotes}`}
                             </div>
-                            <h3 className={styles['vote-card__election-addr']}>
-                                {`Contract address: ${election.electionAddr}`}
+                            <h3 className={styles['vote-card__election-due']}>
+                                {`Vote end: ${new Date(election.electionDue * 1000).toISOString().replace('T', ' ').split('.')[0]}`}
                             </h3>
+                            <h2 className={styles['vote-card__election-addr']}>
+                                {`Vote address: ${election.address}`}
+                            </h2>
+
                         </div>
                     </div>
                 ))

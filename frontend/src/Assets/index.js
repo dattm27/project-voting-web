@@ -9,5 +9,6 @@ import createVote from './images/createVote.png'
 import homeIcon from './images/homeIcon.png'
 import search from './images/search.png'
 import add_btn from './images/add_btn.png'
+import vote_icon from './images/vote.png'
 
-export {search, upload_svg, newsfeed,make_vote, create_vote,newsfeed_vote, app_logo,createVote,homeIcon, add_btn}
+export {search, upload_svg, newsfeed,make_vote,vote_icon, create_vote,newsfeed_vote, app_logo,createVote,homeIcon, add_btn}

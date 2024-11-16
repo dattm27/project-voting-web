@@ -1,0 +1,31 @@
+.inputField{
+    width: 90%;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    border: 1px solid #333;
+    background-color: #ffffffcf;
+    color: #000000;
+    border-radius: 4px;
+    font-size: 2rem;
+    height: 40px;
+}
+.title{
+    margin-top: 20px;
+    font-size: 3.6rem;
+}
+.addBtn {
+    margin-top: 3rem !important;
+    padding: 1rem 1rem !important;
+    background-color: hsl(112, 72%, 33%) !important;
+    color: #fff !important;
+    font-size: 2rem !important;
+    border: none;
+    border-radius: 4px !important;
+    cursor: pointer;
+}
+
+.transactBtn:hover,
+.closeModalButton:hover {
+    opacity: 0.9;
+}
+

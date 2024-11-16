@@ -22,44 +22,6 @@ body {
   // }
 }
 
-// .connect_btn {
-//   appearance: none;
-//   backface-visibility: hidden;
-//   background-color: var(--active-green);
-//   border-radius: 80px;
-//   border: 2px solid var(--active-green);
-//   box-shadow: rgba(39, 174, 96, 0.15) 0 4px 9px;
-//   color: #fff;
-//   cursor: pointer;
-//   display: inline-block;
-//   font-family: Inter, -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
-//   font-size: 16px;
-//   font-weight: 600;
-//   padding: 8px 12px;
-//   position: relative;
-//   text-align: center;
-//   transition: all 0.3s;
-//   min-width: 130px;
-
-//   &.connect {
-//     background-color: transparent; // Transparent when disconnected
-//     color: var(--active-green);
-//   }
-
-//   &.connected {
-//     background-color: var(--active-green);
-//     border: 2px solid transparent; // Border becomes transparent when connected
-//     color: var(--white);
-//   }
-
-//   &:hover {
-//     opacity: 0.8; // Slight opacity change on hover
-//   }
-
-//   &:active {
-//     transform: translateY(2px); // Button presses down on click
-//   }
-// }
 
 .navbar {
   display: flex;

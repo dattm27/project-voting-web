@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 function CreateVote() {
     const [title, setTitle] = useState("");
+    const [endDate, setEndDate] = useState(""); // State for end date and time
     const activeAccount = useActiveAccount();
     const navigate = useNavigate();
 
@@ -38,6 +39,17 @@ function CreateVote() {
         }
     };
 
+    // Calculate the time difference in seconds
+    const calculateTimeInSeconds = () => {
+        const currentTimestamp = Math.floor(Date.now() / 1000); // Current time in seconds
+        const endTimestamp = Math.floor(new Date(endDate).getTime() / 1000); // End date in seconds
+        if (endTimestamp > currentTimestamp) {
+            return endTimestamp - currentTimestamp; // Time difference in seconds
+        }
+        alert("End date must be in the future.");
+        throw new Error("Invalid end date.");
+    };
+
     return (
         <div className={styles.container}>
             <h1>Create your own vote</h1>
@@ -55,13 +67,25 @@ function CreateVote() {
                 />
             </div>
 
+            {/* Input field for end date and time */}
+            <div className={styles.inputGroup}>
+                <label htmlFor="endDate" className={styles.label}>End Date and Time</label>
+                <input
+                    id="endDate"
+                    type="datetime-local"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                    className={styles.input}
+                />
+            </div>
+
             {/* Transaction button to create a new election */}
             <TransactionButton
                 transaction={() =>
                     prepareContractCall({
                         contract: CONTRACT,
                         method: 'createElection',
-                        params: [title, activeAccount?.address],
+                        params: [title, calculateTimeInSeconds()],
                     })
                 }
                 className={styles.transactBtn}

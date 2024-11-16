@@ -47,7 +47,7 @@ export const GET_ELECTIONS = gql`
       owner
       electionId
       electionAddr
-      blockTimestamp
+      electionEndTime
     }
   }
 `;
