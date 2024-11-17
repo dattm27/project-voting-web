@@ -14,7 +14,7 @@ app.use(express.json());
 // Sử dụng các routes
 app.use('/api', photoRoutes, electionRoutes, candidateRoutes);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 AppDataSource.initialize()
   .then(() => {
