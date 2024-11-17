@@ -4,6 +4,7 @@ import styles from './VotesPage.module.scss';
 import { GET_ELECTIONS, GET_USER_ELECTIONS } from '../../GraphQL/client.jsx';
 import { Link } from "react-router-dom";
 import { useActiveAccount } from "thirdweb/react";
+import { getAllElections } from '../../Services/electionServices.js';
 
 function VotesPage() {
     const [filteredElectionData, setFilteredElectionData] = useState([]);
@@ -12,6 +13,8 @@ function VotesPage() {
 
     // Query for all elections data
     const { data: allElectionsData } = useQuery(GET_ELECTIONS);
+    console.log(allElectionsData);
+    //const backendElections = getAllElections();
 
     // Query for user elections data only if activeAccount exists
     const { data: userElectionsData } = useQuery(GET_USER_ELECTIONS, {

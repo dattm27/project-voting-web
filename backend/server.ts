@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { config as configDotenv } from 'dotenv';
+import cors from 'cors';
 import photoRoutes from './routes/PhotoRoutes';
 import electionRoutes from './routes/ElectionRoutes';
 import candidateRoutes from './routes/CandidateRoutes';
@@ -9,6 +10,7 @@ configDotenv();
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 
 // Sử dụng các routes
