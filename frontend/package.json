@@ -10,14 +10,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@apollo/client": "^3.11.8",
     "@metamask/sdk-react": "^0.29.2",
     "babel-plugin-module-resolver": "^3.0.0",
+    "graphql": "^16.9.0",
     "nice-forms.css": "^0.1.7",
     "normalize.css": "^8.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-metamask-avatar": "^2.0.10",
-    "react-router-dom": "^6.27.0"
+    "react-router-dom": "^6.27.0",
+    "thirdweb": "^5.64.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
