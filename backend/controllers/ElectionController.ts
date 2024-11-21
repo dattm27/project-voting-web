@@ -1,21 +1,24 @@
-import { Request, Response } from 'express';
+import e, { Request, Response } from 'express';
 import { Election } from '../models/Election';
 import { DropBoxServices } from '../services/DropboxServices';
 import AppDataSource from '../config/database';
 import Photo from '../models/Photo';
 import Candidate from '../models/Candidate';
+import { CloudinaryServices } from '../services/CloudinaryServices';
 
 const electionRepository = AppDataSource.getRepository(Election);
 const candidateRepository = AppDataSource.getRepository(Candidate);
 const photoRepository = AppDataSource.getRepository(Photo);
 const dropBoxServices = new DropBoxServices();
+const cloudinaryServices = new CloudinaryServices();
 
 // Create a new election
 export const createElection = async (req: Request, res: Response): Promise<void> => {
     try {
         const { name, startDate, endDate, description, status, photoBase64 } = req.body;
-        const {photoLink, photoDescription} = await dropBoxServices.convertBase64ToFile(photoBase64);
-        const photo = new Photo(photoLink, photoDescription);
+        const {photoLink, public_id} = await cloudinaryServices.uploadImage(photoBase64);
+        const photoDescription = 'Election photo';
+        const photo = new Photo(photoLink, photoDescription, public_id);
         await photoRepository.save(photo);
         const election = new Election(name, new Date(startDate), new Date(endDate), description, status, photo);
         const savedElection = await electionRepository.save(election);
@@ -59,7 +62,7 @@ export const getElectionById = async (req: Request, res: Response) => {
 export const updateElection = async (req: Request, res: Response): Promise<void> => {
     try {
         const id = req.params.id;
-        const { name, startDate, endDate, description, status, photoLink, photoDescription } = req.body;
+        const { name, startDate, endDate, description, status, photoBase64 } = req.body;
 
         const election = await electionRepository.findOne({ where: { id: parseInt(id, 10) } });
         if (!election) {
@@ -74,13 +77,23 @@ export const updateElection = async (req: Request, res: Response): Promise<void>
         election.description = description;
         election.status = status;
 
-        // Update the photo if provided
+        const { photoLink, public_id } = photoBase64 ? await cloudinaryServices.uploadImage(photoBase64) : {};
+        const photoDescription = 'Candidate photo';
+
         if (photoLink && photoDescription) {
-            if (!election.photo) {
-                election.photo = new Photo(photoLink, photoDescription);
+            // Xóa Photo cũ nếu có
+            if (election.photo) {
+                cloudinaryServices.deleteImage(election.photo.public_id);
+                election.photo.link = photoLink;
+                election.photo.description = photoDescription;
+                election.photo.public_id = public_id;
+                await photoRepository.save(election.photo);
+            } else {
+                // Tạo và lưu Photo mới nếu không có Photo hiện tại
+                const newPhoto = new Photo(photoLink, photoDescription, public_id);
+                const savedPhoto = await photoRepository.save(newPhoto);
+                election.photo = savedPhoto;
             }
-            election.photo.link = photoLink;
-            election.photo.description = photoDescription;
         }
 
         const updatedElection = await electionRepository.save(election);

@@ -3,17 +3,20 @@ import { Candidate } from '../models/Candidate';
 import Photo from '../models/Photo';
 import AppDataSource from '../config/database';
 import { DropBoxServices } from '../services/DropboxServices';
+import { CloudinaryServices } from '../services/CloudinaryServices';
 
 const candidateRepository = AppDataSource.getRepository(Candidate);
 const photoRepository = AppDataSource.getRepository(Photo);
 const dropBoxServices = new DropBoxServices();
+const cloudinaryServices = new CloudinaryServices
 
 // Create a new candidate
 export const createCandidate = async (req: Request, res: Response) : Promise<void> => {
     try {
         const {name, birthDay, avatarId, description, roll, votes, electionId, photoBase64} = req.body;
-        const {photoLink, photoDescription} = await dropBoxServices.convertBase64ToFile(photoBase64);
-        const photo = new Photo(photoLink, photoDescription);
+        const {photoLink, public_id} = await cloudinaryServices.uploadImage(photoBase64);
+        const photoDescription = 'Candidate photo';
+        const photo = new Photo(photoLink, photoDescription, public_id);
         await photoRepository.save(photo);
         const candidate = new Candidate(name, avatarId, new Date(birthDay), description, roll, votes, electionId, photo);
         const savedCandidate = await candidateRepository.save(candidate);
@@ -70,16 +73,19 @@ export const updateCandidate = async (req: Request, res: Response) : Promise<voi
 
         // Kiểm tra xem có thông tin Photo mới trong yêu cầu hay không
         const { photoBase64 } = req.body;
-        const { photoLink, photoDescription } = photoBase64 ? await dropBoxServices.convertBase64ToFile(photoBase64) : {};
+        const { photoLink, public_id } = photoBase64 ? await cloudinaryServices.uploadImage(photoBase64) : {};
+        const photoDescription = 'Candidate photo';
         if (photoLink && photoDescription) {
             // Xóa Photo cũ nếu có
             if (candidate.photo) {
+                cloudinaryServices.deleteImage(candidate.photo.public_id);
                 candidate.photo.link = photoLink;
                 candidate.photo.description = photoDescription;
+                candidate.photo.public_id = public_id;
                 await photoRepository.save(candidate.photo);
             } else {
                 // Tạo và lưu Photo mới nếu không có Photo hiện tại
-                const newPhoto = new Photo(photoLink, photoDescription);
+                const newPhoto = new Photo(photoLink, photoDescription, public_id);
                 const savedPhoto = await photoRepository.save(newPhoto);
                 candidate.photo = savedPhoto;
             }

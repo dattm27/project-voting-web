@@ -5,8 +5,8 @@ const photoRepository = AppDataSource.getRepository(Photo);
 
 const createPhoto = async (req, res) => {
     try {
-        const { link, description } = req.body;
-        const photo = new Photo(link, description);
+        const { link, description, public_id } = req.body;
+        const photo = new Photo(link, description, public_id);
         console.log('photo', photo);
         const savedPhoto = await photoRepository.save(photo);
         res.status(201).json(savedPhoto);
