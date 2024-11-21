@@ -4,7 +4,7 @@ import styles from './VotesPage.module.scss';
 import { GET_ELECTIONS, GET_USER_ELECTIONS } from '../../GraphQL/client.jsx';
 import { Link } from "react-router-dom";
 import { useActiveAccount } from "thirdweb/react";
-import { getAllElections } from '../../Services/electionServices.js';
+import { getAllElections, getCandidateById, getElectionById } from '../../Services/serverServices.js';
 
 function VotesPage() {
     const [filteredElectionData, setFilteredElectionData] = useState([]);
@@ -52,6 +52,7 @@ function VotesPage() {
         if (!activeAccount) {
             setShowUserElections(false);
         }
+
     }, [allElectionsData, userElectionsData, showUserElections, activeAccount]);
 
     const toggleUserElections = () => {

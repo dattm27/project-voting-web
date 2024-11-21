@@ -12,6 +12,7 @@
   "dependencies": {
     "@apollo/client": "^3.11.8",
     "@metamask/sdk-react": "^0.29.2",
+    "axios": "^1.7.7",
     "babel-plugin-module-resolver": "^3.0.0",
     "graphql": "^16.9.0",
     "nice-forms.css": "^0.1.7",
