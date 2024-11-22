@@ -46,7 +46,7 @@ const VoteDetailPage = () => {
     
     useEffect(() => {
         async function fetchCandidates() {
-            if (data?.newCandidates) {
+            if (data?.newCandidates?.length > 0) {
                 const election = await getElectionById(data.newCandidates[0].electionId.id);
                 const candidates = election.candidates;
                 setBackendCandidates(candidates);
