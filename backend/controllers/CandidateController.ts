@@ -8,8 +8,8 @@ const candidateRepository = AppDataSource.getRepository(Candidate);
 // Create a new candidate
 export const createCandidate = async (req: Request, res: Response) : Promise<void> => {
     try {
-        const {name, birthDay, avatarId, description, roll, votes, electionId, photoLink} = req.body;
-        const candidate = new Candidate(name, avatarId, new Date(birthDay), description, roll, votes, electionId, photoLink);
+        const {id, name, birthDay, avatarId, description, roll, votes, electionId, photoLink} = req.body;
+        const candidate = new Candidate(id, name, avatarId, new Date(birthDay), description, roll, votes, electionId, photoLink);
         const savedCandidate = await candidateRepository.save(candidate);
         res.status(201).json(savedCandidate);
     } catch (error) {

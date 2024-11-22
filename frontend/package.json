@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@apollo/client": "^3.11.8",
+    "@cloudinary/react": "^1.13.1",
+    "@cloudinary/url-gen": "^1.21.0",
     "@metamask/sdk-react": "^0.29.2",
     "axios": "^1.7.7",
     "babel-plugin-module-resolver": "^3.0.0",

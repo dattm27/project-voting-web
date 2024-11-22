@@ -11,8 +11,8 @@ const candidateRepository = AppDataSource.getRepository(Candidate);
 // Create a new election
 export const createElection = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { name, startDate, endDate, description, status, photoLink } = req.body;
-        const election = new Election(name, new Date(startDate), new Date(endDate), description, status, photoLink);
+        const { id, name, startDate, endDate, description, status, photoLink } = req.body;
+        const election = new Election(id, name, new Date(startDate), new Date(endDate), description, status, photoLink);
         const savedElection = await electionRepository.save(election);
         res.status(201).json(savedElection);
     } catch (error) {

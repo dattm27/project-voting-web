@@ -3,7 +3,7 @@ import Election from "./Election";
 
 @Entity()
 export class Candidate {
-    @PrimaryGeneratedColumn() id : number;
+    @PrimaryColumn() id : number;
 
     @Column()
     name: string
@@ -32,7 +32,8 @@ export class Candidate {
     @ManyToOne(() => Election, election => election.candidates)
     election: Election;
 
-    constructor (name: string, avatarId: number, birthDay: Date ,description: string, roll: string, votes: number, electionId: number, photoLink: string) {
+    constructor (id: number, name: string, avatarId: number, birthDay: Date ,description: string, roll: string, votes: number, electionId: number, photoLink: string) {
+        this.id = id
         this.name = name
         this.avatarId = avatarId
         this.birthDay = birthDay
