@@ -23,8 +23,18 @@ export class CloudinaryServices {
     }
   }
 
-  async deleteImage(publicId: string): Promise<void> {
+  async deleteImageById(publicId: string): Promise<void> {
     try {
+      await cloudinaryV2.uploader.destroy(publicId);
+    } catch (error) {
+      console.error('Error deleting image:', error);
+      throw error;
+    }
+  }
+
+  async deleteImageByUrl(url: string): Promise<void> {
+    try {
+      const publicId = url.split('/').pop();
       await cloudinaryV2.uploader.destroy(publicId);
     } catch (error) {
       console.error('Error deleting image:', error);

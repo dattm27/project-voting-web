@@ -1,22 +1,16 @@
 import { Request, Response } from 'express';
 import { Candidate } from '../models/Candidate';
-import Photo from '../models/Photo';
 import AppDataSource from '../config/database';
 import { CloudinaryServices } from '../services/CloudinaryServices';
 
 const candidateRepository = AppDataSource.getRepository(Candidate);
-const photoRepository = AppDataSource.getRepository(Photo);
 const cloudinaryServices = new CloudinaryServices
 
 // Create a new candidate
 export const createCandidate = async (req: Request, res: Response) : Promise<void> => {
     try {
-        const {name, birthDay, avatarId, description, roll, votes, electionId, photoBase64} = req.body;
-        const {photoLink, public_id} = await cloudinaryServices.uploadImage(photoBase64);
-        const photoDescription = 'Candidate photo';
-        const photo = new Photo(photoLink, photoDescription, public_id);
-        await photoRepository.save(photo);
-        const candidate = new Candidate(name, avatarId, new Date(birthDay), description, roll, votes, electionId, photo);
+        const {name, birthDay, avatarId, description, roll, votes, electionId, photoLink} = req.body;
+        const candidate = new Candidate(name, avatarId, new Date(birthDay), description, roll, votes, electionId, photoLink);
         const savedCandidate = await candidateRepository.save(candidate);
         res.status(201).json(savedCandidate);
     } catch (error) {
@@ -28,9 +22,7 @@ export const createCandidate = async (req: Request, res: Response) : Promise<voi
 // Get all candidates
 export const getCandidates = async (req: Request, res: Response) => {
     try {
-        const candidates = await candidateRepository.find({
-            relations: ['photo'],
-        });
+        const candidates = await candidateRepository.find();
         res.status(200).json(candidates);
     } catch (error) {
         console.error('ERROR getting candidates', error);
@@ -44,7 +36,6 @@ export const getCandidateById = async (req: Request, res: Response) => {
         const id = req.params.id;
         const candidate = await candidateRepository.findOne({
             where: { id: parseInt(id, 10) },
-            relations: ['photo'],
         });
         if (!candidate) {
             res.status(404).json({ error: 'Candidate not found' });
@@ -60,30 +51,10 @@ export const getCandidateById = async (req: Request, res: Response) => {
 // Update a candidate by ID
 export const updateCandidate = async (req: Request, res: Response): Promise<void> => {
     try {
-        const candidate = await candidateRepository.findOne({ where: { id: req.body.id }, relations: ['photo'] });
+        const candidate = await candidateRepository.findOne({ where: { id: req.body.id }});
         if (!candidate) {
             res.status(404).json({ error: 'Candidate not found' });
             return;
-        }
-
-        // Check if there is new Photo information in the request
-        const { photoBase64 } = req.body;
-        const { photoLink, public_id } = photoBase64 ? await cloudinaryServices.uploadImage(photoBase64) : {};
-        const photoDescription = 'Candidate photo';
-        if (photoLink && photoDescription) {
-            // Delete old Photo if exists
-            if (candidate.photo) {
-                cloudinaryServices.deleteImage(candidate.photo.public_id);
-                candidate.photo.link = photoLink;
-                candidate.photo.description = photoDescription;
-                candidate.photo.public_id = public_id;
-                await photoRepository.save(candidate.photo);
-            } else {
-                // Create and save new Photo if no current Photo
-                const newPhoto = new Photo(photoLink, photoDescription, public_id);
-                const savedPhoto = await photoRepository.save(newPhoto);
-                candidate.photo = savedPhoto;
-            }
         }
 
         // Update other fields of Candidate
@@ -104,35 +75,13 @@ export const deleteCandidate = async (req: Request, res: Response): Promise<void
             res.status(404).json({ error: 'Candidate not found' });
             return;
         }
-
+        const photoLink = candidate.photoLink;
+        await cloudinaryServices.deleteImageByUrl(photoLink);
         // Delete Candidate
         await candidateRepository.remove(candidate);
-
-        // Delete Photo if exists
-        if (candidate.photo) {
-            await photoRepository.remove(candidate.photo);
-        }
         res.status(204).end();
     } catch (error) {
         console.error('ERROR deleting candidate', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-};
-
-export const getCandidateAvatar = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    try {
-        const candidate = await candidateRepository.findOne({
-            where: { id: parseInt(id, 10) },
-            relations: ['photo'],
-        });
-        if (!candidate) {
-            res.status(404).json({ error: 'Candidate not found' });
-        } else {
-            res.status(200).json(candidate.photo);
-        }
-    } catch (error) {
-        console.error('ERROR getting candidate avatar', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };

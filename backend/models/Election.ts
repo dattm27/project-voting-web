@@ -1,6 +1,5 @@
 import {Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne, JoinColumn} from "typeorm";
 import Candidate from "./Candidate";
-import Photo from "./Photo";
 
 @Entity()
 export class Election{
@@ -22,20 +21,19 @@ export class Election{
     @Column()
     status : number;
 
+    @Column()
+    photoLink: string;
+
     @OneToMany(() => Candidate, candidate => candidate.election)
     candidates: Candidate[];
 
-    @OneToOne(() => Photo, photo => photo.election)
-    @JoinColumn()
-    photo: Photo;
-
-    constructor(name, startDate, endDate, description, status, photo: Photo){
+    constructor(name, startDate, endDate, description, status, photoLink){
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
         this.description = description;
         this.status = status;
-        this.photo = photo;
+        this.photoLink = photoLink;
     }
 }
 

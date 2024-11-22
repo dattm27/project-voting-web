@@ -1,6 +1,5 @@
 import { Entity, Column, PrimaryColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, JoinColumn } from "typeorm"
 import Election from "./Election";
-import Photo from "./Photo";
 
 @Entity()
 export class Candidate {
@@ -27,14 +26,13 @@ export class Candidate {
     @Column()
     electionId: number
 
+    @Column()
+    photoLink: string
+
     @ManyToOne(() => Election, election => election.candidates)
     election: Election;
 
-    @OneToOne(() => Photo, photo => photo.candidate)
-    @JoinColumn()
-    photo: Photo;
-
-    constructor (name: string, avatarId: number, birthDay: Date ,description: string, roll: string, votes: number, electionId: number, photo: Photo) {
+    constructor (name: string, avatarId: number, birthDay: Date ,description: string, roll: string, votes: number, electionId: number, photoLink: string) {
         this.name = name
         this.avatarId = avatarId
         this.birthDay = birthDay
@@ -42,7 +40,7 @@ export class Candidate {
         this.roll = roll
         this.votes = votes
         this.electionId = electionId
-        this.photo = photo
+        this.photoLink = photoLink
     }
 }
 
