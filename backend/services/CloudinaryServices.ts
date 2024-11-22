@@ -9,6 +9,17 @@ cloudinary.v2.config({
 });
 
 export class CloudinaryServices {
+  private static instance: CloudinaryServices;
+
+  private constructor() {}
+
+  public static getInstance(): CloudinaryServices {
+    if (!CloudinaryServices.instance) {
+      CloudinaryServices.instance = new CloudinaryServices();
+    }
+    return CloudinaryServices.instance;
+  }
+
   async uploadImage(base64: string): Promise<{photoLink: string, public_id: string}> {
     try {
       const file = `data:image/jpeg;base64,${base64}`;

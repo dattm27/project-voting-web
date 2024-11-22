@@ -6,10 +6,16 @@ import { prepareContractCall } from 'thirdweb';
 import { GET_NEW_VOTE } from '../../GraphQL/client.jsx';
 import { useQuery } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
+import { createElection } from '../../Services/serverServices.js';
+import { Cloudinary } from '../../Services/CloudinaryServices.js';
+
 
 function CreateVote() {
     const [title, setTitle] = useState("");
     const [endDate, setEndDate] = useState(""); // State for end date and time
+    const [description, setDescription] = useState(""); // State for description
+    const [photo, setPhoto] = useState(null); // State for photo
+    
     const activeAccount = useActiveAccount();
     const navigate = useNavigate();
 
@@ -26,6 +32,18 @@ function CreateVote() {
             if (data && data.newElections.length > 0) {
                 const electionAddress = data.newElections[0].electionAddr;
                 console.log("Election Address:", electionAddress);
+
+                const {photoLink} = await Cloudinary.getInstance().uploadImageByFile(photo);
+
+                const electionData = new {
+                    id: data.newElections[0].electionId,
+                    name : title,
+                    description: description,
+                    startTime: new Date().toISOString(),
+                    endTime: endDate,
+                    status: "OPEN",
+                    photoLink: photoLink,
+                }
 
                 // Redirect to the election address page
                 navigate(`/vote/${electionAddress}`);
@@ -49,6 +67,27 @@ function CreateVote() {
         alert("End date must be in the future.");
         throw new Error("Invalid end date.");
     };
+
+    const handleFileUpload = (event) => {
+        const file = event.target.files[0];
+        if (file && (file.type === 'image/jpeg' || file.type === 'image/png')) {
+            console.log("File:", file);
+            setPhoto(file); // Lưu file vào state
+        } else {
+            alert("Please upload a valid image file (JPEG or PNG).");
+        }
+    };
+
+    const handleCreateElection = async (electionData) => {
+        try{
+            const response = await createElection(electionData);
+            console.log("Election created on server:", response);
+        }
+        catch(error){
+            console.error('Error creating election:', error);
+            throw error;
+        }
+    }
 
     return (
         <div className={styles.container}>
@@ -75,6 +114,31 @@ function CreateVote() {
                     type="datetime-local"
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
+                    className={styles.input}
+                />
+            </div>
+
+            {/* Input field for vote description */}
+            <div className={styles.inputGroup}>
+                <label htmlFor="description" className={styles.label}>Description</label>
+                <input
+                    id="description"
+                    type="text"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className={styles.input}
+                    placeholder="Enter the description of your vote"
+                />
+            </div>
+
+            {/* File upload for photo */}
+            <div className={styles.inputGroup}>
+                <label htmlFor="photo" className={styles.label}>Upload Photo</label>
+                <input
+                    id="photo"
+                    type="file"
+                    accept="image/jpeg, image/png"
+                    onChange={handleFileUpload}
                     className={styles.input}
                 />
             </div>

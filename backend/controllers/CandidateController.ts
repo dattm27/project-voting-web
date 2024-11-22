@@ -4,7 +4,6 @@ import AppDataSource from '../config/database';
 import { CloudinaryServices } from '../services/CloudinaryServices';
 
 const candidateRepository = AppDataSource.getRepository(Candidate);
-const cloudinaryServices = new CloudinaryServices
 
 // Create a new candidate
 export const createCandidate = async (req: Request, res: Response) : Promise<void> => {
@@ -76,7 +75,7 @@ export const deleteCandidate = async (req: Request, res: Response): Promise<void
             return;
         }
         const photoLink = candidate.photoLink;
-        await cloudinaryServices.deleteImageByUrl(photoLink);
+        await CloudinaryServices.getInstance().deleteImageByUrl(photoLink);
         // Delete Candidate
         await candidateRepository.remove(candidate);
         res.status(204).end();

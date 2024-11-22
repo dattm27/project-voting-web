@@ -7,8 +7,6 @@ import { CloudinaryServices } from '../services/CloudinaryServices';
 
 const electionRepository = AppDataSource.getRepository(Election);
 const candidateRepository = AppDataSource.getRepository(Candidate);
-const dropBoxServices = new DropBoxServices();
-const cloudinaryServices = new CloudinaryServices();
 
 // Create a new election
 export const createElection = async (req: Request, res: Response): Promise<void> => {
@@ -90,14 +88,14 @@ export const deleteElection = async (req: Request, res: Response): Promise<void>
         if (election.candidates && election.candidates.length > 0) {
             for (const candidate of election.candidates) {
                 if (candidate.photoLink) {
-                    await cloudinaryServices.deleteImageByUrl(candidate.photoLink);
+                    await CloudinaryServices.getInstance().deleteImageByUrl(candidate.photoLink);
                 }
                 await candidateRepository.remove(candidate);
             }
         }
 
         if (election.photoLink) {
-            await cloudinaryServices.deleteImageByUrl(election.photoLink);
+            await CloudinaryServices.getInstance().deleteImageByUrl(election.photoLink);
         }
 
         // Xóa election
