@@ -13,6 +13,7 @@ import Modal from '../../Components/Modal'
 import AddCandidateForm from '../../Components/AddCandidateForm'
 import EditCandidateForm from '../../Components/EditCandidateForm'
 import CandidateDescription from '../../Components/CandidateDescription'
+import { getAllCandidates, getElectionById } from '../../Services/serverServices.js';
 
 const VoteDetailPage = () => {
     const { voteAddr } = useParams();
@@ -24,7 +25,7 @@ const VoteDetailPage = () => {
     const [isModalInfoOpen, setIsModalInfoOpen] = useState(false);
     const [isModalEditOpen, setIsModalEditOpen] = useState(false);
     const [editingCandiateName, setEditingCandiateName] = useState('')
-
+    const [backendCandidates, setBackendCandidates] = useState([])
     const CONTRACT = getContract({ client, address: voteAddr, chain, abi });
 
     const { data, loading, error, refetch } = useQuery(GET_ELECTION_CANDIDATES, { variables: { electionAddr: voteAddr || '' } });
@@ -42,8 +43,23 @@ const VoteDetailPage = () => {
     }, [data, titleData, activeAccount]);
 
     useEffect(() => setVotedCandidate(voterData?.newVotes[0]?.candidateId?.candidateId), [voterData]);
+    
+    useEffect(() => {
+        async function fetchCandidates() {
+            if (data?.newCandidates) {
+                const election = await getElectionById(data.newCandidates[0].electionId.id);
+                const candidates = election.candidates;
+                setBackendCandidates(candidates);
+                console.log(backendCandidates);
+            }
+        }
+        fetchCandidates();
+    }, [data]);
 
 
+    candidates.map((candidate) => {
+        console.log(candidate);
+    });
 
     const handleCloseAddModal = () => setIsModalAddOpen(false);
     const handleCloseEditModal = () => setIsModalEditOpen(false);
@@ -66,7 +82,10 @@ const VoteDetailPage = () => {
             <div className={styles.candidatesList}>
                 {candidates.map((candidate) => (
                     <div key={candidate.id} className={styles.candidateCard}>
-                        <img src={make_vote} alt={candidate.name} className={styles.candidateImage} />
+                        <img src={
+                            backendCandidates.find(c => c.id == candidate.id)?.photoLink || make_vote
+                            //make_vote
+                        } alt={candidate.name} className={styles.candidateImage} />
                         <h2>{candidate.name}</h2>
                         <div className={styles.candidateCardBtns}>
                             {isOwner ? (

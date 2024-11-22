@@ -7,7 +7,7 @@ import { GET_NEW_VOTE } from '../../GraphQL/client.jsx';
 import { useQuery } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 import { createElection } from '../../Services/serverServices.js';
-import { Cloudinary } from '../../Services/CloudinaryServices.js';
+import { CloudinaryServices } from '../../Services/CloudinaryServices.js';
 
 
 function CreateVote() {

@@ -59,8 +59,20 @@ function VotesPage() {
         setShowUserElections((prev) => !prev);
     };
 
-    const displayedElections = filteredElectionData;
+    const [backendElections, setBackendElections] = useState([]);
 
+    useEffect(() => {
+        const fetchBackendElections = async () => {
+            const elections = await getAllElections();
+            console.log(elections);
+            const e = elections.find(e => Number(e.id) === 1);
+            console.log(e);
+            setBackendElections(elections);
+        };
+        fetchBackendElections();
+    }, []);
+
+    const displayedElections = filteredElectionData;
     return (
         <div className={styles['content-wrapper']}>
             <div className={styles['toggle-container']}>
@@ -86,7 +98,10 @@ function VotesPage() {
                             state={{ voteAddr: election.electionAddr }}
                             className={styles['vote-card__card-link']}></Link>
                         <img
-                            src="https://images.unsplash.com/photo-1730248202596-fbdef5624120?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            src={
+                                backendElections.find(e => Number(e.id) === Number(election.id))?.photoLink 
+                                || "https://images.unsplash.com/photo-1730248202596-fbdef5624120?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            }
                             alt="Election"
                             className={styles['vote-card__image']}
                         />
