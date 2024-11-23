@@ -114,7 +114,7 @@ function VotesPage() {
                                 {`Vote end: ${new Date(election.electionDue * 1000).toISOString().replace('T', ' ').split('.')[0]}`}
                             </h3>
                             <h2 className={styles['vote-card__election-addr']}>
-                                {`Vote address: ${election.address}`}
+                                {`Vote address: ${election.electionAddr}`}
                             </h2>
 
                         </div>
