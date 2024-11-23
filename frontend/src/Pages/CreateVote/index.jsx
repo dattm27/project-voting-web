@@ -80,8 +80,10 @@ function CreateVote() {
                     startDate: new Date().toISOString(),
                     endDate: new Date(endDate).toISOString(),
                     status: '1',
-                    photo: photoLink
+                    photoLink: photoLink
                 };
+                console.log("Election data:", election);
+
 
                 const response = await createElection(election);
                 console.log("Election created:", response);
@@ -157,6 +159,7 @@ function CreateVote() {
                     console.log("Transaction confirmed:", tx);
                     handleCreateElection();
                     handleGetElectionData();
+                    handleCreateElection();
                 }}
                 onTransactionFailed={(error) => {
                     console.error("Transaction failed:", error);
