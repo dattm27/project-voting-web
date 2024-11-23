@@ -73,18 +73,19 @@ function CreateVote() {
                 const electionId = data.newElections[0].electionId;
                 const {photoLink} = await uploadImageByFile(photo);
                 console.log("Photo link:", photoLink);
-                // const election = {
-                //     id: electionId,
-                //     name: title,
-                //     description: description,
-                //     startDate: new Date().toISOString(),
-                //     endDate: new Date(endDate).toISOString(),
-                //     status: '1',
-                //     photo: photoLink
-                // };
+                const election = {
+                    id: electionId,
+                    name: title,
+                    description: description,
+                    startDate: new Date().toISOString(),
+                    endDate: new Date(endDate).toISOString(),
+                    status: '1',
+                    photoLink: photoLink
+                };
+                console.log("Election data:", election);
 
-                // const response = await createElection(election);
-                // console.log("Election created:", response);
+                const response = await createElection(election);
+                console.log("Election created:", response);
             }
         }
         catch(error){
@@ -161,7 +162,7 @@ function CreateVote() {
                     alert("Vote created successfully!");
                     console.log("Transaction confirmed:", tx);
                     handleGetElectionData();
-                    //handleCreateElection();
+                    handleCreateElection();
                 }}
                 onTransactionFailed={(error) => {
                     console.error("Transaction failed:", error);
