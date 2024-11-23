@@ -50,7 +50,7 @@ export const getCandidateById = async (req: Request, res: Response) => {
 // Update a candidate by ID
 export const updateCandidate = async (req: Request, res: Response): Promise<void> => {
     try {
-        const candidate = await candidateRepository.findOne({ where: { id: req.body.id }});
+        const candidate = await candidateRepository.findOne({ where: { id: parseInt(req.params.id) }});
         if (!candidate) {
             res.status(404).json({ error: 'Candidate not found' });
             return;
