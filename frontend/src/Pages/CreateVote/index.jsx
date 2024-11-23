@@ -7,7 +7,7 @@ import { GET_NEW_VOTE } from '../../GraphQL/client.jsx';
 import { useQuery } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 import { createElection } from '../../Services/serverServices.js';
-import { CloudinaryServices } from '../../Services/CloudinaryServices.js';
+import { uploadImageByFile } from '../../Services/CloudinaryServices.js';
 
 
 function CreateVote() {
@@ -32,18 +32,6 @@ function CreateVote() {
             if (data && data.newElections.length > 0) {
                 const electionAddress = data.newElections[0].electionAddr;
                 console.log("Election Address:", electionAddress);
-
-                const {photoLink} = await Cloudinary.getInstance().uploadImageByFile(photo);
-
-                const electionData = new {
-                    id: data.newElections[0].electionId,
-                    name : title,
-                    description: description,
-                    startTime: new Date().toISOString(),
-                    endTime: endDate,
-                    status: "OPEN",
-                    photoLink: photoLink,
-                }
 
                 // Redirect to the election address page
                 navigate(`/vote/${electionAddress}`);
@@ -78,10 +66,26 @@ function CreateVote() {
         }
     };
 
-    const handleCreateElection = async (electionData) => {
+    const handleCreateElection = async () => {
         try{
-            const response = await createElection(electionData);
-            console.log("Election created on server:", response);
+            const {data} = await refetch();
+            if(data && data.newElections.length > 0){
+                const electionId = data.newElections[0].electionId;
+                const {photoLink} = await uploadImageByFile(photo);
+                console.log("Photo link:", photoLink);
+                // const election = {
+                //     id: electionId,
+                //     name: title,
+                //     description: description,
+                //     startDate: new Date().toISOString(),
+                //     endDate: new Date(endDate).toISOString(),
+                //     status: '1',
+                //     photo: photoLink
+                // };
+
+                // const response = await createElection(election);
+                // console.log("Election created:", response);
+            }
         }
         catch(error){
             console.error('Error creating election:', error);
@@ -157,6 +161,7 @@ function CreateVote() {
                     alert("Vote created successfully!");
                     console.log("Transaction confirmed:", tx);
                     handleGetElectionData();
+                    //handleCreateElection();
                 }}
                 onTransactionFailed={(error) => {
                     console.error("Transaction failed:", error);
