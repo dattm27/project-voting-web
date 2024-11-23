@@ -13,7 +13,7 @@ import Modal from '../../Components/Modal'
 import AddCandidateForm from '../../Components/AddCandidateForm'
 import EditCandidateForm from '../../Components/EditCandidateForm'
 import CandidateDescription from '../../Components/CandidateDescription'
-import { getAllCandidates, getElectionById } from '../../Services/serverServices.js';
+import {  getElectionById } from '../../Services/serverServices.js';
 
 const VoteDetailPage = () => {
     const { voteAddr } = useParams();

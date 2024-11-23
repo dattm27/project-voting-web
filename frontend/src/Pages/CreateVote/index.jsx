@@ -73,18 +73,18 @@ function CreateVote() {
                 const electionId = data.newElections[0].electionId;
                 const {photoLink} = await uploadImageByFile(photo);
                 console.log("Photo link:", photoLink);
-                // const election = {
-                //     id: electionId,
-                //     name: title,
-                //     description: description,
-                //     startDate: new Date().toISOString(),
-                //     endDate: new Date(endDate).toISOString(),
-                //     status: '1',
-                //     photo: photoLink
-                // };
+                const election = {
+                    id: electionId,
+                    name: title,
+                    description: description,
+                    startDate: new Date().toISOString(),
+                    endDate: new Date(endDate).toISOString(),
+                    status: '1',
+                    photo: photoLink
+                };
 
-                // const response = await createElection(election);
-                // console.log("Election created:", response);
+                const response = await createElection(election);
+                console.log("Election created:", response);
             }
         }
         catch(error){
@@ -96,8 +96,6 @@ function CreateVote() {
     return (
         <div className={styles.container}>
             <h1>Create your own vote</h1>
-
-            {/* Input field for vote title */}
             <div className={styles.inputGroup}>
                 <label htmlFor="title" className={styles.label}>Vote Title</label>
                 <input
@@ -110,7 +108,6 @@ function CreateVote() {
                 />
             </div>
 
-            {/* Input field for end date and time */}
             <div className={styles.inputGroup}>
                 <label htmlFor="endDate" className={styles.label}>End Date and Time</label>
                 <input
@@ -122,7 +119,6 @@ function CreateVote() {
                 />
             </div>
 
-            {/* Input field for vote description */}
             <div className={styles.inputGroup}>
                 <label htmlFor="description" className={styles.label}>Description</label>
                 <input
@@ -135,7 +131,7 @@ function CreateVote() {
                 />
             </div>
 
-            {/* File upload for photo */}
+
             <div className={styles.inputGroup}>
                 <label htmlFor="photo" className={styles.label}>Upload Photo</label>
                 <input
@@ -147,7 +143,6 @@ function CreateVote() {
                 />
             </div>
 
-            {/* Transaction button to create a new election */}
             <TransactionButton
                 transaction={() =>
                     prepareContractCall({
@@ -160,8 +155,8 @@ function CreateVote() {
                 onTransactionConfirmed={(tx) => {
                     alert("Vote created successfully!");
                     console.log("Transaction confirmed:", tx);
+                    handleCreateElection();
                     handleGetElectionData();
-                    //handleCreateElection();
                 }}
                 onTransactionFailed={(error) => {
                     console.error("Transaction failed:", error);
