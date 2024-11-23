@@ -36,6 +36,8 @@ label{
     border-radius: 4px;
     margin-bottom: 60px;
     cursor: pointer;
+    display: block;
+    margin: auto;
 }
 
 .saveBtn {
@@ -49,6 +51,7 @@ label{
     cursor: pointer;
     margin:auto;
     display: block;
+    margin-top: 20px;
     &:hover {
         background-color: #1a7c34;
     }
