@@ -9,9 +9,6 @@ export class Candidate {
     name: string
 
     @Column()
-    avatarId: number
-
-    @Column()
     birthDay: Date
 
     @Column()
@@ -35,7 +32,6 @@ export class Candidate {
     constructor (id: number, name: string, avatarId: number, birthDay: Date ,description: string, roll: string, votes: number, electionId: number, photoLink: string) {
         this.id = id
         this.name = name
-        this.avatarId = avatarId
         this.birthDay = birthDay
         this.description = description
         this.roll = roll
