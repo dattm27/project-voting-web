@@ -4,7 +4,7 @@ export const client = createThirdwebClient({ clientId:  import.meta.env.VITE_THI
 
 export const chain = defineChain(43113);
 const contractAddress =  import.meta.env.VITE_CONTRACT_ADDR;
-const contractABI = [
+export const contractABI = [
   {
     "inputs": [],
     "stateMutability": "nonpayable",

@@ -5,11 +5,9 @@ import { CONTRACT } from '../../Utils/constant.js';
 import { prepareContractCall } from 'thirdweb';
 import { GET_NEW_VOTE } from '../../GraphQL/client.jsx';
 import { useQuery } from '@apollo/client';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 import { createElection } from '../../Services/serverServices.js';
 import { uploadImageByFile } from '../../Services/CloudinaryServices.js';
-
-
 function CreateVote() {
     const [title, setTitle] = useState("");
     const [endDate, setEndDate] = useState(""); // State for end date and time
@@ -68,7 +66,6 @@ function CreateVote() {
 
     const handleCreateElection = async () => {
         try{
-            //chua co id thi khong tao dc vote tren database
             const {data} = await refetch();
             if(data && data.newElections.length > 0){
                 const electionId = data.newElections[0].electionId;
@@ -159,12 +156,11 @@ function CreateVote() {
                     })
                 }
                 className={styles.transactBtn}
-                onTransactionSent={() => {
-                    handleCreateElection();
-                  }}
-                onTransactionConfirmed={() => {
+                onTransactionConfirmed={(tx) => {
                     alert("Vote created successfully!");
+                    console.log("Transaction confirmed:", tx);
                     handleGetElectionData();
+                    handleCreateElection();
                 }}
                 onTransactionFailed={(error) => {
                     console.error("Transaction failed:", error);
