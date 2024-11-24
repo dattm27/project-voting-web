@@ -68,6 +68,7 @@ function CreateVote() {
 
     const handleCreateElection = async () => {
         try{
+            //chua co id thi khong tao dc vote tren database
             const {data} = await refetch();
             if(data && data.newElections.length > 0){
                 const electionId = data.newElections[0].electionId;
@@ -105,7 +106,7 @@ function CreateVote() {
                     id="title"
                     type="text"
                     value={title}
-                    onChange={(e) => setTitle(e.target.value)}
+                    onChange={(e) => {setTitle(e.target.value)}}
                     className={styles.input}
                     placeholder="Enter the title of your vote"
                 />
@@ -158,11 +159,12 @@ function CreateVote() {
                     })
                 }
                 className={styles.transactBtn}
-                onTransactionConfirmed={(tx) => {
-                    alert("Vote created successfully!");
-                    console.log("Transaction confirmed:", tx);
-                    handleGetElectionData();
+                onTransactionSent={() => {
                     handleCreateElection();
+                  }}
+                onTransactionConfirmed={() => {
+                    alert("Vote created successfully!");
+                    handleGetElectionData();
                 }}
                 onTransactionFailed={(error) => {
                     console.error("Transaction failed:", error);

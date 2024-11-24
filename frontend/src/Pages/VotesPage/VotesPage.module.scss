@@ -9,109 +9,220 @@
   padding-top: 100px;
 }
 
-.vote-card {
-border: 0 solid aqua;
-  margin: 1.4rem;
-  position: relative;
-  min-height: 50vh;
-  height: 12rem; 
-  overflow: hidden;
-  border-radius: 0.5rem;
-  flex: 1;
-  min-width: 290px;
-  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
-  backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
-  transform: translate3d(0, 0, 0);
-  -moz-transform: translate3d(0, 0, 0);
-  border: white 1px solid;
+// .vote-card {
+// border: 0 solid aqua;
+//   margin: 1.4rem;
+//   position: relative;
+//   min-height: 50vh;
+//   height: 12rem; 
+//   overflow: hidden;
+//   border-radius: 0.5rem;
+//   flex: 1;
+//   min-width: 290px;
+//   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
+//   backface-visibility: hidden;
+//   -moz-backface-visibility: hidden;
+//   transform: translate3d(0, 0, 0);
+//   -moz-transform: translate3d(0, 0, 0);
+//   border: white 1px solid;
 
-  &__card-link {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-  }
+//   &__card-link {
+//       position: absolute;
+//       top: 0;
+//       left: 0;
+//       width: 100%;
+//       height: 100%;
+//       z-index: 1;
+//   }
 
-  &__image {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-      transition: transform 3s ease;
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
-      position: relative;
-      z-index: -1;
-  }
+//   &__image {
+//       width: 100%;
+//       height: 100%;
+//       display: block;
+//       object-fit: cover;
+//       transition: transform 3s ease;
+//       -webkit-backface-visibility: hidden;
+//       backface-visibility: hidden;
+//       position: relative;
+//       z-index: -1;
+//   }
 
-  &__text-wrapper {
-      position: absolute;
-      bottom: 0;
-      padding: 1rem;
-      color: white;
-    //   transition: background-color 1.5s ease;
-      width: 100%;
-    //   min-height: 160px;
-      background-color: #4c4c4c59;
-      backdrop-filter: blur(4px);
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-  }
+//   &__text-wrapper {
+//       position: absolute;
+//       bottom: 0;
+//       padding: 1rem;
+//       color: white;
+//     //   transition: background-color 1.5s ease;
+//       width: 100%;
+//     //   min-height: 160px;
+//       background-color: #4c4c4c59;
+//       backdrop-filter: blur(4px);
+//       display: flex;
+//       flex-direction: column;
+//       justify-content: flex-end;
+//   }
 
-  &__title {
-      transition: #ccc 0.6s ease;
-      font-size: 2.4rem;
-      margin-bottom: 0.5rem;
-  }
+//   &__title {
+//       transition: #ccc 0.6s ease;
+//       font-size: 2.4rem;
+//       margin-bottom: 0.5rem;
+//   }
 
-  &__total-votes {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-      color: #ffffff;
-      background-color: #61b456aa;
-      border: var(--white) 1px solid;
-      border-radius: 4px;
-      padding: 10px;
-      max-width: 160px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-weight: 100;
-  }
-  &__election-addr{
-    font-size: 1.1rem;
-    font-weight: 100;
-  }
-  &__excerpt {
-      font-weight: 300;
-  }
+//   &__total-votes {
+//       font-size: 2rem;
+//       margin-bottom: 0.5rem;
+//       color: #ffffff;
+//       background-color: #61b456aa;
+//       border: var(--white) 1px solid;
+//       border-radius: 4px;
+//       padding: 10px;
+//       max-width: 160px;
+//       display: flex;
+//       justify-content: center;
+//       align-items: center;
+//       font-weight: 100;
+//   }
+//   &__election-addr{
+//     font-size: 1.1rem;
+//     font-weight: 100;
+//   }
+//   &__excerpt {
+//       font-weight: 300;
+//   }
 
  
 
-  // Media query for large screens
-  @media (min-width: 900px) {
-      height: 20rem; // Large screen height
+//   // Media query for large screens
+//   @media (min-width: 900px) {
+//       height: 20rem; // Large screen height
 
-      &:hover &__details-wrapper {
-          max-height: 20rem;
-          opacity: 1;
-      }
+//       &:hover &__details-wrapper {
+//           max-height: 20rem;
+//           opacity: 1;
+//       }
 
-      &:hover &__title {
-        color: #ccc;
-      }
+//       &:hover &__title {
+//         color: #ccc;
+//       }
 
-      &:hover &__image {
-          transform: scale(1.03);
-          z-index: -1;
-      }
-  }
+//       &:hover &__image {
+//           transform: scale(1.03);
+//           z-index: -1;
+//       }
+//   }
+// }
+
+.vote-card {
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Softer, modern border */
+    margin: 1.4rem;
+    position: relative;
+    min-height: 50vh;
+    height: 12rem;
+    overflow: hidden;
+    border-radius: 0.8rem; /* Slightly more rounded corners for a smoother look */
+    flex: 1;
+    min-width: 290px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Improved shadow for better depth */
+    transform: translate3d(0, 0, 0);
+    background: linear-gradient(135deg, rgba(60, 60, 60, 0.38), rgba(30, 30, 30, 0.391)); /* Subtle gradient background */
+
+    &__card-link {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+
+    &__image {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover; /* Ensures the image fills the card without distortion */
+        transition: transform 0.8s ease; /* Smooth zoom effect */
+        position: relative;
+        z-index: -1;
+
+        /* Hover Effect */
+        &:hover {
+            transform: scale(1.1); /* Zooms in slightly */
+        }
+    }
+
+    &__text-wrapper {
+        position: absolute;
+        bottom: 0;
+        padding: 1rem;
+        color: white;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.6); /* Transparent black for better readability */
+        backdrop-filter: blur(6px); /* Stronger glass-like effect */
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-start;
+    }
+
+    &__title {
+        font-size: 1.8rem; /* Scaled-down for better balance */
+        margin-bottom: 0.5rem;
+        font-weight: 700; /* Bold for emphasis */
+        color: #f9f9f9;
+        text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Subtle glow for readability */
+    }
+
+    &__total-votes {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+        color: #ffffff;
+        background-color: #61b456aa; /* Softer green tone */
+        border: 1px solid #ffffff33; /* Lighter border */
+        border-radius: 0.5rem;
+        padding: 8px;
+        max-width: 160px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 500; /* Medium weight for better readability */
+        transition: background-color 0.3s ease;
+
+        /* Hover Effect */
+        &:hover {
+            background-color: #4e9c45aa; /* Slightly darker green on hover */
+        }
+    }
+
+    &__election-addr {
+        font-size: 1rem;
+        font-weight: 300;
+        color: #eaeaea; /* Softer text color */
+    }
+
+    &__excerpt {
+        font-weight: 300;
+        color: #cfcfcf; /* Muted color for less emphasis */
+    }
+
+    /* Hover Interaction */
+    &:hover {
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4); /* Enhanced shadow on hover */
+        transform: translateY(-5px); /* Lifts card slightly */
+    }
+
+    /* Responsive Design */
+    @media screen and (max-width: 768px) {
+        min-height: 40vh;
+        margin: 1rem auto;
+        &__title {
+            font-size: 1.6rem;
+        }
+        &__total-votes {
+            font-size: 1rem;
+            padding: 6px;
+        }
+    }
 }
-
 
 
 .toggle-container {

@@ -21,6 +21,75 @@
         margin-top: 100px;
     }
 
+    // .electionCard{
+    //     border: 2px solid #dddddd7d;
+    //     margin: 10px;
+    //     width: 350px;
+    //     border-radius: 10px;
+    //     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    //     background-color: rgba(255, 255, 255, 0.051);
+    //     backdrop-filter: blur(20px);
+    //     transition: transform 0.2s;
+    //     .electionImage {
+    //         max-width: 100%;
+    //         height: 100%;
+    //         border-radius: 10px;
+    //     }
+    // }
+
+    .electionCard {
+        border: 1px solid rgba(221, 221, 221, 0.5);
+        margin: 10px;
+        width: 350px;
+        height: 540px;
+        border-radius: 15px;
+        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+        backdrop-filter: blur(20px);
+        overflow: hidden;
+        transition: transform 0.3s, box-shadow 0.3s;
+
+        .electionImage {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            transition: transform 3s ease;
+        }
+        .editImageBtn {
+            position: absolute;
+            z-index: 100;
+            top: 10px;
+            right: 10px; /* Added for better placement */
+            background-color: #ab435b;
+            color: white; /* Contrasting text color for better visibility */
+            border: none;
+            padding: 8px 12px; /* Comfortable padding */
+            font-size: 2rem; /* Readable font size */
+            font-weight: bold; /* For emphasis */
+            border-radius: 0.5rem; /* Rounded corners for a smoother look */
+            cursor: pointer; /* Indicates interactivity */
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+            transition: all 0.3s ease; /* Smooth transitions for hover effects */
+
+            /* Active Effect */
+            &:active {
+                transform: scale(0.95); /* Pressed effect */
+                background-color: #7e2436; /* Slightly darker for active state */
+            }
+        }
+        
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            width: 90%;
+            /* Adjust width for smaller screens */
+            margin: 15px auto;
+            /* Center card */
+        }
+    }
+
+
     .candidateCard {
         display: flex;
         flex-direction: column;
@@ -42,11 +111,15 @@
         }
 
         .candidateImage {
-            max-width: 100%;
+            width: 308px;
+            height: 308px;
+            display: block;
+            object-fit: cover;
             border-radius: 10px;
-            height: auto;
             margin-bottom: 10px;
+            overflow: hidden;
         }
+
 
         h2 {
             font-size: 18px;
@@ -122,6 +195,7 @@
                 height: 100%;
                 overflow: hidden;
                 border-radius: 4px;
+
                 .votesIcon {
                     width: 34px;
                 }

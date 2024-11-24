@@ -100,11 +100,29 @@ query MyQuery($owner: String!) {
 }
 `;
 
-export const GET_ELECTION_TITLE = gql`
+export const GET_ELECTION_DATA = gql`
 query MyQuery($electionAddr: String!) {
   newElections(where: {electionAddr: $electionAddr}) {
     title
     owner
+    id
   }
 }
 `;
+
+export const GET_ELECTION_BY_ADDR = gql`
+query MyQuery ($electionAddr: String!){
+  newElections(
+    where: {electionAddr: $electionAddr}
+  ) {
+    transactionHash
+    totalVotes
+    title
+    owner
+    id
+    electionId
+    electionAddr
+  }
+}
+`;
+

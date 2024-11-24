@@ -111,17 +111,17 @@ export const deleteCandidate = async (id) => {
 };
 
 
-const electionData = 
-{
-    "id" : 1,
-    "name": "Test",
-    "startDate": "2024-01-01T00:00:00.000Z",
-    "endDate": "2024-11-15T15:37:08.999Z",
-    "description": "temporary description.",
-    "status": 2,
-    "photoLink" : "https://res.cloudinary.com/dodhlbcqz/image/upload/v1732216894/cld-sample-5.jpg"
-}
+// const electionData = 
+// {
+//     "id" : 1,
+//     "name": "Test",
+//     "startDate": "2024-01-01T00:00:00.000Z",
+//     "endDate": "2024-11-15T15:37:08.999Z",
+//     "description": "temporary description.",
+//     "status": 2,
+//     "photoLink" : "https://res.cloudinary.com/dodhlbcqz/image/upload/v1732216894/cld-sample-5.jpg"
+// }
 
-createElection(electionData).then((response) => {
-    console.log(response);
-});
+// createElection(electionData).then((response) => {
+//     console.log(response);
+// });

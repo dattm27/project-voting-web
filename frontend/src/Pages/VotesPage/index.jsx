@@ -4,7 +4,8 @@ import styles from './VotesPage.module.scss';
 import { GET_ELECTIONS, GET_USER_ELECTIONS } from '../../GraphQL/client.jsx';
 import { Link } from "react-router-dom";
 import { useActiveAccount } from "thirdweb/react";
-import { getAllElections, getCandidateById, getElectionById } from '../../Services/serverServices.js';
+import {vote_placeholder} from '../../Assets/index.js'
+import { getAllElections} from '../../Services/serverServices.js';
 
 function VotesPage() {
     const [filteredElectionData, setFilteredElectionData] = useState([]);
@@ -13,7 +14,7 @@ function VotesPage() {
 
     // Query for all elections data
     const { data: allElectionsData } = useQuery(GET_ELECTIONS);
-    console.log(allElectionsData);
+    // console.log(allElectionsData);
     //const backendElections = getAllElections();
 
     // Query for user elections data only if activeAccount exists
@@ -100,7 +101,7 @@ function VotesPage() {
                         <img
                             src={
                                 backendElections.find(e => Number(e.id) === Number(election.id))?.photoLink 
-                                || "https://images.unsplash.com/photo-1730248202596-fbdef5624120?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                || vote_placeholder
                             }
                             alt="Election"
                             className={styles['vote-card__image']}

@@ -1,4 +1,4 @@
-import { Cloudinary } from '@cloudinary/url-gen';
+
 
 async function uploadImageByFile(file) {
     try {
