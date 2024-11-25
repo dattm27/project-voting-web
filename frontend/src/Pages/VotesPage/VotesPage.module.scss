@@ -1,228 +1,3 @@
-.content-wrapper {
-  margin: 0 auto;
-  max-width: 1200px;
-  width: 95%;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  padding: 0.5rem;
-  padding-top: 100px;
-}
-
-// .vote-card {
-// border: 0 solid aqua;
-//   margin: 1.4rem;
-//   position: relative;
-//   min-height: 50vh;
-//   height: 12rem; 
-//   overflow: hidden;
-//   border-radius: 0.5rem;
-//   flex: 1;
-//   min-width: 290px;
-//   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
-//   backface-visibility: hidden;
-//   -moz-backface-visibility: hidden;
-//   transform: translate3d(0, 0, 0);
-//   -moz-transform: translate3d(0, 0, 0);
-//   border: white 1px solid;
-
-//   &__card-link {
-//       position: absolute;
-//       top: 0;
-//       left: 0;
-//       width: 100%;
-//       height: 100%;
-//       z-index: 1;
-//   }
-
-//   &__image {
-//       width: 100%;
-//       height: 100%;
-//       display: block;
-//       object-fit: cover;
-//       transition: transform 3s ease;
-//       -webkit-backface-visibility: hidden;
-//       backface-visibility: hidden;
-//       position: relative;
-//       z-index: -1;
-//   }
-
-//   &__text-wrapper {
-//       position: absolute;
-//       bottom: 0;
-//       padding: 1rem;
-//       color: white;
-//     //   transition: background-color 1.5s ease;
-//       width: 100%;
-//     //   min-height: 160px;
-//       background-color: #4c4c4c59;
-//       backdrop-filter: blur(4px);
-//       display: flex;
-//       flex-direction: column;
-//       justify-content: flex-end;
-//   }
-
-//   &__title {
-//       transition: #ccc 0.6s ease;
-//       font-size: 2.4rem;
-//       margin-bottom: 0.5rem;
-//   }
-
-//   &__total-votes {
-//       font-size: 2rem;
-//       margin-bottom: 0.5rem;
-//       color: #ffffff;
-//       background-color: #61b456aa;
-//       border: var(--white) 1px solid;
-//       border-radius: 4px;
-//       padding: 10px;
-//       max-width: 160px;
-//       display: flex;
-//       justify-content: center;
-//       align-items: center;
-//       font-weight: 100;
-//   }
-//   &__election-addr{
-//     font-size: 1.1rem;
-//     font-weight: 100;
-//   }
-//   &__excerpt {
-//       font-weight: 300;
-//   }
-
- 
-
-//   // Media query for large screens
-//   @media (min-width: 900px) {
-//       height: 20rem; // Large screen height
-
-//       &:hover &__details-wrapper {
-//           max-height: 20rem;
-//           opacity: 1;
-//       }
-
-//       &:hover &__title {
-//         color: #ccc;
-//       }
-
-//       &:hover &__image {
-//           transform: scale(1.03);
-//           z-index: -1;
-//       }
-//   }
-// }
-
-.vote-card {
-    border: 1px solid rgba(255, 255, 255, 0.2); /* Softer, modern border */
-    margin: 1.4rem;
-    position: relative;
-    min-height: 50vh;
-    height: 12rem;
-    overflow: hidden;
-    border-radius: 0.8rem; /* Slightly more rounded corners for a smoother look */
-    flex: 1;
-    min-width: 290px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Improved shadow for better depth */
-    transform: translate3d(0, 0, 0);
-    background: linear-gradient(135deg, rgba(60, 60, 60, 0.38), rgba(30, 30, 30, 0.391)); /* Subtle gradient background */
-
-    &__card-link {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-    }
-
-    &__image {
-        width: 100%;
-        height: 100%;
-        display: block;
-        object-fit: cover; /* Ensures the image fills the card without distortion */
-        transition: transform 0.8s ease; /* Smooth zoom effect */
-        position: relative;
-        z-index: -1;
-
-        /* Hover Effect */
-        &:hover {
-            transform: scale(1.1); /* Zooms in slightly */
-        }
-    }
-
-    &__text-wrapper {
-        position: absolute;
-        bottom: 0;
-        padding: 1rem;
-        color: white;
-        width: 100%;
-        background: rgba(0, 0, 0, 0.6); /* Transparent black for better readability */
-        backdrop-filter: blur(6px); /* Stronger glass-like effect */
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        align-items: flex-start;
-    }
-
-    &__title {
-        font-size: 1.8rem; /* Scaled-down for better balance */
-        margin-bottom: 0.5rem;
-        font-weight: 700; /* Bold for emphasis */
-        color: #f9f9f9;
-        text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Subtle glow for readability */
-    }
-
-    &__total-votes {
-        font-size: 1.2rem;
-        margin-bottom: 0.5rem;
-        color: #ffffff;
-        background-color: #61b456aa; /* Softer green tone */
-        border: 1px solid #ffffff33; /* Lighter border */
-        border-radius: 0.5rem;
-        padding: 8px;
-        max-width: 160px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-weight: 500; /* Medium weight for better readability */
-        transition: background-color 0.3s ease;
-
-        /* Hover Effect */
-        &:hover {
-            background-color: #4e9c45aa; /* Slightly darker green on hover */
-        }
-    }
-
-    &__election-addr {
-        font-size: 1rem;
-        font-weight: 300;
-        color: #eaeaea; /* Softer text color */
-    }
-
-    &__excerpt {
-        font-weight: 300;
-        color: #cfcfcf; /* Muted color for less emphasis */
-    }
-
-    /* Hover Interaction */
-    &:hover {
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4); /* Enhanced shadow on hover */
-        transform: translateY(-5px); /* Lifts card slightly */
-    }
-
-    /* Responsive Design */
-    @media screen and (max-width: 768px) {
-        min-height: 40vh;
-        margin: 1rem auto;
-        &__title {
-            font-size: 1.6rem;
-        }
-        &__total-votes {
-            font-size: 1rem;
-            padding: 6px;
-        }
-    }
-}
 
 
 .toggle-container {
@@ -279,3 +54,137 @@
     }
 }
 
+.content-wrapper {
+    column-count: 3; /* Number of columns */
+    column-gap: 2rem; /* Spacing between columns */
+    padding-top: 100px;
+    max-width: 1300px;
+    margin: 0 auto;
+    width: 95%;
+}
+.vote-card.disabled {
+    opacity: 0.4;  /* Make the card appear disabled */
+    position: relative;  /* Ensure the label is positioned relative to the card */
+}
+
+.vote-card.disabled::before {
+    content: "EXPIRED";  /* The label text */
+    position: absolute;  /* Position it relative to the card */
+    top: 50%;  /* Adjust top position as needed */
+    right: 50%;  /* Adjust left position as needed */
+    transform: translate(50%,50%);
+    z-index: 1000;
+    background-color: rgb(255, 0, 0);  /* Red background for emphasis */
+    color: white;  /* White text */
+    padding: 10px 16px;  /* Padding around the label */
+    font-size: 4rem;  /* Font size of the label */
+    font-weight: bold;  /* Bold text for emphasis */
+    border-radius: 5px;  /* Rounded corners for the label */
+}
+.vote-card {
+    break-inside: avoid; /* Prevent items from breaking between columns */
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.8rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, rgba(60, 60, 60, 0.38), rgba(30, 30, 30, 0.391));
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    position: relative;
+    &__link{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 100;
+    }
+}
+
+.vote-card__image {
+    width: 100%;
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover;
+    transition: transform 0.8s ease;
+}
+
+.vote-card__text-wrapper {
+    padding: 1.4rem;
+    color: white;
+    // background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
+.vote-card__title {
+    font-size: 2.4rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #ffffff;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.vote-card__total-votes {
+    font-size: 1.1rem; /* Balanced font size */
+    margin-bottom: 0.75rem; /* Adequate spacing from other elements */
+    color: #ffffff; /* Clean and readable text color */
+    background-color: #4caf50; /* Modern and appealing green */
+    border: 1px solid #3a8d41; /* Slightly darker green for subtle contrast */
+    border-radius: 1rem; /* Rounded corners for a soft appearance */
+    padding: 10px 14px; /* Comfortable padding for readability */
+    max-width: 180px; /* Restrict width for a compact layout */
+    display: inline-flex; /* Ensures alignment within flex containers */
+    justify-content: center;
+    align-items: center;
+    font-weight: 600; /* Medium-bold font for emphasis */
+    text-transform: uppercase; /* Professional look with uppercase text */
+    letter-spacing: 0.03em; /* Subtle spacing for clean typography */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow for slight depth */
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .vote-card__total-votes {
+        font-size: 1rem; /* Smaller text for smaller screens */
+        padding: 8px 12px; /* Adjusted padding for compactness */
+        max-width: 150px; /* Narrower width on small screens */
+    }
+}
+
+
+// .vote-card__election-addr {
+//     font-size: 1rem;
+//     font-weight: 300;
+//     color: #eaeaea;
+// }
+
+.vote-card__excerpt {
+    font-weight: 300;
+    color: #cfcfcf;
+}
+
+/* Hover Effects */
+.vote-card:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    transform: translateY(-3px);
+}
+
+.vote-card__image:hover {
+    transform: scale(1.1);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .content-wrapper {
+        column-count: 1; /* Single column on smaller screens */
+    }
+
+    .vote-card__title {
+        font-size: 1.6rem;
+    }
+    .vote-card__total-votes {
+        font-size: 1rem;
+        padding: 6px;
+    }
+}

@@ -122,6 +122,7 @@ query MyQuery ($electionAddr: String!){
     id
     electionId
     electionAddr
+    numOfCandidates
   }
 }
 `;

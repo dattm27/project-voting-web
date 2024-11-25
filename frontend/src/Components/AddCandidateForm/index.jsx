@@ -11,22 +11,22 @@ import {createCandidate} from '../../Services/serverServices'
 const AddCandidateForm = ({ contract, onSuccess, onFailure ,voteAddr}) => {
     const [candidateName, setCandidateName] = useState("");
     const { data} = useQuery(GET_ELECTION_BY_ADDR, { variables: { electionAddr: voteAddr || '' } });
-    console.log()
+
     const handleCandidateNameChange = (e) => {
         setCandidateName(e.target.value);
-        handleCreateCandidate();
     }
 
     const handleCreateCandidate = async () => {
         try{
             if(data && data.newElections.length > 0){
+                console.log(data)
                 const electionId = data.newElections[0]['id']
                 const candidate = {
-                    id: electionId,
+                    id: data.newElections[0]['numOfCandidates']+1,
                     name: candidateName,
                     description: "",
-                    birthDay:new Date().toISOString(),
-                    roll:"1",
+                    birthDay:"2003-09-26T00:00:00.000Z",
+                    roll:"",
                     votes:0,
                     electionId:electionId,
                     photoLink:""
@@ -41,18 +41,9 @@ const AddCandidateForm = ({ contract, onSuccess, onFailure ,voteAddr}) => {
             throw error;
         }
     }
-//     "{
-//     ""id"" : 1,
-//     ""name"": ""Lê Tuấn Đạt"",
-//     ""birthDay"": ""2003-09-26T00:00:00.000Z"",
-//     ""description"": ""A candidate for the presidential election."",
-//     ""roll"": ""President"",
-//     ""votes"": 2,
-//     ""electionId"": 1,
-//     ""photoLink"": ""https://res.cloudinary.com/dodhlbcqz/image/upload/v1732216894/cld-sample-5.jpg""
-// }"
 
     const handleTransactionConfirmed = () => {
+        handleCreateCandidate();
         alert('Candidate added successfully!');
         setCandidateName(""); // Clear input field after successful transaction
         onSuccess(); // Notify parent to refetch data or close modal

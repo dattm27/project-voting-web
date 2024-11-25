@@ -7,6 +7,7 @@
 }
 
 .inputField {
+    margin-top: 10px;
     width: 96%;
     padding: 1rem;
     margin-bottom: 1rem;
@@ -21,6 +22,20 @@
         border-color: #3498db;
     }
 }
+.textAreaField {
+    margin-top: 10px;
+    width: 96%;
+    min-height: 400px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 2rem;
+    background-color: #444;
+    border: 1px solid #555;
+    color: #fff;
+    resize: vertical;
+}
+
 
 label{
    font-size: 2.2rem;
@@ -32,7 +47,7 @@ label{
     margin-left: 20px;
     background-color: #444;
     border: 1px solid #555;
-    color: #1695bb;
+    color: #ffffff;
     border-radius: 4px;
     margin-bottom: 60px;
     cursor: pointer;

@@ -1,4 +1,4 @@
-// export default VoteDetailPage;
+// VoteDetailPage.jsx
 import { useState, useEffect } from 'react';
 import styles from './VoteDetailPage.module.scss';
 import { useParams } from 'react-router-dom';
@@ -15,7 +15,7 @@ import AddCandidateForm from '../../Components/AddCandidateForm';
 import EditCandidateForm from '../../Components/EditCandidateForm';
 import CandidateDescription from '../../Components/CandidateDescription';
 import { getElectionById, updateElection } from '../../Services/serverServices.js';
-import { uploadImageByFile } from '../../Services/CloudinaryServices.js'
+import { uploadImageByFile } from '../../Services/CloudinaryServices.js';
 
 const VoteDetailPage = () => {
     const { voteAddr } = useParams();
@@ -28,6 +28,7 @@ const VoteDetailPage = () => {
     const [isModalEditOpen, setIsModalEditOpen] = useState(false);
     const [editingCandidate, setEditingCandidate] = useState(undefined);
     const [electionDataBe, setElectionDataBe] = useState({});
+    const [tempPhotoLink, setTempPhotoLink] = useState(null); // Temporary image preview state
 
     const CONTRACT = getContract({ client, address: voteAddr, chain, abi });
 
@@ -48,28 +49,20 @@ const VoteDetailPage = () => {
 
     const handleGetElectionData = async (id) => {
         try {
-            const res = await getElectionById(id);
-            console.log(res)
-            setElectionDataBe(res)
+
+            let res = await getElectionById(id);
+            setElectionDataBe(res);
+        } catch (error) {
+            console.error('Error fetching election data:', error);
         }
-        catch (error) {
-            console.error('Error creating election:', error);
-            throw error;
-        }
-    }
+    };
 
 
     useEffect(() => setVotedCandidate(voterData?.newVotes[0]?.candidateId?.candidateId), [voterData]);
 
     useEffect(() => {
-        if (electionData?.newElections[0]?.id)
-
-            handleGetElectionData(electionData?.newElections[0]?.id);
-    }, [electionData])
-
-    useEffect(() => {
-        setVotedCandidate(voterData?.newVotes[0]?.candidateId?.candidateId);
-    }, [voterData]);
+        if (electionData?.newElections[0]?.id) handleGetElectionData(electionData?.newElections[0]?.id);
+    }, [electionData]);
 
     // Modal close handlers
     const handleCloseAddModal = () => setIsModalAddOpen(false);
@@ -77,11 +70,23 @@ const VoteDetailPage = () => {
     const handleCloseInfoModal = () => setIsModalInfoOpen(false);
 
     // Refetch logic after successful mutation
-    const handleRefetch = () => {
-        refetch();
-        handleCloseAddModal();
-        handleCloseEditModal();
-        handleCloseInfoModal();
+    const handleRefetch = async () => {
+        try {
+            // Close all modals
+            handleCloseAddModal();
+            handleCloseEditModal();
+            handleCloseInfoModal();
+    
+            // Refetch Apollo query data
+            await refetch(); // Refetch candidates from GET_ELECTION_CANDIDATES
+            
+            // Refetch backend data for the election
+            if (electionData?.newElections[0]?.id) {
+                await handleGetElectionData(electionData?.newElections[0]?.id);
+            }
+        } catch (error) {
+            console.error('Error refetching data:', error);
+        }
     };
 
     // Loading and error handling
@@ -90,18 +95,16 @@ const VoteDetailPage = () => {
 
     return (
         <div className={styles.votePage}>
-            <h1 className={styles.voteTitle}>{electionData?.newElections[0]?.title || 'Loading title...'}</h1>
-            <h2>{isOwner ? 'Edit your vote' : (candidates.length ? 'Vote for Your Candidate' : 'No candidates added yet.')}</h2>
+            <h1 className={styles.voteTitle}>{electionData?.newElections[0]?.title.toUpperCase() || 'Loading title...'}</h1>
 
-            <div className={styles.candidatesList}>
-                <div className={styles.electionCard}>
+            <div className={styles.voteHeading}>
+
+                <div className={`${styles.electionPoster}`}>
                     <img
                         className={styles.electionImage}
-                        src={electionDataBe?.photoLink ? electionDataBe.photoLink : vote_placeholder}
-
+                        src={tempPhotoLink || electionDataBe?.photoLink || vote_placeholder} // Use tempPhotoLink if available
+                        alt="Election"
                     />
-                    {/* {isOwner && (<buttton className={styles.editImageBtn}>Edit</buttton>)}
-                     */}
                     {isOwner && (
                         <>
                             <button
@@ -118,26 +121,41 @@ const VoteDetailPage = () => {
                                 onChange={async (e) => {
                                     const file = e.target.files[0];
                                     if (file) {
-                                        console.log("Selected Image:", file);
-                                        const { photoLink } = await uploadImageByFile(file);
-                                        const res = await updateElection(electionData?.newElections[0]?.id, {
-                                            photoLink: photoLink
-                                        })
-                                        console.log(res)
+                                        const tempURL = URL.createObjectURL(file); // Create a temporary URL
+                                        setTempPhotoLink(tempURL); // Set the temporary photo link
+                                        try {
+                                            const { photoLink } = await uploadImageByFile(file);
+                                            await updateElection(electionData?.newElections[0]?.id, { photoLink });
+                                            setElectionDataBe((prev) => ({ ...prev, photoLink })); // Update actual photo link
+                                        } catch (error) {
+                                            console.error('Error updating election image:', error);
+                                        } finally {
+                                            URL.revokeObjectURL(tempURL); // Cleanup the temporary URL
+                                        }
                                     }
                                 }}
                             />
                         </>
                     )}
                 </div>
+                <div className={styles.electionDes}>
+                    <h2>{`${electionDataBe?.name?.toUpperCase()} INFO:`}</h2>
+                    <p>{`${electionDataBe?.description}`}</p>
+                </div>
+            </div>
+            <h2>{isOwner ? 'Edit your vote' : (candidates.length ? 'Vote for Your Candidate' : 'No candidates added yet.')}</h2>
+            <div className={styles.candidatesList}>
+
+                {/* Render candidates */}
                 {candidates.map((candidate) => (
                     <div key={candidate.id} className={styles.candidateCard}>
                         <img
-                            src={candidate.photoLink || vote_placeholder}
+                            src={electionDataBe?.candidates?.find(
+                                (c) => c.id === parseInt(candidate.id)
+                            )?.photoLink || vote_placeholder}
                             alt={candidate.name}
                             className={styles.candidateImage}
                         />
-
                         <h2>{candidate.name}</h2>
                         <div className={styles.candidateCardBtns}>
                             {isOwner ? (
@@ -160,7 +178,7 @@ const VoteDetailPage = () => {
                                         }}
                                         disabled={!!voterData?.newVotes?.length}
                                         onError={(error) => {
-                                            console.error("Transaction error", error);
+                                            console.error('Transaction error', error);
                                             alert(error.message);
                                         }}
                                         className={`${styles.transactBtn} ${votedCandidate === candidate.id ? styles.transactBtn__voted : styles.transactBtn__vote}`}
@@ -195,18 +213,14 @@ const VoteDetailPage = () => {
                     </div>
                 )}
             </div>
-            <div className={styles.electionDes}>
-                <h2>{`${electionDataBe?.name?.toUpperCase()} INFO:`}</h2>
-                <p> {`${electionDataBe?.description}`}</p>
-                </div>
             <Modal isOpen={isModalAddOpen} onClose={handleCloseAddModal}>
                 <AddCandidateForm contract={CONTRACT} voteAddr={voteAddr} onSuccess={handleRefetch} />
             </Modal>
             <Modal isOpen={isModalEditOpen} onClose={handleCloseEditModal}>
-                <EditCandidateForm onSuccess={handleRefetch} candidate={editingCandidate} />
+                <EditCandidateForm onSuccess={handleRefetch} candidate={editingCandidate} electionId={electionData?.newElections[0]?.id} descript={electionDataBe?.candidates?.find((c)=>c.id == (editingCandidate?.id))?.description}/>
             </Modal>
             <Modal isOpen={isModalInfoOpen} onClose={handleCloseInfoModal}>
-                <CandidateDescription candidate={editingCandidate} description="What is Lorem Ipsumors on the Internet tend to c words etc." />
+                <CandidateDescription candidate={editingCandidate} description={electionDataBe?.candidates?.find((c)=>c.id == (editingCandidate?.id))?.description} />
             </Modal>
         </div>
     );

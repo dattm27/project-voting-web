@@ -4,56 +4,45 @@ import styles from './VotesPage.module.scss';
 import { GET_ELECTIONS, GET_USER_ELECTIONS } from '../../GraphQL/client.jsx';
 import { Link } from "react-router-dom";
 import { useActiveAccount } from "thirdweb/react";
-import {vote_placeholder} from '../../Assets/index.js'
-import { getAllElections} from '../../Services/serverServices.js';
+import { vote_placeholder } from '../../Assets/index.js';
+import { getAllElections } from '../../Services/serverServices.js';
 
 function VotesPage() {
     const [filteredElectionData, setFilteredElectionData] = useState([]);
     const [showUserElections, setShowUserElections] = useState(false);
     const activeAccount = useActiveAccount();
 
-    // Query for all elections data
     const { data: allElectionsData } = useQuery(GET_ELECTIONS);
-    // console.log(allElectionsData);
-    //const backendElections = getAllElections();
-
-    // Query for user elections data only if activeAccount exists
     const { data: userElectionsData } = useQuery(GET_USER_ELECTIONS, {
         variables: { owner: activeAccount?.address || "" },
-        skip: !activeAccount, // Skip this query if there's no active account
+        skip: !activeAccount,
     });
 
-
-
     useEffect(() => {
-        if (showUserElections && activeAccount && userElectionsData && userElectionsData.newElections) {
-            // Format user-specific elections data
+        if (showUserElections && activeAccount && userElectionsData?.newElections) {
             const formattedData = userElectionsData.newElections.map((election) => ({
                 title: election.title,
                 owner: election.owner,
                 id: election.electionId,
                 totalVotes: election.totalVotes,
                 electionAddr: election.electionAddr,
-
-
+                electionDue: election.electionEndTime,
             }));
             setFilteredElectionData(formattedData);
-        } else if (!showUserElections && allElectionsData && allElectionsData.newElections) {
-            // Format all elections data
+        } else if (!showUserElections && allElectionsData?.newElections) {
             const formattedData = allElectionsData.newElections.map((election) => ({
                 title: election.title,
                 owner: election.owner,
                 id: election.electionId,
                 totalVotes: election.totalVotes,
                 electionAddr: election.electionAddr,
-                electionDue: election.electionEndTime
+                electionDue: election.electionEndTime,
             }));
             setFilteredElectionData(formattedData);
         }
         if (!activeAccount) {
             setShowUserElections(false);
         }
-
     }, [allElectionsData, userElectionsData, showUserElections, activeAccount]);
 
     const toggleUserElections = () => {
@@ -65,15 +54,18 @@ function VotesPage() {
     useEffect(() => {
         const fetchBackendElections = async () => {
             const elections = await getAllElections();
-            console.log(elections);
-            const e = elections.find(e => Number(e.id) === 1);
-            console.log(e);
             setBackendElections(elections);
         };
         fetchBackendElections();
     }, []);
 
+    // Function to check if the election has ended
+    const isElectionEnded = (electionDue) => {
+        return electionDue * 1000 < Date.now(); // Compare with current time in ms
+    };
+
     const displayedElections = filteredElectionData;
+
     return (
         <div className={styles['content-wrapper']}>
             <div className={styles['toggle-container']}>
@@ -82,7 +74,7 @@ function VotesPage() {
                         type="checkbox"
                         checked={showUserElections}
                         onChange={toggleUserElections}
-                        disabled={!activeAccount} // Disable toggle if no active account
+                        disabled={!activeAccount}
                     />
                     <span className={styles['slider']} />
                 </label>
@@ -92,15 +84,19 @@ function VotesPage() {
             </div>
             {displayedElections.length > 0 ? (
                 displayedElections.map((election, index) => (
-                    <div className={styles['vote-card']} key={index}>
+                    <div
+                        key={index}
+                        className={`${styles['vote-card']} ${isElectionEnded(election.electionDue) ? styles['disabled'] : ''}`}
+                    >
                         <Link
+                            key={index}
                             to={`/vote/${election.electionAddr}`}
-                            // to='/vote'
                             state={{ voteAddr: election.electionAddr }}
-                            className={styles['vote-card__card-link']}></Link>
+                            className={styles['vote-card__link']}
+                        ></Link>
                         <img
                             src={
-                                backendElections.find(e => Number(e.id) === Number(election.id))?.photoLink 
+                                backendElections.find(e => Number(e.id) === Number(election.id))?.photoLink
                                 || vote_placeholder
                             }
                             alt="Election"
@@ -112,11 +108,10 @@ function VotesPage() {
                                 {`Total votes: ${election.totalVotes}`}
                             </div>
                             <h3 className={styles['vote-card__election-due']}>
-                                {`Vote end: ${new Date(election.electionDue * 1000).toISOString().replace('T', ' ').split('.')[0]}`}
+                                {election.electionDue
+                                    ? `Vote end: ${new Date(election.electionDue * 1000).toISOString().replace('T', ' ').split('.')[0]}`
+                                    : 'No end date available'}
                             </h3>
-                            <h2 className={styles['vote-card__election-addr']}>
-                                {`Vote address: ${election.electionAddr}`}
-                            </h2>
 
                         </div>
                     </div>
