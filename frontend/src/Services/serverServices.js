@@ -59,7 +59,7 @@ export const deleteElection = async (id) => {
 // Get all candidates by electionId
 export const getCandidatesByElectionId = async (electionId) => {
     try {
-        const response = await instance.get(`${endPointConfig.endpoints.candidates}${electionId}`);
+        const response = await instance.get(`${endPointConfig.endpoints.candidates}/${electionId}`);
         return response.data;
     } catch (error) {
         console.error(`Error fetching candidates for election ID ${electionId}:`, error);
@@ -70,7 +70,7 @@ export const getCandidatesByElectionId = async (electionId) => {
 // Get a candidate by ID and electionId
 export const getDetailCandidate = async (id, electionId) => {
     try {
-        const response = await instance.get(`${endPointConfig.endpoints.candidates}/${id}:${electionId}`);
+        const response = await instance.get(`${endPointConfig.endpoints.candidates}/${id}/${electionId}`);
         return response.data;
     } catch (error) {
         console.error(`Error fetching candidate with ID ${id} and election ID ${electionId}:`, error);
@@ -92,7 +92,7 @@ export const createCandidate = async (candidateData) => {
 // Update a candidate by ID and electionId
 export const updateCandidate = async (id, electionId, candidateData) => {
     try {
-        const response = await instance.put(`${endPointConfig.endpoints.candidates}/${id}:${electionId}`, candidateData);
+        const response = await instance.put(`${endPointConfig.endpoints.candidates}/${id}/${electionId}`, candidateData);
         return response.data;
     } catch (error) {
         console.error(`Error updating candidate with ID ${id} and election ID ${electionId}:`, error);
@@ -103,7 +103,7 @@ export const updateCandidate = async (id, electionId, candidateData) => {
 // Delete a candidate by ID and electionId
 export const deleteCandidate = async (id, electionId) => {
     try {
-        await instance.delete(`${endPointConfig.endpoints.candidates}/${id}:${electionId}`);
+        await instance.delete(`${endPointConfig.endpoints.candidates}/${id}/${electionId}`);
     } catch (error) {
         console.error(`Error deleting candidate with ID ${id} and election ID ${electionId}:`, error);
         throw error;
