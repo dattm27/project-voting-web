@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import styles from './EditCandidateForm.module.scss';
 
-const EditCandidateForm = ({candidateName, onSuccess }) => {
+const EditCandidateForm = ({candidate, onSuccess,electionId }) => {
     const [description, setDescription] = useState('');
     const [base64Image, setBase64Image] = useState('');
     const [imagePreview, setImagePreview] = useState(null); // Store preview URL
-
+    console.log(candidate.id)
     const handleDescriptionChange = (e) => setDescription(e.target.value);
 
     const handleImageUpload = (event) => {
@@ -30,7 +30,7 @@ const EditCandidateForm = ({candidateName, onSuccess }) => {
             <input
                 type="text"
                 placeholder="Candidate Name"
-                value={candidateName}
+                value={candidate.name}
                 className={styles.inputField}
                 disabled={true}
             />

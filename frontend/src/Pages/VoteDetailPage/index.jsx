@@ -14,8 +14,8 @@ import Modal from '../../Components/Modal';
 import AddCandidateForm from '../../Components/AddCandidateForm';
 import EditCandidateForm from '../../Components/EditCandidateForm';
 import CandidateDescription from '../../Components/CandidateDescription';
-import { getElectionById,updateElection} from '../../Services/serverServices.js';
-import {uploadImageByFile} from '../../Services/CloudinaryServices.js'
+import { getElectionById, updateElection } from '../../Services/serverServices.js';
+import { uploadImageByFile } from '../../Services/CloudinaryServices.js'
 
 const VoteDetailPage = () => {
     const { voteAddr } = useParams();
@@ -26,7 +26,7 @@ const VoteDetailPage = () => {
     const [isModalAddOpen, setIsModalAddOpen] = useState(false);
     const [isModalInfoOpen, setIsModalInfoOpen] = useState(false);
     const [isModalEditOpen, setIsModalEditOpen] = useState(false);
-    const [editingCandidateName, setEditingCandidateName] = useState('');
+    const [editingCandidate, setEditingCandidate] = useState(undefined);
     const [electionDataBe, setElectionDataBe] = useState({});
 
     const CONTRACT = getContract({ client, address: voteAddr, chain, abi });
@@ -41,7 +41,7 @@ const VoteDetailPage = () => {
     // Effect to handle candidates and ownership logic
     useEffect(() => {
         if (data?.newCandidates) {
-            setCandidates(data.newCandidates.map(({ candidateId, name, voteCount }) => ({ id: candidateId, name, votes: voteCount })));
+            setCandidates(data.newCandidates.map(({ candidateId, name, voteCount }) => ({ id: candidateId, name: name, votes: voteCount })));
             setIsOwner(electionData?.newElections[0]?.owner.toLowerCase() === activeAccount?.address.toLowerCase());
         }
     }, [data, electionData, activeAccount]);
@@ -119,8 +119,8 @@ const VoteDetailPage = () => {
                                     const file = e.target.files[0];
                                     if (file) {
                                         console.log("Selected Image:", file);
-                                        const {photoLink} = await uploadImageByFile(file);
-                                        const res = await updateElection(electionData?.newElections[0]?.id,{
+                                        const { photoLink } = await uploadImageByFile(file);
+                                        const res = await updateElection(electionData?.newElections[0]?.id, {
                                             photoLink: photoLink
                                         })
                                         console.log(res)
@@ -143,7 +143,7 @@ const VoteDetailPage = () => {
                             {isOwner ? (
                                 <button
                                     onClick={() => {
-                                        setEditingCandidateName(candidate.name);
+                                        setEditingCandidate(candidate);
                                         setIsModalEditOpen(true);
                                     }}
                                     className={styles.editBtn}
@@ -161,7 +161,7 @@ const VoteDetailPage = () => {
                                         disabled={!!voterData?.newVotes?.length}
                                         onError={(error) => {
                                             console.error("Transaction error", error);
-                                            alert (error.message);
+                                            alert(error.message);
                                         }}
                                         className={`${styles.transactBtn} ${votedCandidate === candidate.id ? styles.transactBtn__voted : styles.transactBtn__vote}`}
                                     >
@@ -169,7 +169,7 @@ const VoteDetailPage = () => {
                                     </TransactionButton>
                                     <button
                                         onClick={() => {
-                                            setEditingCandidateName(candidate.name);
+                                            setEditingCandidate(candidate);
                                             setIsModalInfoOpen(true);
                                         }}
                                         className={styles.editBtn}
@@ -195,16 +195,18 @@ const VoteDetailPage = () => {
                     </div>
                 )}
             </div>
-
+            <div className={styles.electionDes}>
+                <h2>{`${electionDataBe?.name?.toUpperCase()} INFO:`}</h2>
+                <p> {`${electionDataBe?.description}`}</p>
+                </div>
             <Modal isOpen={isModalAddOpen} onClose={handleCloseAddModal}>
                 <AddCandidateForm contract={CONTRACT} voteAddr={voteAddr} onSuccess={handleRefetch} />
             </Modal>
             <Modal isOpen={isModalEditOpen} onClose={handleCloseEditModal}>
-                <EditCandidateForm onSuccess={handleRefetch} candidateName={editingCandidateName} />
+                <EditCandidateForm onSuccess={handleRefetch} candidate={editingCandidate} />
             </Modal>
             <Modal isOpen={isModalInfoOpen} onClose={handleCloseInfoModal}>
-                <CandidateDescription name={editingCandidateName} description="What is Lorem Ipsumors on the Internet tend to c words etc." />
-
+                <CandidateDescription candidate={editingCandidate} description="What is Lorem Ipsumors on the Internet tend to c words etc." />
             </Modal>
         </div>
     );

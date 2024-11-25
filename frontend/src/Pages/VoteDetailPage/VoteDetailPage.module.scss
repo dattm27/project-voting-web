@@ -12,13 +12,53 @@
     h2 {
         color: #ccc;
     }
-
+    // .electionDes {
+    //     h2{
+    //         color: #7e2436;
+    //     }
+    // }
+    .electionDes {
+        /* Card-style container */
+        background-color: #5454549f; /* Soft pink background for a vote-related theme */
+        border-left: 6px solid #cbcbcb; /* Accent border on the left */
+        backdrop-filter: blur(20px);
+        border-radius: 8px;
+        padding: 20px 16px;
+        margin: 16px 0;
+        width: 700px;
+        margin: auto;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow for structure */
+        font-family: 'Arial', sans-serif; /* Clean, professional font */
+    }
+    
+    .electionDes h2 {
+        /* Section title */
+        color: #ffffff; /* Bold, thematic color */
+        font-size: 2.2rem;
+        font-weight: bold;
+        margin-bottom: 8px; /* Space below the heading */
+        text-transform: uppercase; /* Emphasized text */
+        text-align: left; /* Left-aligned for an info card feel */
+        border-bottom: 2px solid #cdcdcd; /* Thin underline for focus */
+        padding-bottom: 4px; /* Space for underline clarity */
+    }
+    
+    .electionDes p {
+        color: #ffffff; /* Neutral text color for readability */
+        font-size: 1.8rem;
+        line-height: 1.6; /* Comfortable line spacing */
+        text-align: left;
+    }
+    
+    
+    
     .candidatesList {
         display: flex;
         flex-wrap: wrap;
         gap: 20px;
         justify-content: center;
         margin-top: 100px;
+        
     }
 
     // .electionCard{
