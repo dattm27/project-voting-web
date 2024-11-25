@@ -56,24 +56,24 @@ export const deleteElection = async (id) => {
 };
 
 
-// Get all candidates
-export const getAllCandidates = async () => {
+// Get all candidates by electionId
+export const getCandidatesByElectionId = async (electionId) => {
     try {
-        const response = await instance.get(endPointConfig.endpoints.candidates);
+        const response = await instance.get(`${endPointConfig.endpoints.candidates}${electionId}`);
         return response.data;
     } catch (error) {
-        console.error('Error fetching candidates:', error);
+        console.error(`Error fetching candidates for election ID ${electionId}:`, error);
         throw error;
     }
 };
 
-// Get a candidate by ID
-export const getCandidateById = async (id) => {
+// Get a candidate by ID and electionId
+export const getDetailCandidate = async (id, electionId) => {
     try {
-        const response = await instance.get(`${endPointConfig.endpoints.candidates}/${id}`);
+        const response = await instance.get(`${endPointConfig.endpoints.candidates}/${id}:${electionId}`);
         return response.data;
     } catch (error) {
-        console.error(`Error fetching candidate with ID ${id}:`, error);
+        console.error(`Error fetching candidate with ID ${id} and election ID ${electionId}:`, error);
         throw error;
     }
 };
@@ -89,39 +89,23 @@ export const createCandidate = async (candidateData) => {
     }
 };
 
-// Update a candidate by ID
-export const updateCandidate = async (id, candidateData) => {
+// Update a candidate by ID and electionId
+export const updateCandidate = async (id, electionId, candidateData) => {
     try {
-        const response = await instance.put(`${endPointConfig.endpoints.candidates}/${id}`, candidateData);
+        const response = await instance.put(`${endPointConfig.endpoints.candidates}/${id}:${electionId}`, candidateData);
         return response.data;
     } catch (error) {
-        console.error(`Error updating candidate with ID ${id}:`, error);
+        console.error(`Error updating candidate with ID ${id} and election ID ${electionId}:`, error);
         throw error;
     }
 };
 
-// Delete a candidate by ID
-export const deleteCandidate = async (id) => {
+// Delete a candidate by ID and electionId
+export const deleteCandidate = async (id, electionId) => {
     try {
-        await instance.delete(`${endPointConfig.endpoints.candidates}/${id}`);
+        await instance.delete(`${endPointConfig.endpoints.candidates}/${id}:${electionId}`);
     } catch (error) {
-        console.error(`Error deleting candidate with ID ${id}:`, error);
+        console.error(`Error deleting candidate with ID ${id} and election ID ${electionId}:`, error);
         throw error;
     }
 };
-
-
-// const electionData = 
-// {
-//     "id" : 1,
-//     "name": "Test",
-//     "startDate": "2024-01-01T00:00:00.000Z",
-//     "endDate": "2024-11-15T15:37:08.999Z",
-//     "description": "temporary description.",
-//     "status": 2,
-//     "photoLink" : "https://res.cloudinary.com/dodhlbcqz/image/upload/v1732216894/cld-sample-5.jpg"
-// }
-
-// createElection(electionData).then((response) => {
-//     console.log(response);
-// });

@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import { createCandidate, getCandidates, getCandidateById, updateCandidate, deleteCandidate } from '../controllers/CandidateController';
+import { createCandidate, getCandidatesByElectionId, getDetailCandidate, updateCandidate, deleteCandidate } from '../controllers/CandidateController';
 
 const router = Router();
 
 router.post('/candidates', createCandidate);
-router.get('/candidates', getCandidates);
-router.get('/candidates/:id', getCandidateById);
-router.put('/candidates/:id', updateCandidate);
-router.delete('/candidates/:id', deleteCandidate);
+router.get('/candidates:electionId', getCandidatesByElectionId);
+router.get('/candidates/:id:electionId', getDetailCandidate);
+router.put('/candidates/:id:electionId', updateCandidate);
+router.delete('/candidates/:id:electionId', deleteCandidate);
 
 export default router;

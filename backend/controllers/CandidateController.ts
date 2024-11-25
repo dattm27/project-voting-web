@@ -8,8 +8,8 @@ const candidateRepository = AppDataSource.getRepository(Candidate);
 // Create a new candidate
 export const createCandidate = async (req: Request, res: Response) : Promise<void> => {
     try {
-        const {id, name, birthDay, avatarId, description, roll, votes, electionId, photoLink} = req.body;
-        const candidate = new Candidate(id, name, avatarId, new Date(birthDay), description, roll, votes, electionId, photoLink);
+        const {id, name, birthDay, description, roll, votes, electionId, photoLink} = req.body;
+        const candidate = new Candidate(id, name, new Date(birthDay), description, roll, votes, electionId, photoLink);
         const savedCandidate = await candidateRepository.save(candidate);
         res.status(201).json(savedCandidate);
     } catch (error) {
@@ -19,9 +19,12 @@ export const createCandidate = async (req: Request, res: Response) : Promise<voi
 };
 
 // Get all candidates
-export const getCandidates = async (req: Request, res: Response) => {
+export const getCandidatesByElectionId = async (req: Request, res: Response) => {
     try {
-        const candidates = await candidateRepository.find();
+        const electionId = req.params.electionId;
+        const candidates = await candidateRepository.find(
+            { where: { electionId: parseInt(electionId, 10) } },
+        );
         res.status(200).json(candidates);
     } catch (error) {
         console.error('ERROR getting candidates', error);
@@ -30,11 +33,12 @@ export const getCandidates = async (req: Request, res: Response) => {
 };
 
 // Get a candidate by ID
-export const getCandidateById = async (req: Request, res: Response) => {
+export const getDetailCandidate = async (req: Request, res: Response) => {
     try {
         const id = req.params.id;
+        const electionId = req.params.electionId;
         const candidate = await candidateRepository.findOne({
-            where: { id: parseInt(id, 10) },
+            where: { id: parseInt(id, 10) , electionId: parseInt(electionId, 10) },
         });
         if (!candidate) {
             res.status(404).json({ error: 'Candidate not found' });
@@ -50,7 +54,11 @@ export const getCandidateById = async (req: Request, res: Response) => {
 // Update a candidate by ID
 export const updateCandidate = async (req: Request, res: Response): Promise<void> => {
     try {
-        const candidate = await candidateRepository.findOne({ where: { id: parseInt(req.params.id) }});
+        const id = req.params.id;
+        const electionId = req.params.electionId;
+        const candidate = await candidateRepository.findOne({ 
+            where: { id: parseInt(id), electionId: parseInt(electionId) },
+        });
         if (!candidate) {
             res.status(404).json({ error: 'Candidate not found' });
             return;
@@ -69,7 +77,12 @@ export const updateCandidate = async (req: Request, res: Response): Promise<void
 // Delete a candidate by ID
 export const deleteCandidate = async (req: Request, res: Response): Promise<void> => {
     try {
-        const candidate = await candidateRepository.findOne({ where: { id: parseInt( req.params.id) }, relations: ['photo'] });
+        const id = req.params.id;
+        const electionId = req.params.electionId;
+        const candidate = await candidateRepository.findOne({ 
+            where: { id: parseInt( id) , electionId: parseInt(electionId)}, 
+            relations: ['photo'] 
+        });
         if (!candidate) {
             res.status(404).json({ error: 'Candidate not found' });
             return;
