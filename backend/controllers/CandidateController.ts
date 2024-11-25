@@ -80,8 +80,7 @@ export const deleteCandidate = async (req: Request, res: Response): Promise<void
         const id = req.params.id;
         const electionId = req.params.electionId;
         const candidate = await candidateRepository.findOne({ 
-            where: { id: parseInt( id) , electionId: parseInt(electionId)}, 
-            relations: ['photo'] 
+            where: { id: parseInt( id) , electionId: parseInt(electionId)},  
         });
         if (!candidate) {
             res.status(404).json({ error: 'Candidate not found' });
