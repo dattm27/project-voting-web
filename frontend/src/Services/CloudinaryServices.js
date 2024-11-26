@@ -21,7 +21,6 @@ async function uploadImageByFile(file) {
         }
 
         const data = await response.json();
-        console.log('Upload thành công:', data);
 
         return { photoLink: data.secure_url, public_id: data.public_id };
     } catch (error) {

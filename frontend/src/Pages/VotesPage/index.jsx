@@ -4,7 +4,7 @@ import styles from './VotesPage.module.scss';
 import { GET_ELECTIONS, GET_USER_ELECTIONS } from '../../GraphQL/client.jsx';
 import { Link } from "react-router-dom";
 import { useActiveAccount } from "thirdweb/react";
-import { vote_placeholder } from '../../Assets/index.js';
+import { vote_placeholder,vote_icon } from '../../Assets/index.js';
 import { getAllElections } from '../../Services/serverServices.js';
 
 function VotesPage() {
@@ -104,9 +104,12 @@ function VotesPage() {
                         />
                         <div className={styles['vote-card__text-wrapper']}>
                             <h2 className={styles['vote-card__title']}>{election.title}</h2>
-                            <div className={styles['vote-card__total-votes']}>
-                                {`Total votes: ${election.totalVotes}`}
+                            <div className={styles.votesLabel}>
+                            <div className={styles.iconContainer}>
+                                <img className={styles.votesIcon} src={vote_icon} alt="Votes" />
                             </div>
+                            <p>Total votes: {election.totalVotes}</p>
+                        </div>
                             <h3 className={styles['vote-card__election-due']}>
                                 {election.electionDue
                                     ? `Vote end: ${new Date(election.electionDue * 1000).toISOString().replace('T', ' ').split('.')[0]}`

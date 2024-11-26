@@ -66,7 +66,9 @@
     opacity: 0.4;  /* Make the card appear disabled */
     position: relative;  /* Ensure the label is positioned relative to the card */
 }
-
+.vote-card.disabled:hover{
+    opacity: 1;
+}
 .vote-card.disabled::before {
     content: "EXPIRED";  /* The label text */
     position: absolute;  /* Position it relative to the card */
@@ -97,6 +99,11 @@
         height: 100%;
         z-index: 100;
     }
+    &__election-due{
+        font-size: 1.6rem;
+        font-weight: 300;
+        margin-top: 8px;
+    }
 }
 
 .vote-card__image {
@@ -125,24 +132,35 @@
     text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
-.vote-card__total-votes {
-    font-size: 1.1rem; /* Balanced font size */
-    margin-bottom: 0.75rem; /* Adequate spacing from other elements */
-    color: #ffffff; /* Clean and readable text color */
-    background-color: #4caf50; /* Modern and appealing green */
-    border: 1px solid #3a8d41; /* Slightly darker green for subtle contrast */
-    border-radius: 1rem; /* Rounded corners for a soft appearance */
-    padding: 10px 14px; /* Comfortable padding for readability */
-    max-width: 180px; /* Restrict width for a compact layout */
-    display: inline-flex; /* Ensures alignment within flex containers */
-    justify-content: center;
-    align-items: center;
-    font-weight: 600; /* Medium-bold font for emphasis */
-    text-transform: uppercase; /* Professional look with uppercase text */
-    letter-spacing: 0.03em; /* Subtle spacing for clean typography */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow for slight depth */
-}
 
+.votesLabel {
+    background-color: rgb(119, 172, 91);
+    margin-top: 20px;
+    width: 50%;
+    // padding: 8px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    .iconContainer {
+        border: 2px solid rgb(133, 197, 99);
+        padding: 5px;
+        margin-right: 20px;
+        background-color: #ffffff;
+        height: 100%;
+        overflow: hidden;
+        border-radius: 8px;
+
+        .votesIcon {
+            width: 30px;
+        }
+    }
+
+    p {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: rgb(255, 255, 255);
+    }
+}
 /* Responsive Design */
 @media screen and (max-width: 768px) {
     .vote-card__total-votes {

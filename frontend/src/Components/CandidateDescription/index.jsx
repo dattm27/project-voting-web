@@ -4,7 +4,7 @@ const DescriptionLabel = ({ description ,candidate}) => {
     return (
         <div className={styles.descriptionLabel}>
             <h2>{`${candidate.name} Info`}</h2>
-            <p>{description}</p>
+            <pre>{description}</pre>
         </div>
     );
 };

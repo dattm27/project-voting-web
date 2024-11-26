@@ -13,9 +13,9 @@ import { GET_ELECTION_CANDIDATES, GET_VOTER, GET_ELECTION_DATA } from '../../Gra
 import Modal from '../../Components/Modal';
 import AddCandidateForm from '../../Components/AddCandidateForm';
 import EditCandidateForm from '../../Components/EditCandidateForm';
+import EditElectionForm from '../../Components/EditElectionForm';
 import CandidateDescription from '../../Components/CandidateDescription';
-import { getElectionById, updateElection } from '../../Services/serverServices.js';
-import { uploadImageByFile } from '../../Services/CloudinaryServices.js';
+import { getElectionById } from '../../Services/serverServices.js';
 
 const VoteDetailPage = () => {
     const { voteAddr } = useParams();
@@ -25,10 +25,11 @@ const VoteDetailPage = () => {
     const [votedCandidate, setVotedCandidate] = useState(undefined);
     const [isModalAddOpen, setIsModalAddOpen] = useState(false);
     const [isModalInfoOpen, setIsModalInfoOpen] = useState(false);
-    const [isModalEditOpen, setIsModalEditOpen] = useState(false);
+    const [isModalEditCandidateOpen, setIsModalEditCandidateOpen] = useState(false);
+    const [isModalEditElectionOpen, setIsModalEditElectionOpen] = useState(false);
     const [editingCandidate, setEditingCandidate] = useState(undefined);
     const [electionDataBe, setElectionDataBe] = useState({});
-    const [tempPhotoLink, setTempPhotoLink] = useState(null); // Temporary image preview state
+
 
     const CONTRACT = getContract({ client, address: voteAddr, chain, abi });
 
@@ -66,7 +67,8 @@ const VoteDetailPage = () => {
 
     // Modal close handlers
     const handleCloseAddModal = () => setIsModalAddOpen(false);
-    const handleCloseEditModal = () => setIsModalEditOpen(false);
+    const handleCloseEditCandidateModal = () => setIsModalEditCandidateOpen(false);
+    const handleCloseEditElectionModal = () => setIsModalEditElectionOpen(false);
     const handleCloseInfoModal = () => setIsModalInfoOpen(false);
 
     // Refetch logic after successful mutation
@@ -74,7 +76,8 @@ const VoteDetailPage = () => {
         try {
             // Close all modals
             handleCloseAddModal();
-            handleCloseEditModal();
+            handleCloseEditCandidateModal();
+            handleCloseEditElectionModal();
             handleCloseInfoModal();
     
             // Refetch Apollo query data
@@ -102,45 +105,26 @@ const VoteDetailPage = () => {
                 <div className={`${styles.electionPoster}`}>
                     <img
                         className={styles.electionImage}
-                        src={tempPhotoLink || electionDataBe?.photoLink || vote_placeholder} // Use tempPhotoLink if available
+                        src={electionDataBe?.photoLink || vote_placeholder} // Use tempPhotoLink if available
                         alt="Election"
                     />
                     {isOwner && (
                         <>
                             <button
                                 className={styles.editImageBtn}
-                                onClick={() => document.getElementById('imageInput').click()}
+                                onClick={() => {setIsModalEditElectionOpen(true);}}
                             >
                                 Edit
                             </button>
-                            <input
-                                id="imageInput"
-                                type="file"
-                                accept="image/*"
-                                style={{ display: 'none' }}
-                                onChange={async (e) => {
-                                    const file = e.target.files[0];
-                                    if (file) {
-                                        const tempURL = URL.createObjectURL(file); // Create a temporary URL
-                                        setTempPhotoLink(tempURL); // Set the temporary photo link
-                                        try {
-                                            const { photoLink } = await uploadImageByFile(file);
-                                            await updateElection(electionData?.newElections[0]?.id, { photoLink });
-                                            setElectionDataBe((prev) => ({ ...prev, photoLink })); // Update actual photo link
-                                        } catch (error) {
-                                            console.error('Error updating election image:', error);
-                                        } finally {
-                                            URL.revokeObjectURL(tempURL); // Cleanup the temporary URL
-                                        }
-                                    }
-                                }}
-                            />
+                           
                         </>
                     )}
                 </div>
                 <div className={styles.electionDes}>
-                    <h2>{`${electionDataBe?.name?.toUpperCase()} INFO:`}</h2>
-                    <p>{`${electionDataBe?.description}`}</p>
+                    <h2>{`ABOUT ${electionDataBe?.name?.toUpperCase()}`}</h2>
+                    {/* <p>{`${electionDataBe?.description}`}</p>
+                     */}
+                     <pre>{electionDataBe?.description}</pre>
                 </div>
             </div>
             <h2>{isOwner ? 'Edit your vote' : (candidates.length ? 'Vote for Your Candidate' : 'No candidates added yet.')}</h2>
@@ -162,7 +146,7 @@ const VoteDetailPage = () => {
                                 <button
                                     onClick={() => {
                                         setEditingCandidate(candidate);
-                                        setIsModalEditOpen(true);
+                                        setIsModalEditCandidateOpen(true);
                                     }}
                                     className={styles.editBtn}
                                 >
@@ -216,8 +200,11 @@ const VoteDetailPage = () => {
             <Modal isOpen={isModalAddOpen} onClose={handleCloseAddModal}>
                 <AddCandidateForm contract={CONTRACT} voteAddr={voteAddr} onSuccess={handleRefetch} />
             </Modal>
-            <Modal isOpen={isModalEditOpen} onClose={handleCloseEditModal}>
+            <Modal isOpen={isModalEditCandidateOpen} onClose={handleCloseEditCandidateModal}>
                 <EditCandidateForm onSuccess={handleRefetch} candidate={editingCandidate} electionId={electionData?.newElections[0]?.id} descript={electionDataBe?.candidates?.find((c)=>c.id == (editingCandidate?.id))?.description}/>
+            </Modal>
+            <Modal isOpen={isModalEditElectionOpen} onClose={handleCloseEditElectionModal}>
+                <EditElectionForm onSuccess={handleRefetch} election={electionDataBe}/>
             </Modal>
             <Modal isOpen={isModalInfoOpen} onClose={handleCloseInfoModal}>
                 <CandidateDescription candidate={editingCandidate} description={electionDataBe?.candidates?.find((c)=>c.id == (editingCandidate?.id))?.description} />

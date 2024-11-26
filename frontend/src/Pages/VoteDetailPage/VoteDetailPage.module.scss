@@ -12,6 +12,7 @@
     h2 {
         color: #ccc;
         padding-top: 20px;
+        
     }
 
 
@@ -90,20 +91,24 @@
             font-family: 'Arial', sans-serif;
             display: flex;
             flex-direction: column;
+            
         }
     
         .electionDes h2 {
-            color: #ffffff; /* Bold, thematic color */
-            font-size: 2.2rem;
-            font-weight: bold;
             margin-bottom: 8px; /* Space below the heading */
             text-transform: uppercase; /* Emphasized text */
-            text-align: left; /* Left-aligned for an info card feel */
             border-bottom: 2px solid #cdcdcd; /* Thin underline for focus */
             padding-bottom: 4px; /* Space for underline clarity */
+            font-size: 3.6rem;
+            font-style: italic;
+            margin-bottom: 20px;
+            color: transparent;
+            background-image: linear-gradient(120deg, var(--violet), rgb(59, 111, 178));
+            background-clip: text;
         }
     
-        .electionDes p {
+        .electionDes pre {
+            white-space: pre-wrap;
             color: #ffffff; /* Neutral text color for readability */
             font-size: 1.8rem;
             line-height: 1.6; /* Comfortable line spacing */
@@ -263,32 +268,31 @@
         }
 
         .votesLabel {
-            background-color: rgb(255, 255, 255);
+            background-color: rgb(119, 172, 91);
             margin-top: 20px;
             width: 50%;
             // padding: 8px;
-            border-radius: 4px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
-
             .iconContainer {
-                border: 2px solid white;
+                border: 2px solid rgb(133, 197, 99);
                 padding: 5px;
                 margin-right: 20px;
-                background-color: #ba677a;
+                background-color: #ffffff;
                 height: 100%;
                 overflow: hidden;
-                border-radius: 4px;
+                border-radius: 8px;
 
                 .votesIcon {
-                    width: 34px;
+                    width: 30px;
                 }
             }
 
             p {
                 font-size: 1.8rem;
                 font-weight: bold;
-                color: black;
+                color: rgb(255, 255, 255);
             }
         }
 
@@ -307,42 +311,42 @@
         padding: 100px;
     }
 
-    .addCandidateForm {
-        margin-top: 30px;
-        text-align: center;
+    // .addCandidateForm {
+    //     margin-top: 30px;
+    //     text-align: center;
 
-        h2 {
-            color: #333;
-            margin-bottom: 15px;
-        }
+    //     h2 {
+    //         color: #333;
+    //         margin-bottom: 15px;
+    //     }
 
-        .inputField {
-            width: 200px;
-            padding: 8px;
-            margin: 0 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            outline: none;
-            transition: border-color 0.3s;
+    //     .inputField {
+    //         width: 200px;
+    //         padding: 8px;
+    //         margin: 0 10px;
+    //         border: 1px solid #ddd;
+    //         border-radius: 5px;
+    //         outline: none;
+    //         transition: border-color 0.3s;
 
-            &:focus {
-                border-color: #007bff;
-            }
-        }
+    //         &:focus {
+    //             border-color: #007bff;
+    //         }
+    //     }
 
-        .transactBtn {
-            background-color: #28a745;
-            color: #fff;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
+    //     .transactBtn {
+    //         background-color: #28a745;
+    //         color: #fff;
+    //         border: none;
+    //         padding: 8px 12px;
+    //         border-radius: 5px;
+    //         cursor: pointer;
+    //         transition: background-color 0.3s;
 
-            &:hover {
-                background-color: #218838;
-            }
-        }
+    //         &:hover {
+    //             background-color: #218838;
+    //         }
+    //     }
 
-    }
+    // }
 }

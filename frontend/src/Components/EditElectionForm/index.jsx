@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import styles from './EditCandidateForm.module.scss';
-import { updateCandidate } from '../../Services/serverServices.js';
+import { updateElection } from '../../Services/serverServices.js';
 import { uploadImageByFile } from '../../Services/CloudinaryServices.js';
 
-const EditCandidateForm = ({ candidate, onSuccess, electionId, descript }) => {
-    const [description, setDescription] = useState(descript || candidate?.description); // Initialize description
+const EditElectionForm = ({ onSuccess, election }) => {
+    const [description, setDescription] = useState(election?.description||""); // Initialize description
     const [photo, setPhoto] = useState(null);
     const [imagePreview, setImagePreview] = useState(null); // Store preview URL
-
+    // console.log(election)
     const handleDescriptionChange = (e) => setDescription(e.target.value);
 
     const handleImageUpload = (event) => {
@@ -22,18 +22,18 @@ const EditCandidateForm = ({ candidate, onSuccess, electionId, descript }) => {
 
     const handleSubmitUpdate = async () => {
         try {
-            let photoLink = candidate?.photoLink; // Default to existing photo link
+            let photoLink = election?.photoLink; // Default to existing photo link
             if (photo) {
                 const uploadedPhoto = await uploadImageByFile(photo);
                 photoLink = uploadedPhoto.photoLink;
             }
 
-            const candidateData = {
-                description: description,
+            const electionData = {
+                description: `${description}`,
                 photoLink: photoLink,
             };
 
-            await updateCandidate(candidate?.id, electionId, candidateData);
+            await updateElection(election?.id,electionData);
             onSuccess(); // Trigger success callback to refetch data
         } catch (error) {
             console.error('Error updating candidate:', error);
@@ -43,13 +43,13 @@ const EditCandidateForm = ({ candidate, onSuccess, electionId, descript }) => {
 
     return (
         <div className={styles.formContainer}>
-            <h2 className={styles.title}>Edit Candidate</h2>
+            <h2 className={styles.title}>Edit Election</h2>
 
             <label>Name</label>
             <input
                 type="text"
                 placeholder="Candidate Name"
-                value={candidate.name}
+                value={election?.name||""}
                 className={styles.inputField}
                 disabled
             />
@@ -62,7 +62,7 @@ const EditCandidateForm = ({ candidate, onSuccess, electionId, descript }) => {
                 className={styles.textAreaField} // Added distinct class for textarea
             />
 
-            <label>Avatar</label>
+            <label>Election Poster</label>
             <input
                 type="file"
                 accept="image/*"
@@ -88,4 +88,4 @@ const EditCandidateForm = ({ candidate, onSuccess, electionId, descript }) => {
     );
 };
 
-export default EditCandidateForm;
+export default EditElectionForm;
