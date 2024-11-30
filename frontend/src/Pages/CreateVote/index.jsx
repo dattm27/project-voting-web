@@ -5,9 +5,11 @@ import { CONTRACT } from '../../Utils/constant.js';
 import { prepareContractCall } from 'thirdweb';
 import { GET_NEW_VOTE } from '../../GraphQL/client.jsx';
 import { useQuery } from '@apollo/client';
-import {useNavigate } from 'react-router-dom';
+import { createRoutesFromChildren, useNavigate } from 'react-router-dom';
 import { createElection } from '../../Services/serverServices.js';
 import { uploadImageByFile } from '../../Services/CloudinaryServices.js';
+import { ethers } from 'ethers';
+import { contractABI } from '../../Utils/constant.js';
 function CreateVote() {
     const [title, setTitle] = useState("");
     const [endDate, setEndDate] = useState(""); // State for end date and time
@@ -64,11 +66,12 @@ function CreateVote() {
         }
     };
 
-    const handleCreateElection = async () => {
+    const handleCreateElection = async (id) => {
         try{
-            const {data} = await refetch();
-            if(data && data.newElections.length > 0){
-                const electionId = data.newElections[0].electionId;
+            // const {data} = await refetch();
+            // if(data && data.newElections.length > 0){
+                // const electionId = data.newElections[0].electionId;
+                const  electionId = id ;
                 const {photoLink} = await uploadImageByFile(photo);
                 console.log("Photo link:", photoLink);
                 const election = {
@@ -84,7 +87,7 @@ function CreateVote() {
 
                 const response = await createElection(election);
                 console.log("Election created:", response);
-            }
+            // }
         }
         catch(error){
             console.error('Error creating election:', error);
@@ -103,7 +106,7 @@ function CreateVote() {
                     id="title"
                     type="text"
                     value={title}
-                    onChange={(e) => {setTitle(e.target.value)}}
+                    onChange={(e) => setTitle(e.target.value)}
                     className={styles.input}
                     placeholder="Enter the title of your vote"
                 />
@@ -156,11 +159,37 @@ function CreateVote() {
                     })
                 }
                 className={styles.transactBtn}
-                onTransactionConfirmed={(tx) => {
-                    alert("Vote created successfully!");
-                    console.log("Transaction confirmed:", tx);
-                    handleGetElectionData();
-                    handleCreateElection();
+                onTransactionConfirmed={async (tx) => {
+                    // console.log("Transaction confirmed:", tx);
+                    //handleGetElectionData();    ---> khong can phai fetch lai toan bo du lieu nhu the
+                    //lay luon id tu tx log (nhung da bi ma huy -> phai decode)
+                  
+                    try {
+                        const logs = tx.logs;
+                        // console.log ('log', logs);
+                        //xac dinh event can decode tu abi
+                        const abiInterface = new ethers.Interface(contractABI);
+                        const event = abiInterface.getEvent("NewElection");
+                        // console.log('event', event);
+                        //lay ra event tu tx log
+                        const eventLog = logs.find(log => log.topics[0] === event.topicHash);
+                        if (!eventLog) {
+                            throw new Error("Event 'NewElection' not found in logs");
+                        }
+                        // lay id, title, election Address ra tu event log
+                        const {id, election}  = abiInterface.decodeEventLog(event, eventLog.data, eventLog.topics);
+                        await handleCreateElection(id.toString());
+                        alert("Vote created successfully!");
+                        // Redirect to the election address page
+                        navigate(`/vote/${election}`);
+                       
+                    }
+                    catch (error){
+                        console.log(error);
+                    }
+                    
+                    
+                    
                 }}
                 onTransactionFailed={(error) => {
                     console.error("Transaction failed:", error);
