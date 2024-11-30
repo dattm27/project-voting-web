@@ -6,5 +6,14 @@
         "PoolV2": {
             "address": "0xCe3cDA8d1348477065F3f97A8F3F914C5aA7d7D8"
         }
+    },
+    "fuji": {
+        "Election": {
+            "address": "0xD4f933e43e334f71A2857eb8AC91Ec7A717d7beD"
+        },
+        "ElectionFactory": {
+            "address": "0x49c736232045404150A5aE78D5C7972304ec7C59",
+            "impl": "0xA262166e8aa81983ccA430a925bE7D164EE659b9"
+        }
     }
 }
