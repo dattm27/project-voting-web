@@ -50,6 +50,54 @@ export const getElectionById = async (req: Request, res: Response) => {
     }
 };
 
+export const getElectionsByFilter = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { title, isEnd, minVotes, maxVotes } = req.query;
+        console.log('title', title);
+        console.log('isEnd', isEnd);
+        console.log('minVotes', minVotes);
+        console.log('maxVotes', maxVotes);
+
+        const queryBuilder = electionRepository.createQueryBuilder('election');
+
+        if (title) {
+            queryBuilder.andWhere('election.name LIKE :title', { title: `%${title}%` });
+        }
+
+        if (isEnd !== undefined) {
+            const now = new Date();
+            if (isEnd === 'true') {
+                queryBuilder.andWhere('election.endDate < :now', { now });
+            } else {
+                queryBuilder.andWhere('election.endDate >= :now', { now });
+            }
+        }
+
+        // if (minVotes !== undefined || maxVotes !== undefined) {
+        //     queryBuilder.leftJoinAndSelect('election.candidates', 'candidate');
+        //     if (minVotes !== undefined) {
+        //         const minVotesInt = parseInt(minVotes as string, 10);
+        //         if (!isNaN(minVotesInt)) {
+        //             queryBuilder.andWhere('candidate.votes >= :minVotes', { minVotes: minVotesInt });
+        //         }
+        //     }
+        //     if (maxVotes !== undefined) {
+        //         const maxVotesInt = parseInt(maxVotes as string, 10);
+        //         if (!isNaN(maxVotesInt)) {
+        //             queryBuilder.andWhere('candidate.votes <= :maxVotes', { maxVotes: maxVotesInt });
+        //         }
+        //     }
+        // }
+
+        const elections = await queryBuilder.getMany();
+
+        res.status(200).json(elections);
+    } catch (error) {
+        console.error('LỖI khi lấy các election theo filter', error);
+        res.status(500).json({ error: 'Lỗi máy chủ nội bộ' });
+    }
+};
+
 // Update an election by ID
 export const updateElection = async (req: Request, res: Response): Promise<void> => {
     try {
