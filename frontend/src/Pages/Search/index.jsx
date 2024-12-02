@@ -4,6 +4,7 @@ import { getElectionByFilter } from '../../Services/serverServices';
 import { useQuery } from '@apollo/client';
 import { GET_ELECTIONS } from '../../GraphQL/client';
 import { Link } from 'react-router-dom';
+import VoteCardSearch from '../../Components/VoteCardSearch'
 
 function SearchPage() {
     const [hasSearched, setHasSearched] = useState(false);
@@ -27,7 +28,7 @@ function SearchPage() {
             name: election.name,
             description: election.description,
             photoLink: election.photoLink,
-            endDate: election.endDate,
+            electionDue: election.endDate,
             votes: null,
             electionAddr: null,
         }));
@@ -59,8 +60,6 @@ function SearchPage() {
     return (
         <div className={styles.searchPage}>
             <form onSubmit={handleSearch} role="search" className={styles.searchForm}>
-                <label htmlFor="search">Search for votes</label>
-
                 <input
                     type="checkbox"
                     onChange={(e) => {
@@ -80,17 +79,7 @@ function SearchPage() {
                 <div className={styles.searchResults}>
                     {searchResults.length > 0 ? (
                         searchResults.map((result, index) => (
-                            <div key={index} className={styles.resultItem}>
-                                <Link
-                                    key={index}
-                                    to={`/vote/${result.electionAddr}`}
-                                    state={{ voteAddr: result.electionAddr }}
-                                >
-                                    <h2>{result.name}</h2>
-                                    <p>{result.description}</p>
-                                    <p>Votes: {result.votes}</p>
-                                </Link>
-                            </div>
+                            <VoteCardSearch key={index} election={result}/>
                         ))
                     ) : (
                         <p>No results found</p>
