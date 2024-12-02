@@ -90,6 +90,10 @@ export const getElectionsByFilter = async (req: Request, res: Response): Promise
                 const totalVotesB = b.candidates.reduce((total, candidate) => total + candidate.votes, 0);
                 return totalVotesA - totalVotesB;
             });
+
+            elections.map((election) => {
+                console.log('Election '+ election.name + ' has total votes: ' + election.candidates.reduce((total, candidate) => total + candidate.votes, 0));
+            });
         }
 
         res.status(200).json(elections);
