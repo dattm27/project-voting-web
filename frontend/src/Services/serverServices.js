@@ -25,7 +25,7 @@ export const getElectionById = async (id) => {
 
 export const getElectionByFilter = async (filter) => {
     try {
-        const response = await instance.get(`${endPointConfig.endpoints.electionsFilter}?title=${filter.title}&isEnd=${filter.isEnd}`);
+        const response = await instance.get(`${endPointConfig.endpoints.electionsFilter}?title=${filter.title}&isEnd=${filter.isEnd}&sortByCandidates=${filter.sortByCandidates}&sortByVotes=${filter.sortByVotes}`);
         return response.data;
     }
     catch (error) {
