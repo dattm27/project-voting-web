@@ -23,6 +23,17 @@ export const getElectionById = async (id) => {
     }
 };
 
+export const getElectionByFilter = async (filter) => {
+    try {
+        const response = await instance.get(`${endPointConfig.endpoints.electionsFilter}?title=${filter.title}&isEnd=${filter.isEnd}`);
+        return response.data;
+    }
+    catch (error) {
+        console.error(`Error fetching election with filter ${filter}:`, error);
+        throw error;
+    }
+}
+
 // Create a new election
 export const createElection = async (electionData) => {
     try {
