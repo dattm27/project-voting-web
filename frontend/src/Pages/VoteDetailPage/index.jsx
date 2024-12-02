@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import styles from './VoteDetailPage.module.scss';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { add_btn, vote_icon, vote_placeholder } from '../../Assets/index';
+import { add_btn, vote_card, vote_placeholder } from '../../Assets/index';
 import { prepareContractCall } from 'thirdweb';
 import { client, chain } from '../../Utils/constant.js';
 import { abi } from '../../Utils/voteContract.js';
@@ -79,10 +79,10 @@ const VoteDetailPage = () => {
             handleCloseEditCandidateModal();
             handleCloseEditElectionModal();
             handleCloseInfoModal();
-    
+
             // Refetch Apollo query data
             await refetch(); // Refetch candidates from GET_ELECTION_CANDIDATES
-            
+
             // Refetch backend data for the election
             if (electionData?.newElections[0]?.id) {
                 await handleGetElectionData(electionData?.newElections[0]?.id);
@@ -112,11 +112,11 @@ const VoteDetailPage = () => {
                         <>
                             <button
                                 className={styles.editImageBtn}
-                                onClick={() => {setIsModalEditElectionOpen(true);}}
+                                onClick={() => { setIsModalEditElectionOpen(true); }}
                             >
                                 Edit
                             </button>
-                           
+
                         </>
                     )}
                 </div>
@@ -124,7 +124,7 @@ const VoteDetailPage = () => {
                     <h2>{`ABOUT ${electionDataBe?.name?.toUpperCase()}`}</h2>
                     {/* <p>{`${electionDataBe?.description}`}</p>
                      */}
-                     <pre>{electionDataBe?.description}</pre>
+                    <pre>{electionDataBe?.description}</pre>
                 </div>
             </div>
             <h2>{isOwner ? 'Edit your vote' : (candidates.length ? 'Vote for Your Candidate' : 'No candidates added yet.')}</h2>
@@ -181,11 +181,9 @@ const VoteDetailPage = () => {
                                 </div>
                             )}
                         </div>
-                        <div className={styles.votesLabel}>
-                            <div className={styles.iconContainer}>
-                                <img className={styles.votesIcon} src={vote_icon} alt="Votes" />
-                            </div>
-                            <p>Votes: {candidate.votes}</p>
+                        <div className={styles['total_vote']}>
+                            <img src={vote_card}></img>
+                            <span>{candidate.votes}</span>
                         </div>
                     </div>
                 ))}
@@ -201,13 +199,13 @@ const VoteDetailPage = () => {
                 <AddCandidateForm contract={CONTRACT} voteAddr={voteAddr} onSuccess={handleRefetch} />
             </Modal>
             <Modal isOpen={isModalEditCandidateOpen} onClose={handleCloseEditCandidateModal}>
-                <EditCandidateForm onSuccess={handleRefetch} candidate={editingCandidate} electionId={electionData?.newElections[0]?.id} descript={electionDataBe?.candidates?.find((c)=>c.id == (editingCandidate?.id))?.description}/>
+                <EditCandidateForm onSuccess={handleRefetch} candidate={editingCandidate} electionId={electionData?.newElections[0]?.id} descript={electionDataBe?.candidates?.find((c) => c.id == (editingCandidate?.id))?.description} />
             </Modal>
             <Modal isOpen={isModalEditElectionOpen} onClose={handleCloseEditElectionModal}>
-                <EditElectionForm onSuccess={handleRefetch} election={electionDataBe}/>
+                <EditElectionForm onSuccess={handleRefetch} election={electionDataBe} />
             </Modal>
             <Modal isOpen={isModalInfoOpen} onClose={handleCloseInfoModal}>
-                <CandidateDescription candidate={editingCandidate} description={electionDataBe?.candidates?.find((c)=>c.id == (editingCandidate?.id))?.description} />
+                <CandidateDescription candidate={editingCandidate} description={electionDataBe?.candidates?.find((c) => c.id == (editingCandidate?.id))?.description} />
             </Modal>
         </div>
     );

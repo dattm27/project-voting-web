@@ -12,27 +12,38 @@
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
         transform: translateY(-3px);
     }
-
+    &.owner {
+        &::after {
+            content: "YOUR VOTE"; /* Overlay text for expired elections */
+            position: absolute;
+            top: 0;
+            right:0;
+            z-index: 1;
+            background-color: rgba(84, 174, 117, 0.8);
+            color: white;
+            padding: 10px 16px;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 0px 5px 0px 5px;
+        }
+    }
     &.disabled {
-        opacity: 0.4; /* Make the card appear disabled */
-        pointer-events: none;
-
+        
         &::before {
             content: "EXPIRED"; /* Overlay text for expired elections */
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 0;
+            left: 0;
             z-index: 1;
             background-color: rgba(255, 0, 0, 0.8);
             color: white;
             padding: 10px 16px;
-            font-size: 4rem;
+            font-size: 2rem;
             font-weight: bold;
-            border-radius: 5px;
+            border-radius: 5px 0px 5px 0px;
         }
+        
     }
-
     &__link {
         position: absolute;
         top: 0;
@@ -91,16 +102,46 @@
         }
     }
     &__title {
-        font-size: 2.4rem;
-        margin-bottom: 0.5rem;
-        font-weight: 500;
+        align-self: center;
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        font-weight: 300;
         color: #ffffff;
         text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    &__stat{
+        display: flex;
+        flex-direction: row;
+        height: 72px;
+        width: 100%;
+        gap: 10px;
+        // border-top: 2px solid rgb(255, 255, 255) ;
+        &__ele{
+            flex: 1;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            // border: 1px solid wheat;
+            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.253);
+            & img{
+                max-width: 52px;
+            }
+            & span{
+                font-weight: 500;
+                font-size: 3rem;
+
+            }
+        }
+        
+       
+    }
+    &__due{
+        margin-top: 10px;
     }
 
-    &__election-due {
-        font-size: 1.6rem;
-        font-weight: 300;
-        margin-top: 8px;
-    }
+   
 }

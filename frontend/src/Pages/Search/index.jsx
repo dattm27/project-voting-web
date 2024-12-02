@@ -35,7 +35,6 @@ function SearchPage() {
 
         result = result.map((election) => {
             const found = allElectionsData.newElections.find((el) => el.electionId == election.id);
-            console.log(found);
             if (found) {
                 election.votes = found.totalVotes;
                 election.electionAddr = found.electionAddr;

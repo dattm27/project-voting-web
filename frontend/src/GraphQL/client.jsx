@@ -31,7 +31,8 @@ export const GET_USER_ELECTIONS = gql`
       owner
       electionId
       electionAddr
-      blockTimestamp
+      electionEndTime
+      numOfCandidates
     }
   }
 `;
@@ -48,6 +49,7 @@ export const GET_ELECTIONS = gql`
       electionId
       electionAddr
       electionEndTime
+      numOfCandidates
     }
   }
 `;

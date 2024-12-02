@@ -39,6 +39,7 @@ function VotesPage() {
                 totalVotes: election.totalVotes,
                 electionAddr: election.electionAddr,
                 electionDue: election.electionEndTime,
+                numOfCandidates: election.numOfCandidates,
             }));
             setFilteredElectionData(formattedData);
         } else if (!showUserElections && allElectionsData?.newElections) {
@@ -49,6 +50,7 @@ function VotesPage() {
                 totalVotes: election.totalVotes,
                 electionAddr: election.electionAddr,
                 electionDue: election.electionEndTime,
+                numOfCandidates: election.numOfCandidates,
             }));
             setFilteredElectionData(formattedData);
         }
