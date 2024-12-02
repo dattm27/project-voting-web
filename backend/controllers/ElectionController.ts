@@ -61,8 +61,11 @@ export const getElectionsByFilter = async (req: Request, res: Response): Promise
         const queryBuilder = electionRepository.createQueryBuilder('election');
 
         if (title) {
-            queryBuilder.andWhere('election.name LIKE :title', { title: `%${title}%` });
+            // Convert title to lowercase for case-insensitive search
+            const lowerCaseTitle = title.toString().toLowerCase();
+            queryBuilder.andWhere('LOWER(election.name) LIKE :title', { title: `%${lowerCaseTitle}%` });
         }
+      
 
         if (isEnd !== undefined) {
             const now = new Date();
