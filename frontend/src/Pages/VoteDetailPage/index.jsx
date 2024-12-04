@@ -15,8 +15,11 @@ import AddCandidateForm from '../../Components/AddCandidateForm';
 import EditCandidateForm from '../../Components/EditCandidateForm';
 import EditElectionForm from '../../Components/EditElectionForm';
 import CandidateDescription from '../../Components/CandidateDescription';
-import { getElectionById } from '../../Services/serverServices.js';
+
 import { ProgressBar } from '@primer/react';
+
+import { getElectionById, updateCandidate } from '../../Services/serverServices.js';
+
 
 const VoteDetailPage = () => {
     const { voteAddr } = useParams();
@@ -107,7 +110,6 @@ const VoteDetailPage = () => {
 
             // Refetch Apollo query data
             await refetch(); // Refetch candidates from GET_ELECTION_CANDIDATES
-
             // Refetch backend data for the election
             if (electionData?.newElections[0]?.id) {
                 await handleGetElectionData(electionData?.newElections[0]?.id);
@@ -116,6 +118,7 @@ const VoteDetailPage = () => {
             console.error('Error refetching data:', error);
         }
     };
+
 
     // Add this function to calculate total votes
     const calculateTotalVotes = () => {
@@ -126,6 +129,21 @@ const VoteDetailPage = () => {
     const calculateVotePercentage = (votes) => {
         const totalVotes = calculateTotalVotes();
         return totalVotes === 0 ? 0 : (votes / totalVotes) * 100;
+    }
+    const handleVoteSuccessFullyOnBackend = async (candidate) => {
+        try {
+            // Refetch Apollo query data
+            await refetch(); // Refetch candidates from GET_ELECTION_CANDIDATES
+            const candidateId = parseInt(candidate.id, 10);
+            const electionId = parseInt(electionDataBe.id, 10);
+            // Refetch backend data for the election
+            if (electionData?.newElections[0]?.id) {
+                await updateCandidate(candidateId, electionId, { voteCount: candidate.votes });
+            }
+        } catch (error) {
+            console.error('Error refetching data:', error);
+        }
+
     };
 
     // Loading and error handling
@@ -212,9 +230,18 @@ const VoteDetailPage = () => {
                                 <div className={styles.buttonContainer}>
                                     <TransactionButton
                                         transaction={() => prepareContractCall({ contract: CONTRACT, method: 'vote', params: [candidate.id] })}
-                                        onTransactionConfirmed={() => {
+                                        onTransactionConfirmed={async () => {
+                                            const fetch = await refetch();
+                                            console.log('fetch', fetch);
+                                            handleVoteSuccessFullyOnBackend(
+                                                {
+                                                    id: candidate.id,
+                                                    votes: fetch.data.newCandidates.find((c) => c.candidateId === candidate.id).voteCount,
+                                                }
+                                            );
+
                                             alert('Vote successfully!');
-                                            refetch();
+                                            
                                         }}
                                         disabled={!!voterData?.newVotes?.length}
                                         onError={(error) => {

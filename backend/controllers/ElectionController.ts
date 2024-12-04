@@ -52,17 +52,22 @@ export const getElectionById = async (req: Request, res: Response) => {
 
 export const getElectionsByFilter = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { title, isEnd, minVotes, maxVotes } = req.query;
+        const { title, isEnd, sortByCandidates, sortByVotes } = req.query;
         console.log('title', title);
         console.log('isEnd', isEnd);
-        console.log('minVotes', minVotes);
-        console.log('maxVotes', maxVotes);
+        console.log('sortByCandidates', sortByCandidates);
+        console.log('sortByVotes', sortByVotes);
 
         const queryBuilder = electionRepository.createQueryBuilder('election');
 
+        queryBuilder.leftJoinAndSelect('election.candidates', 'candidate');
+
         if (title) {
-            queryBuilder.andWhere('election.name LIKE :title', { title: `%${title}%` });
+            // Convert title to lowercase for case-insensitive search
+            const lowerCaseTitle = title.toString().toLowerCase();
+            queryBuilder.andWhere('LOWER(election.name) LIKE :title', { title: `%${lowerCaseTitle}%` });
         }
+      
 
         if (isEnd !== undefined) {
             const now = new Date();
@@ -73,23 +78,23 @@ export const getElectionsByFilter = async (req: Request, res: Response): Promise
             }
         }
 
-        // if (minVotes !== undefined || maxVotes !== undefined) {
-        //     queryBuilder.leftJoinAndSelect('election.candidates', 'candidate');
-        //     if (minVotes !== undefined) {
-        //         const minVotesInt = parseInt(minVotes as string, 10);
-        //         if (!isNaN(minVotesInt)) {
-        //             queryBuilder.andWhere('candidate.votes >= :minVotes', { minVotes: minVotesInt });
-        //         }
-        //     }
-        //     if (maxVotes !== undefined) {
-        //         const maxVotesInt = parseInt(maxVotes as string, 10);
-        //         if (!isNaN(maxVotesInt)) {
-        //             queryBuilder.andWhere('candidate.votes <= :maxVotes', { maxVotes: maxVotesInt });
-        //         }
-        //     }
-        // }
-
         const elections = await queryBuilder.getMany();
+
+        if (sortByCandidates === 'true') {
+            elections.sort((a, b) => b.candidates.length - a.candidates.length);
+        }
+
+        if (sortByVotes === 'true') {
+            elections.sort((a, b) => {
+                const totalVotesA = a.candidates.reduce((total, candidate) => total + candidate.votes, 0);
+                const totalVotesB = b.candidates.reduce((total, candidate) => total + candidate.votes, 0);
+                return totalVotesA - totalVotesB;
+            });
+
+            elections.map((election) => {
+                console.log('Election '+ election.name + ' has total votes: ' + election.candidates.reduce((total, candidate) => total + candidate.votes, 0));
+            });
+        }
 
         res.status(200).json(elections);
     } catch (error) {
