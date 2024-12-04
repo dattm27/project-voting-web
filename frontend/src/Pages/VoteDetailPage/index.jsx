@@ -16,6 +16,7 @@ import EditCandidateForm from '../../Components/EditCandidateForm';
 import EditElectionForm from '../../Components/EditElectionForm';
 import CandidateDescription from '../../Components/CandidateDescription';
 import { getElectionById } from '../../Services/serverServices.js';
+import { ProgressBar } from '@primer/react';
 
 const VoteDetailPage = () => {
     const { voteAddr } = useParams();
@@ -43,8 +44,32 @@ const VoteDetailPage = () => {
     // Effect to handle candidates and ownership logic
     useEffect(() => {
         if (data?.newCandidates) {
-            setCandidates(data.newCandidates.map(({ candidateId, name, voteCount }) => ({ id: candidateId, name: name, votes: voteCount })));
-            setIsOwner(electionData?.newElections[0]?.owner.toLowerCase() === activeAccount?.address.toLowerCase());
+            const colors = [
+                '#FFB3BA', // Pastel Red
+                '#FFDFBA', // Pastel Orange
+                '#FFFFBA', // Pastel Yellow
+                '#BAFFC9', // Pastel Green
+                '#BAE1FF', // Pastel Blue
+                '#FFB3FF', // Pastel Pink
+                '#B3B3FF', // Pastel Purple
+                '#FFB347', // Pastel Peach
+                '#B3FFB3', // Pastel Mint
+                '#FFCCFF'  // Pastel Lavender
+            ];
+            const sortedCandidates = data.newCandidates
+                .map(({ candidateId, name, voteCount }, index) => ({
+                    id: candidateId,
+                    name: name,
+                    votes: voteCount,
+                    color: colors[index % colors.length], // Cycle through colors
+                }))
+                .sort((a, b) => b.votes - a.votes);
+
+            setCandidates(sortedCandidates);
+            setIsOwner(
+                electionData?.newElections[0]?.owner.toLowerCase() ===
+                activeAccount?.address.toLowerCase()
+            );
         }
     }, [data, electionData, activeAccount]);
 
@@ -92,6 +117,17 @@ const VoteDetailPage = () => {
         }
     };
 
+    // Add this function to calculate total votes
+    const calculateTotalVotes = () => {
+        return candidates.reduce((sum, candidate) => sum + parseInt(candidate.votes), 0);
+    };
+
+    // Add this function to calculate vote percentage
+    const calculateVotePercentage = (votes) => {
+        const totalVotes = calculateTotalVotes();
+        return totalVotes === 0 ? 0 : (votes / totalVotes) * 100;
+    };
+
     // Loading and error handling
     if (loading) return <p>Loading candidates...</p>;
     if (error) return <p>Error loading candidates: {error.message}</p>;
@@ -127,7 +163,27 @@ const VoteDetailPage = () => {
                     <pre>{electionDataBe?.description}</pre>
                 </div>
             </div>
-            <h2>{isOwner ? 'Edit your vote' : (candidates.length ? 'Vote for Your Candidate' : 'No candidates added yet.')}</h2>
+            <h2 className={styles.overallProgressHeading}>{"Overall Progress"}</h2>
+
+            <div className={styles.overallProgressBar}>
+                <ProgressBar aria-label="Candidate Votes">
+                    {candidates.map((candidate) => (
+                        <ProgressBar.Item
+                            key={candidate.id}
+                            progress={calculateVotePercentage(candidate.votes)}
+                            sx={{
+                                bg: candidate.color, // Use candidate's color
+                            }}
+                        />
+                    ))}
+                </ProgressBar>
+                {candidates.map((candidate) => (
+                    <div key={candidate.id} className={styles.voteInfo}>
+                        <span style={{ color: candidate.color }}>{candidate.name}</span>: {calculateVotePercentage(candidate.votes).toFixed(1)}%
+                    </div>
+                ))}
+            </div>
+            <h2 className={styles.overallProgressHeading}>{isOwner ? 'Edit your vote' : (candidates.length ? 'Vote for Your Candidate' : 'No candidates added yet.')}</h2>
             <div className={styles.candidatesList}>
 
                 {/* Render candidates */}
