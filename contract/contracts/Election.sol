@@ -33,6 +33,12 @@ contract Election is Ownable {
         endElectionTime = block.timestamp +  _duration;
     }
 
+    modifier notOwner() {
+        require(msg.sender != owner(), "Owner cannot call this function");
+        _;
+    }
+
+
     // Add a candidate to the list
     function addCandidate(string memory name, string memory party) public onlyOwner returns(uint) {
         require(isCandidate[name] == false, "DUPLICATE");
@@ -40,7 +46,6 @@ contract Election is Ownable {
         candidates[countCandidates] = Candidate(countCandidates, name, party, 0);
         isCandidate[name] = true;
         emit NewCandidate(electionId, countCandidates, name, party);
-
         return countCandidates;
     }
 
@@ -62,7 +67,8 @@ contract Election is Ownable {
     }
 
     // Vote for a candidate
-    function vote(uint _candidateId) public {
+    //owner can not vote 
+    function vote(uint _candidateId) public notOwner(){
         require(isActive, "Election is not active");
         require(block.timestamp <= endElectionTime, "Election is ended");
         require(_candidateId > 0 && _candidateId <= countCandidates, "Invalid candidate ID");
