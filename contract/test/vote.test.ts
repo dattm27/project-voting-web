@@ -90,6 +90,18 @@ describe("Election", function () {
             await expect(election.connect(addr1).vote(1)).to.be.revertedWith("Election is ended");
 
         })
-    })
 
+        it("should reject onwer vote", async function () {
+            const { election } = await loadFixture(deployFixture);
+            await election.addCandidate("Candidate 1", "Party A");
+            await election.activateVote();
+            const voteCount = await election.getVoteCount(1);
+            expect(voteCount).to.equal(0); // Initially vote count should be 0
+
+            await expect(election.vote(1)).to.be.reverted;
+            await election.connect(addr1).vote(1);
+            const updatedVoteCount = await election.getVoteCount(1);
+            expect(updatedVoteCount).to.equal(1); // Vote count should now be 1
+        })
+    })
 });
