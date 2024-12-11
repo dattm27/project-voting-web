@@ -23,7 +23,7 @@ jobs:
       run: |
         curl -X POST \
           -H "Accept: application/json" \
-          -H "Authorization: Bearer $RENDER_API_KEY" \
+          -H "Authorization: Bearer ${{env.RENDER_API_KEY}}" \
           -H "Content-Type: application/json" \
           -d '{"serviceId": "'"${{ env.RENDER_SERVICE_ID }}"'", "clearCache": false}' \
           https://api.render.com/v1/services/${{ env.RENDER_SERVICE_ID }}/deploys
