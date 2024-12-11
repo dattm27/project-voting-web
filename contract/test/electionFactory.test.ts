@@ -7,7 +7,6 @@ describe("ElectionFactory", function () {
   let owner: Signer;
   let operator: Signer;
   let nonOperator: Signer;
-  var ElectionFactoryFactory: ElectionFactory__factory;
   var electionFactory: ElectionFactory;
   let electionAddress: string;
   let election: Election;
@@ -16,7 +15,7 @@ describe("ElectionFactory", function () {
     [owner, operator, nonOperator] = await hre.ethers.getSigners();
 
     // Triển khai ElectionFactory
-    ElectionFactoryFactory = await hre.ethers.getContractFactory("ElectionFactory");
+    const ElectionFactoryFactory:  ElectionFactory__factory = await hre.ethers.getContractFactory("ElectionFactory");
     electionFactory = await hre.upgrades.deployProxy(
       ElectionFactoryFactory,
       [await operator.getAddress()],
@@ -32,20 +31,16 @@ describe("ElectionFactory", function () {
     expect(isOperator).to.be.true;
   });
 
-  it("should create a new Election contract with specified owner", async function () {
+  it("should create a new Election contract with specified title", async function () {
     // Kết nối với operator để gọi hàm createVote
     const electionTx = await electionFactory
       .connect(operator)
-      .createElection(await owner.getAddress());
-
+      .createElection("Election 1",60*60);
     expect( await  electionFactory.electionCreated()).to.equal(1);
-
-
   });
 
-  it("should fail to create an Election if sender is not OPERATOR", async function () {
-    await expect(
-      electionFactory.connect(nonOperator).createElection(await owner.getAddress())
-    ).to.be.reverted;
-  });
+  it ("can not create a new Election with an existing title", async function () {
+    const electionTx = await electionFactory.createElection("Election 1",60*60);
+    await expect(electionFactory.createElection("Election 1",60*64)).to.be.revertedWith("DUPLICATE");
+  })
 });

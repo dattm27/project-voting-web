@@ -3,7 +3,9 @@ import { ethereum, BigInt, Address } from "@graphprotocol/graph-ts"
 import {
   NewCandidate,
   NewVote,
-  OwnershipTransferred
+  OwnershipTransferred,
+  Pause,
+  Unpause
 } from "../generated/Election/Election"
 
 export function createNewCandidateEvent(
@@ -94,4 +96,20 @@ export function createOwnershipTransferredEvent(
   )
 
   return ownershipTransferredEvent
+}
+
+export function createPauseEvent(): Pause {
+  let pauseEvent = changetype<Pause>(newMockEvent())
+
+  pauseEvent.parameters = new Array()
+
+  return pauseEvent
+}
+
+export function createUnpauseEvent(): Unpause {
+  let unpauseEvent = changetype<Unpause>(newMockEvent())
+
+  unpauseEvent.parameters = new Array()
+
+  return unpauseEvent
 }

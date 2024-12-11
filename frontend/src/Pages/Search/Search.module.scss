@@ -1,0 +1,100 @@
+.searchPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh; /* Full viewport height */
+  background-color: rgba(133, 133, 133, 0.195);
+  animation: slideIn 0.4s ease-in-out;
+  padding: 2rem; /* Add padding for spacing */
+
+  div {
+    width: 100%;
+  }
+
+  form {
+    display: flex;
+    align-items: center; /* Align items horizontally */
+    justify-content: center;
+    gap: 1rem; /* Space between search and filter */
+    width: 100%;
+    max-width: 80rem; /* Constrain form width */
+    margin-bottom: 2rem; /* Space below the form */
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.85); /* Subtle background for better visibility */
+    border-radius: 0.7rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+    input[type='search'] {
+      flex: 1; /* Take available space */
+      height: 4.5rem; /* Adjust height */
+      font-family: 'Lato', sans-serif;
+      border: none;
+      font-size: 1.6rem;
+      padding: 0 1rem;
+      border-radius: 0.5rem;
+      outline: none;
+      background: rgba(255, 255, 255, 0.65);
+      transition: all 0.3s cubic-bezier(0, 0, 0.43, 1.49);
+    }
+
+    input[type='checkbox'] {
+      appearance: none; /* Remove default styling */
+      width: 2rem;
+      height: 2rem;
+      border: 2px solid #fa5252;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      position: relative;
+
+      &:checked {
+        background-color: #fa5252;
+      }
+
+      &:checked::after {
+        content: '';
+        position: absolute;
+        top: 0.4rem;
+        left: 0.4rem;
+        width: 1rem;
+        height: 1rem;
+        background: #fff;
+        border-radius: 0.2rem;
+      }
+    }
+
+    button {
+      height: 4.5rem;
+      padding: 0 2rem;
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: white;
+      background: #fa5252;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background: #e64545;
+      }
+    }
+  }
+
+  .searchResults {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3-column grid */
+    gap: 2rem;
+    width: 100%;
+    max-width: 80rem; /* Constrain grid width */
+    padding: 1rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(2, 1fr); /* 2 columns on tablets */
+    }
+
+    @media (max-width: 576px) {
+      grid-template-columns: 1fr; /* Single column on smaller screens */
+    }
+  }
+}

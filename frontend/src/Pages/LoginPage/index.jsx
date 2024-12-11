@@ -6,7 +6,7 @@ import styles from './LoginPage.module.scss';
 
 function LoginPage() {
   const [account, setAccount] = useState();
-  const { sdk, connected, connecting, provider, chainId } = useSDK();
+  const { sdk, connected, connecting, chainId } = useSDK();
 
   const connect = async () => {
     try {

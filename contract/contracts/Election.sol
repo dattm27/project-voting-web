@@ -14,23 +14,37 @@ contract Election is Ownable {
 
     mapping (uint => Candidate) public candidates;
     mapping (address => bool) public voters;
+    mapping (string => bool) public isCandidate;
 
     event NewVote(uint256 electionId, address indexed voter, uint256 candidateId, uint256 timestamp);
     event NewCandidate(uint256 electionId, uint256 candidateId, string name, string patry);
+    event Pause(uint256 electionId);
+    event Unpause(uint256 electionId);
+
     uint public electionId;
     uint public countCandidates;
     bool public isActive;
+    uint public endElectionTime;
 
     // Constructor to initialize the voting start and end dates
-    constructor(uint256 _electionId ,address _owner) Ownable(_owner) {
+    constructor(uint256 _electionId ,address _owner, uint _duration) Ownable(_owner) {
         electionId = _electionId;
-        isActive = false;
+        isActive = true;
+        endElectionTime = block.timestamp +  _duration;
     }
+
+    modifier notOwner() {
+        require(msg.sender != owner(), "Owner cannot call this function");
+        _;
+    }
+
 
     // Add a candidate to the list
     function addCandidate(string memory name, string memory party) public onlyOwner returns(uint) {
+        require(isCandidate[name] == false, "DUPLICATE");
         countCandidates++;
         candidates[countCandidates] = Candidate(countCandidates, name, party, 0);
+        isCandidate[name] = true;
         emit NewCandidate(electionId, countCandidates, name, party);
         return countCandidates;
     }
@@ -38,13 +52,27 @@ contract Election is Ownable {
     function activateVote() public onlyOwner() {
         isActive = true;
     }
+    
+    function pause () public onlyOwner() {
+        require(isActive == true, "Election is already paused");
+        isActive = false;
+        emit Pause(electionId);
+
+    }
+
+    function unpause () public onlyOwner() {
+        require(isActive == false && block.timestamp <= endElectionTime, "Unable to unpaused");
+        isActive = true;
+        emit Unpause(electionId);
+    }
 
     // Vote for a candidate
-    function vote(uint _candidateId) public {
-        require(isActive, "Voting is not active");
+    //owner can not vote 
+    function vote(uint _candidateId) public notOwner(){
+        require(isActive, "Election is not active");
+        require(block.timestamp <= endElectionTime, "Election is ended");
         require(_candidateId > 0 && _candidateId <= countCandidates, "Invalid candidate ID");
         require(!voters[msg.sender], "You have already voted");
-
         voters[msg.sender] = true;
         candidates[_candidateId].voteCount++;
 

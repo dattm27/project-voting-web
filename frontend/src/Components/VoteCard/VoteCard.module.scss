@@ -1,0 +1,147 @@
+.vote-card {
+    background: linear-gradient(135deg, rgba(60, 60, 60, 0.38), rgba(30, 30, 30, 0.391));
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.8rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    position: relative;
+    break-inside: avoid; /* Prevent breaks between columns */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        transform: translateY(-3px);
+    }
+    &.owner {
+        &::after {
+            content: "YOUR VOTE"; /* Overlay text for expired elections */
+            position: absolute;
+            top: 0;
+            right:0;
+            z-index: 1;
+            background-color: rgba(84, 174, 117, 0.8);
+            color: white;
+            padding: 10px 16px;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 0px 5px 0px 5px;
+        }
+    }
+    &.disabled {
+        
+        &::before {
+            content: "EXPIRED"; /* Overlay text for expired elections */
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            background-color: rgba(255, 0, 0, 0.8);
+            color: white;
+            padding: 10px 16px;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 5px 0px 5px 0px;
+        }
+        
+    }
+    &__link {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 100;
+    }
+
+    &__image {
+        width: 100%;
+        height: auto; /* Maintain aspect ratio */
+        object-fit: cover;
+        transition: transform 0.8s ease;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+
+    &__text-wrapper {
+        padding: 1.4rem;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-start;
+
+        .votesLabel {
+            background-color: rgb(119, 172, 91);
+            margin-top: 20px;
+            width: 50%;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+
+            .iconContainer {
+                border: 2px solid rgb(133, 197, 99);
+                padding: 5px;
+                margin-right: 20px;
+                background-color: #ffffff;
+                height: 100%;
+                overflow: hidden;
+                border-radius: 8px;
+
+                .votesIcon {
+                    width: 30px;
+                }
+            }
+
+            p {
+                font-size: 1.8rem;
+                font-weight: bold;
+                color: rgb(255, 255, 255);
+            }
+        }
+    }
+    &__title {
+        align-self: center;
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        font-weight: 300;
+        color: #ffffff;
+        text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    &__stat{
+        display: flex;
+        flex-direction: row;
+        height: 72px;
+        width: 100%;
+        gap: 10px;
+        // border-top: 2px solid rgb(255, 255, 255) ;
+        &__ele{
+            flex: 1;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            // border: 1px solid wheat;
+            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.253);
+            & img{
+                max-width: 52px;
+            }
+            & span{
+                font-weight: 500;
+                font-size: 3rem;
+
+            }
+        }
+        
+       
+    }
+    &__due{
+        margin-top: 10px;
+    }
+
+   
+}
