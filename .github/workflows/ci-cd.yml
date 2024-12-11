@@ -17,12 +17,19 @@ jobs:
 
     - name: Notify Render to deploy
       env:
-        RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
-        RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
+        # RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+        # RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
+        # RENDER_SERVICE_KEY: ${{ secrets.RENDER_SERVICE_KEY }}
+        # #   rnd_p6UDQhliszIevEDkvI4WhxHO2u3R
+        RENDER_API_KEY: rnd_p6UDQhliszIevEDkvI4WhxHO2u3R
+        RENDER_SERVICE_ID: srv-ct9shkd6l47c73beh1gg
+        RENDER_SERVICE_KEY: v7xCCuUa_Z0
+        
+        #   https://api.render.com/deploy/srv-ct9shkd6l47c73beh1gg?key=v7xCCuUa_Z0
       run: |
         curl -X POST \
           -H "Accept: application/json" \
-          -H "Authorization: Bearer $RENDER_API_KEY" \
+          -H "Authorization: Bearer ${{env.RENDER_API_KEY}}" \
           -H "Content-Type: application/json" \
-          -d '{"serviceId": "'"${{ secrets.RENDER_SERVICE_ID }}"'", "clearCache": false}' \
-          https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys
+          -d '{"serviceId": "'"${{ env.RENDER_SERVICE_ID }}"'", "clearCache": false}' \
+          https://api.render.com/deploy/${{ env.RENDER_SERVICE_ID }}?key=${{ env.RENDER_SERVICE_KEY }}
