@@ -1,19 +1,17 @@
-
-
 import { useState, useEffect } from 'react';
 import { app_logo as Logo } from "../../Assets";
 import styles from './Navbar.module.scss';
 import { Link, useLocation } from "react-router-dom";
 import { search, createVote, homeIcon } from '../../Assets';
 
-import { ConnectButton,darkTheme } from "thirdweb/react";
-import { createWallet, inAppWallet} from "thirdweb/wallets";
+import { ConnectButton, darkTheme } from "thirdweb/react";
+import { createWallet, inAppWallet } from "thirdweb/wallets";
 import { client } from '../../Utils/constant.js';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [activeTab, setActiveTab] = useState('');
-    // const [account, setAccount] = useState();
+    const [theme, setTheme] = useState('light'); // New state for theme
     const location = useLocation();
     const wallets = [
         inAppWallet({
@@ -41,6 +39,22 @@ const Navbar = () => {
         }
     }, [location]);
 
+    // Load theme preference from localStorage
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            setTheme(savedTheme);
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        }
+    }, []);
+
+    const toggleTheme = () => {
+        const newTheme = theme === 'light' ? 'dark' : 'light';
+        setTheme(newTheme);
+        document.querySelector("body").setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+    };
+
     const toggleMenu = () => {
         setIsOpen(!isOpen);
     };
@@ -57,22 +71,25 @@ const Navbar = () => {
                 <Link to="/search" onClick={() => setActiveTab("search")}>
                     <li className={`${activeTab === 'search' ? styles.active : ''}`}>
                         <img src={search} alt='icon' />
-                        Search</li>
+                        Search
+                    </li>
                 </Link>
                 <Link to="/" onClick={() => setActiveTab("votes")}>
                     <li className={`${activeTab === 'votes' ? styles.active : ''}`}>
                         <img src={homeIcon} alt='icon' />
-                        Votes</li>
+                        Votes
+                    </li>
                 </Link>
                 <Link to="/create-vote" onClick={() => setActiveTab("createvote")}>
                     <li className={`${activeTab === 'createvote' ? styles.active : ''}`}>
                         <img src={createVote} alt='icon' style={{ 'maxWidth': '30px' }} />
-                        Create Vote</li>
+                        Create Vote
+                    </li>
                 </Link>
             </ul>
 
             <div className={styles.navRight}>
-                <div >
+                <div>
                     <ConnectButton
                         client={client}
                         wallets={wallets}
@@ -83,9 +100,11 @@ const Navbar = () => {
                             },
                         })}
                         connectModal={{ size: "compact" }}
-                        // className={styles.transactBtn}
                     />
                 </div>
+                <button className={styles.themeToggle} onClick={toggleTheme}>
+                    {theme === 'light' ? '🌑' : '🌕'}
+                </button>
             </div>
             <div
                 className={`${styles.hamburger} ${isOpen ? styles.hamburgerActive : ''}`}
@@ -115,4 +134,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
