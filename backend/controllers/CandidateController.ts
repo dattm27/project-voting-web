@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { Candidate } from '../models/Candidate';
 import AppDataSource from '../config/database';
 import { CloudinaryServices } from '../services/CloudinaryServices';
+import {CustomRequest} from '../middleware/auth';
 
 const candidateRepository = AppDataSource.getRepository(Candidate);
 
@@ -21,6 +22,11 @@ export const createCandidate = async (req: Request, res: Response) : Promise<voi
 // Get all candidates
 export const getCandidatesByElectionId = async (req: Request, res: Response) => {
     try {
+        const a = (req as CustomRequest).user;
+        if(!a){
+            res.status(401).json({ message: 'Access token is missing or invalid' });
+            return;
+        }
         const electionId = req.params.electionId;
         const candidates = await candidateRepository.find(
             { where: { electionId: parseInt(electionId, 10) } },

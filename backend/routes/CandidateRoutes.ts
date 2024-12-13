@@ -1,12 +1,19 @@
-import { Router } from 'express';
-import { createCandidate, getCandidatesByElectionId, getDetailCandidate, updateCandidate, deleteCandidate } from '../controllers/CandidateController';
+import express from "express";
+import authenticateJWT from "../middleware/auth";
+import {
+    createCandidate,
+    getCandidatesByElectionId,
+    getDetailCandidate,
+    updateCandidate,
+    deleteCandidate,
+} from "../controllers/CandidateController";
 
-const router = Router();
+const router = express.Router();
 
-router.post('/candidates', createCandidate);
-router.get('/candidates/:electionId', getCandidatesByElectionId);
-router.get('/candidates/:id/:electionId', getDetailCandidate);
-router.put('/candidates/:id/:electionId', updateCandidate);
-router.delete('/candidates/:id/:electionId', deleteCandidate);
+router.post("/candidates", authenticateJWT, createCandidate);
+router.get("/candidates/:electionId", authenticateJWT, getCandidatesByElectionId);
+router.get("/candidates/:id/:electionId", authenticateJWT, getDetailCandidate);
+router.put("/candidates/:id/:electionId", authenticateJWT, updateCandidate);
+router.delete("/candidates/:id/:electionId", authenticateJWT, deleteCandidate);
 
 export default router;

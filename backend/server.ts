@@ -3,7 +3,8 @@ import { config as configDotenv } from 'dotenv';
 import cors from 'cors';
 import electionRoutes from './routes/ElectionRoutes';
 import candidateRoutes from './routes/CandidateRoutes';
-import AppDataSource from './config/database'
+import AppDataSource from './config/database';
+import loginRoutes from './routes/Login';
 
 configDotenv();
 
@@ -13,6 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 // Sử dụng các routes
+app.use('/api/login', loginRoutes);
 app.use('/api', electionRoutes, candidateRoutes);
 
 const PORT = process.env.PORT || 3000;
