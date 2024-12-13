@@ -6,12 +6,37 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    h1 {
-        font-size: 4.6rem;
-        margin-bottom: 20px;
-        color: var(--text-solf-color);
-    }
 
+    .voteHeadBar{
+        display: flex;
+        justify-content: center;
+        position: relative;
+        width: 90%;
+        h1{
+            font-size: 4.6rem;
+            margin-bottom: 20px;
+            color: var(--text-solf-color);
+        }
+        .history_btn{
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            span{
+                font-weight: 500;
+                font-size: 2rem;
+            }
+            .history_icon{
+                width: 30px;
+            }
+        }
+        .history_btn:hover{
+            color: var(--primary-red);
+        }
+    }
     h2 {
         color: var(--text-solf-color);
         padding-top: 20px;
@@ -22,7 +47,6 @@
     .voteHeading {
         display: flex;
         justify-content: space-between;
-        // height: auto; /* Allow height to adjust dynamically */
         width: 90%;
         height: 64vh;
         align-items: stretch; /* Ensure equal height of children */
@@ -90,7 +114,6 @@
             backdrop-filter: blur(20px);
             border-radius: 8px;
             padding: 10px 16px;
-            margin: 0px 16px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             font-family: 'Arial', sans-serif;
             display: flex;
@@ -403,3 +426,4 @@
     font-weight: bold; // Optional: make it bold
     margin-bottom: 1rem; // Optional: add some space below
 }
+

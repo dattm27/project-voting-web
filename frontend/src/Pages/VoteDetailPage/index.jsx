@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import styles from './VoteDetailPage.module.scss';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { add_btn, vote_card, vote_placeholder } from '../../Assets/index';
+import { add_btn, vote_card, vote_placeholder,history } from '../../Assets/index';
 import { prepareContractCall } from 'thirdweb';
 import { client, chain } from '../../Utils/constant.js';
 import { abi } from '../../Utils/voteContract.js';
@@ -15,6 +15,7 @@ import AddCandidateForm from '../../Components/AddCandidateForm';
 import EditCandidateForm from '../../Components/EditCandidateForm';
 import EditElectionForm from '../../Components/EditElectionForm';
 import CandidateDescription from '../../Components/CandidateDescription';
+import { Link } from "react-router-dom";
 
 import { ProgressBar } from '@primer/react';
 
@@ -152,7 +153,17 @@ const VoteDetailPage = () => {
 
     return (
         <div className={styles.votePage}>
+            <div className={styles.voteHeadBar}>
+            <Link
+                to={`/vote/history/${voteAddr}`}
+                state={{ voteAddr: voteAddr }}
+                className={styles['history_btn']}
+            >   
+            <span>Vote History</span>
+                <img src={history} alt='history_icon' className={styles.history_icon}/>
+            </Link>
             <h1 className={styles.voteTitle}>{electionData?.newElections[0]?.title.toUpperCase() || 'Loading title...'}</h1>
+            </div>
 
             <div className={styles.voteHeading}>
 
@@ -241,7 +252,7 @@ const VoteDetailPage = () => {
                                             );
 
                                             alert('Vote successfully!');
-                                            
+
                                         }}
                                         disabled={!!voterData?.newVotes?.length}
                                         onError={(error) => {
@@ -278,6 +289,8 @@ const VoteDetailPage = () => {
                     </div>
                 )}
             </div>
+            
+
             <Modal isOpen={isModalAddOpen} onClose={handleCloseAddModal}>
                 <AddCandidateForm contract={CONTRACT} voteAddr={voteAddr} onSuccess={handleRefetch} />
             </Modal>

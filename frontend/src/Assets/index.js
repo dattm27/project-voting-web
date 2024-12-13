@@ -13,4 +13,13 @@ import vote_icon from './images/vote.png'
 import vote_placeholder from './images/votePlaceHolder.png'
 import vote_card from './images/voteCard.png'
 import vote_candidate from './images/voteCandidate.png'
-export {search, upload_svg, newsfeed,make_vote,vote_icon, create_vote,newsfeed_vote, app_logo,createVote,homeIcon, add_btn,vote_placeholder,vote_candidate,vote_card}
+import back from './images/back.png'
+import history from './images/history.png'
+export {
+    search, upload_svg, newsfeed,
+    make_vote, vote_icon, create_vote,
+    newsfeed_vote, app_logo, createVote,
+    homeIcon, add_btn, vote_placeholder,
+    vote_candidate, vote_card, back,
+    history
+}

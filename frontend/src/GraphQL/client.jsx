@@ -128,4 +128,21 @@ query MyQuery ($electionAddr: String!){
   }
 }
 `;
+export const GET_ELECTION_HISTORY = gql`
+query HistoryQuery ($electionAddr: String!){
+  newVotes(
+    where: {electionId_: {electionAddr: $electionAddr}}
+    orderBy: timestamp
+    orderDirection: desc
+  ) {
+    voter
+    timestamp
+    transactionHash
+    candidateId {
+      name
+      candidateId
+    }
+  }
+}
+`;
 

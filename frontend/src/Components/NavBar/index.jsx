@@ -44,7 +44,7 @@ const Navbar = () => {
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme) {
             setTheme(savedTheme);
-            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.querySelector("body").setAttribute('data-theme', savedTheme);
         }
     }, []);
 

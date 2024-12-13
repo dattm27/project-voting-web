@@ -11,6 +11,7 @@ import CreateVote from "../Pages/CreateVote";
 import VoteDetailPage from '../Pages/VoteDetailPage';
 import TestPage from "../Pages/TestPage";
 import NotFoundPage from "../Pages/NotFoundPage";
+import HistoryPage  from "../Pages/HistoryPage";
 //public routes
 
 function HomeSite() {
@@ -20,29 +21,14 @@ function HomeSite() {
         </DefaultLayout>
     )
 }
-
-function LoginSite() {
-
-    const [login, setLogin] = useState(null)
+function HistorySite() {
     return (
-        
-            <MetaMaskProvider
-                debug={true}
-                sdkOptions={{
-                    dappMetadata: {
-                        name: "Example React Dapp",
-                        url: window.location.href,
-                    },
-                    infuraAPIKey: import.meta.env.VITE_INFURA_API_KEY,
-                }}
-            >
-                <DefaultLayout login={login}>
-                <LoginPage setLogin={setLogin}/>
-                </DefaultLayout>
-            </MetaMaskProvider>
-        
+        <DefaultLayout>
+            <HistoryPage />
+        </DefaultLayout>
     )
 }
+
 function SearchSite() {
     return (
         <DefaultLayout >
@@ -95,7 +81,7 @@ const publicRoutes = [
     { path: '/', component: VotesSite },
     { path: '/home', component: HomeSite },
     { path: '/vote/:voteAddr', component: VoteDetailSite },
-    { path: '/login', component: LoginSite },
+    { path: '/vote/history/:voteAddr', component: HistorySite },
     { path: '/test', component: TestSite },
     { path: '/search', component: SearchSite },
     { path: '/create-vote', component: CreateVoteSite },
