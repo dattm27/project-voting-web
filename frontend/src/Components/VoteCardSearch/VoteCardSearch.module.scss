@@ -1,5 +1,5 @@
 .vote-card {
-    background: linear-gradient(135deg, rgba(60, 60, 60, 0.38), rgba(30, 30, 30, 0.391));
+    background: var(--glass-bg);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 0.8rem;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
@@ -14,8 +14,20 @@
     }
 
     &.disabled {
-        opacity: 0.4; /* Make the card appear disabled */
-        pointer-events: none;
+        background-color: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 0.8rem;
+        box-shadow: 0 4px 15px var(--box-shadow);
+        overflow: hidden;
+        position: relative;
+        break-inside: avoid; /* Prevent breaks between columns */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+        &:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            transform: translateY(-3px);
+        }
 
         &::before {
             content: "EXPIRED"; /* Overlay text for expired elections */
@@ -30,6 +42,22 @@
             font-size: 4rem;
             font-weight: bold;
             border-radius: 5px;
+        }
+    }
+
+    &.owner {
+        &::after {
+            content: "YOUR VOTE"; /* Overlay text for expired elections */
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 1;
+            background-color: rgba(84, 174, 117, 0.8);
+            color: white;
+            padding: 10px 16px;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 0px 5px 0px 5px;
         }
     }
 
@@ -90,17 +118,45 @@
             }
         }
     }
+
     &__title {
-        font-size: 2.4rem;
+        font-size: 3rem;
         margin-bottom: 0.5rem;
         font-weight: 500;
-        color: #ffffff;
-        text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        color: var(--text-color);
+        align-self: center;
     }
 
-    &__election-due {
-        font-size: 1.6rem;
-        font-weight: 300;
-        margin-top: 8px;
+    &__stat {
+        display: flex;
+        flex-direction: row;
+        height: 72px;
+        width: 100%;
+        gap: 10px;
+
+        &__ele {
+            flex: 1;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            border-radius: 4px;
+            background-color: rgba(161, 161, 161, 0.377);
+
+            & img {
+                max-width: 52px;
+            }
+
+            & span {
+                font-weight: 500;
+                font-size: 3rem;
+            }
+        }
+    }
+
+    &__due {
+        margin-top: 10px;
+        color: var(--text-color);
     }
 }

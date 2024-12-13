@@ -54,6 +54,21 @@ export const GET_ELECTIONS = gql`
   }
 `;
 
+export const GET_ELECTION_BY_ID = gql`
+ query MyQuery ($electionId: String!){
+  newElections( where: {id: $electionId}) {
+    totalVotes
+    title
+    owner
+    electionAddr
+    electionEndTime
+    blockTimestamp
+    duaration
+    numOfCandidates
+  }
+}
+`;
+
 export const GET_ELECTION_CANDIDATES = gql`
  query MyQuery($electionAddr: String!) {
   newCandidates(

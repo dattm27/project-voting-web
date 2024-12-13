@@ -1,100 +1,94 @@
 .searchPage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  min-height: 100vh; /* Full viewport height */
-  background-color: rgba(133, 133, 133, 0.195);
-  animation: slideIn 0.4s ease-in-out;
-  padding: 2rem; /* Add padding for spacing */
+  min-height: 100vh;
+  width: 80%;
+  margin: 0 auto; // Center the content
 
-  div {
+  .filtersSection {
     width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap; // Make it wrap for smaller screens
+    gap: 20px;
+    margin-bottom: 20px;
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 2rem;
+      cursor: pointer;
+
+      input {
+        accent-color: var(--primary-red); // Use brand color for checkboxes
+        transform: scale(1.2); // Slightly larger checkboxes
+      }
+    }
   }
 
-  form {
-    display: flex;
-    align-items: center; /* Align items horizontally */
-    justify-content: center;
-    gap: 1rem; /* Space between search and filter */
+  .searchSection {
     width: 100%;
-    max-width: 80rem; /* Constrain form width */
-    margin-bottom: 2rem; /* Space below the form */
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.85); /* Subtle background for better visibility */
-    border-radius: 0.7rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    padding-bottom: 20px;
 
-    input[type='search'] {
-      flex: 1; /* Take available space */
-      height: 4.5rem; /* Adjust height */
-      font-family: 'Lato', sans-serif;
-      border: none;
-      font-size: 1.6rem;
-      padding: 0 1rem;
-      border-radius: 0.5rem;
-      outline: none;
-      background: rgba(255, 255, 255, 0.65);
-      transition: all 0.3s cubic-bezier(0, 0, 0.43, 1.49);
-    }
+    .searchForm {
+      width: 100%;
+      display: flex;
+      gap: 20px;
+      align-items: center; // Align items vertically
+      height: auto;
 
-    input[type='checkbox'] {
-      appearance: none; /* Remove default styling */
-      width: 2rem;
-      height: 2rem;
-      border: 2px solid #fa5252;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      position: relative;
-
-      &:checked {
-        background-color: #fa5252;
+      input {
+        padding: 12px 20px;
+        flex: 4;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        background-color: var(--solid-soft-bg);
+        font-size: 2.4rem;
+        transition: border-color 0.3s;
+        color: var(--text-color);
+        &:focus {
+          outline: none;
+          border-color: var(--primary-color);
+        }
       }
 
-      &:checked::after {
-        content: '';
-        position: absolute;
-        top: 0.4rem;
-        left: 0.4rem;
-        width: 1rem;
-        height: 1rem;
-        background: #fff;
-        border-radius: 0.2rem;
+      button {
+        flex: 1;
+        background-color: var(--primary-red);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 2.4rem;
+        padding: 12px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+          background-color: var(--primary-red-hover);
+        }
       }
     }
+  }
 
-    button {
-      height: 4.5rem;
-      padding: 0 2rem;
-      font-size: 1.6rem;
-      font-weight: bold;
-      color: white;
-      background: #fa5252;
-      border: none;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      transition: background-color 0.3s;
+  .resultSection {
+    display: grid;
+    grid-template-columns: repeat(4,1fr); // Responsive columns
+    gap: 20px;
+    padding: 20px;
+    border-radius: 12px;
+
+    .card {
+      background: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
 
       &:hover {
-        background: #e64545;
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       }
-    }
-  }
-
-  .searchResults {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3-column grid */
-    gap: 2rem;
-    width: 100%;
-    max-width: 80rem; /* Constrain grid width */
-    padding: 1rem;
-
-    @media (max-width: 768px) {
-      grid-template-columns: repeat(2, 1fr); /* 2 columns on tablets */
-    }
-
-    @media (max-width: 576px) {
-      grid-template-columns: 1fr; /* Single column on smaller screens */
     }
   }
 }

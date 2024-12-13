@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import styles from './VoteDetailPage.module.scss';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { add_btn, vote_card, vote_placeholder,history } from '../../Assets/index';
+import { add_btn, vote_card, back, vote_placeholder, history } from '../../Assets/index';
 import { prepareContractCall } from 'thirdweb';
 import { client, chain } from '../../Utils/constant.js';
 import { abi } from '../../Utils/voteContract.js';
@@ -154,15 +154,24 @@ const VoteDetailPage = () => {
     return (
         <div className={styles.votePage}>
             <div className={styles.voteHeadBar}>
-            <Link
-                to={`/vote/history/${voteAddr}`}
-                state={{ voteAddr: voteAddr }}
-                className={styles['history_btn']}
-            >   
-            <span>Vote History</span>
-                <img src={history} alt='history_icon' className={styles.history_icon}/>
-            </Link>
-            <h1 className={styles.voteTitle}>{electionData?.newElections[0]?.title.toUpperCase() || 'Loading title...'}</h1>
+                <Link
+                    to={`/vote/history/${voteAddr}`}
+                    state={{ voteAddr: voteAddr }}
+                    className={styles['history_btn']}
+                >
+
+                    <span>Vote History</span>
+                    <img src={history} alt='history_icon' className={styles.history_icon} />
+                </Link>
+
+                <Link
+                    to={`/`}
+                    className={styles.back_btn}
+                    state={{ voteAddr: voteAddr }}>
+                    <img src={back} alt='back_btn' className={styles.back_icon} />
+                    <span>Back</span>
+                </Link>
+                <h1 className={styles.voteTitle}>{electionData?.newElections[0]?.title.toUpperCase() || 'Loading title...'}</h1>
             </div>
 
             <div className={styles.voteHeading}>
@@ -289,7 +298,7 @@ const VoteDetailPage = () => {
                     </div>
                 )}
             </div>
-            
+
 
             <Modal isOpen={isModalAddOpen} onClose={handleCloseAddModal}>
                 <AddCandidateForm contract={CONTRACT} voteAddr={voteAddr} onSuccess={handleRefetch} />

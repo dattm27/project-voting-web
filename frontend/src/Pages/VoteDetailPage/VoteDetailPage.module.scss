@@ -15,7 +15,7 @@
         h1{
             font-size: 4.6rem;
             margin-bottom: 20px;
-            color: var(--text-solf-color);
+            color: var(--text-soft-color);
         }
         .history_btn{
             position: absolute;
@@ -36,9 +36,23 @@
         .history_btn:hover{
             color: var(--primary-red);
         }
+        .back_icon{
+            width: 32px;
+        }
+        .back_btn{
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            span{
+                color: var(--text-color);
+            }
+        }
     }
     h2 {
-        color: var(--text-solf-color);
+        color: var(--text-soft-color);
         padding-top: 20px;
         
     }
