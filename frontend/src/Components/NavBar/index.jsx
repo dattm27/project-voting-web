@@ -3,16 +3,18 @@ import { app_logo as Logo } from "../../Assets";
 import styles from './Navbar.module.scss';
 import { Link, useLocation } from "react-router-dom";
 import { search, createVote, homeIcon } from '../../Assets';
-
+import { useAccount } from 'wagmi';
 import { ConnectButton, darkTheme } from "thirdweb/react";
 import { createWallet, inAppWallet } from "thirdweb/wallets";
 import { client } from '../../Utils/constant.js';
 
+import { getLoginPayload, doLogin, isLoggedIn, doLogout } from '../../Services/auth.js';
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [activeTab, setActiveTab] = useState('');
     const [theme, setTheme] = useState('light'); // New state for theme
     const location = useLocation();
+    const { address, isConnected } = useAccount();
     const wallets = [
         inAppWallet({
             auth: {
@@ -21,7 +23,11 @@ const Navbar = () => {
         }),
         createWallet("io.metamask"),
     ];
+    useEffect(() => {
 
+        doLogout()
+
+    }, [address, isConnected]);
     useEffect(() => {
         switch (location.pathname) {
             case '/create-vote':
@@ -100,6 +106,20 @@ const Navbar = () => {
                             },
                         })}
                         connectModal={{ size: "compact" }}
+                        auth={{
+                            getLoginPayload: async (params) => {
+                                return getLoginPayload(params);
+                            },
+                            doLogin: async (params) => {
+                                await doLogin(params);
+                            },
+                            isLoggedIn: async () => {
+                                return await isLoggedIn();
+                            },
+                            doLogout: async () => {
+                                await doLogout();
+                            },
+                        }}
                     />
                 </div>
                 <button className={styles.themeToggle} onClick={toggleTheme}>

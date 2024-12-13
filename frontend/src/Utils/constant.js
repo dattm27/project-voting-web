@@ -380,3 +380,4 @@ export const CONTRACT = getContract({
     abi: contractABI
 })
 
+export const RPC_URL = import.meta.env?.VITE_RPC_URL
