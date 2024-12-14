@@ -1,9 +1,9 @@
-import { ApolloClient, InMemoryCache ,gql} from '@apollo/client';
+import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 
 export const client = new ApolloClient({
-    uri: import.meta.env.VITE_GRAPHQL_URI,
-    cache: new InMemoryCache(),
-  });
+  uri: import.meta.env.VITE_GRAPHQL_URI,
+  cache: new InMemoryCache(),
+});
 
 export const GET_ELECTION = gql`
 query MyQuery {
@@ -52,6 +52,21 @@ export const GET_ELECTIONS = gql`
       numOfCandidates
     }
   }
+`;
+
+export const GET_ELECTION_BY_ID = gql`
+ query MyQuery ($electionId: String!){
+  newElections( where: {id: $electionId}) {
+    totalVotes
+    title
+    owner
+    electionAddr
+    electionEndTime
+    blockTimestamp
+    duaration
+    numOfCandidates
+  }
+}
 `;
 
 export const GET_ELECTION_CANDIDATES = gql`
@@ -128,4 +143,38 @@ query MyQuery ($electionAddr: String!){
   }
 }
 `;
+export const GET_ELECTION_HISTORY = gql`
+query HistoryQuery ($electionAddr: String!){
+  newVotes(
+    where: {electionId_: {electionAddr: $electionAddr}}
+    orderBy: timestamp
+    orderDirection: desc
+  ) {
+    voter
+    timestamp
+    transactionHash
+    candidateId {
+      name
+      candidateId
+    }
+  }
+}
+`;
 
+export const GET_USER_HISTORY = gql`
+query MyQuery($voter: String!) {
+  newVotes(where: {voter: $voter}, orderBy: timestamp, orderDirection: desc) {
+    timestamp
+    transactionHash
+    candidateId {
+      candidateId
+      name
+    }
+    electionId {
+      electionId
+      title
+      electionAddr
+    }
+  }
+}
+`;

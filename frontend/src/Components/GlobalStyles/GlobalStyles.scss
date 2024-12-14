@@ -1,21 +1,60 @@
 @import 'normalize.css';
 
+[data-theme="dark"] {
+    --solid-bg: #000000;
+    --solid-soft-bg: #303030;
+    --primary-red: #fe2c55;
+    --primary-red-hover:#971831;
+    --text-color: #E3E3E3;
+    --text-soft-color: #e2e2e2;
+    --glass-bg:#00000056;
+    --border-color: #1e1e1e;
+    --border-color2: #eee;
+    --box-shadow:rgba(0, 0, 0, 0.3);
+    //bg
+    --color-bg1: rgb(0, 0, 0);
+    --color-bg2: rgb(0, 0, 0);
+    --color1: 18, 113, 255; // blue
+    --color2: 221, 74, 255; // purple
+    --color3: 100, 220, 255; // aqua
+    --color4: 200, 50, 50; // red 
+    // --color5: 180, 180, 50; // yellow 
+}
+
+[data-theme="light"] {
+    --solid-bg: #fff;
+    --solid-soft-bg: #e3e3e3;
+    --primary-red: #fe2c55;
+    --primary-red-hover:#971831;
+    --text-color: #212020;
+    --text-soft-color: #464646;
+    --glass-bg:#ffffff48;
+    --border-color: #eee;
+    --border-color2: #1e1e1e;
+    --box-shadow:rgba(255, 255, 255, 0.3);
+    //bg
+    --color-bg1: rgba(200, 200, 200, 0.763);
+    --color-bg2: rgba(80, 80, 80, 0.43);
+    --color1: 18, 113, 255; // blue
+    --color2: 221, 74, 255; // purple
+    --color3: 100, 220, 255; // aqua
+    --color4: 200, 50, 50; // red 
+    --color5: 180, 180, 50; // yellow 
+}
+
 :root {
     // Color Variables
     --blue: #497CFF;
     --violet: #B07AE9;
     --aqua: #1DDEF4;
-    --primary: #fe2c55;
-    --black: #000;
+
     --white: #e3e3e3;
     --white-hover: #bbbbbb;
     --text-color: #161823;
     --active-green: #27ae60;
     --hover-green: #219552;
-    // --primary-red: #FA5252;
-    --primary-red: #ffffff;
-    --text-white: #E3E3E3
-    
+
+
     // Font
     --font-family: 'ProximaNova', sans-serif;
 
@@ -32,7 +71,7 @@
 }
 
 html {
-    font-size: 62.5%;
+    font-size: 50%;
 }
 
 body {

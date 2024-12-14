@@ -6,14 +6,53 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    h1 {
-        font-size: 4.6rem;
-        margin-bottom: 20px;
-        color: #bdcfd7;
-    }
 
+    .voteHeadBar{
+        display: flex;
+        justify-content: center;
+        position: relative;
+        width: 90%;
+        h1{
+            font-size: 4.6rem;
+            margin-bottom: 20px;
+            color: var(--text-soft-color);
+        }
+        .history_btn{
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            span{
+                font-weight: 500;
+                font-size: 2rem;
+            }
+            .history_icon{
+                width: 30px;
+            }
+        }
+        .history_btn:hover{
+            color: var(--primary-red);
+        }
+        .back_icon{
+            width: 32px;
+        }
+        .back_btn{
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            span{
+                color: var(--text-color);
+            }
+        }
+    }
     h2 {
-        color: #ccc;
+        color: var(--text-soft-color);
         padding-top: 20px;
         
     }
@@ -22,7 +61,6 @@
     .voteHeading {
         display: flex;
         justify-content: space-between;
-        // height: auto; /* Allow height to adjust dynamically */
         width: 90%;
         height: 64vh;
         align-items: stretch; /* Ensure equal height of children */
@@ -32,7 +70,7 @@
             max-width: 70%;
             height: 100%; /* Maintain aspect ratio */
             margin-right: 60px;
-            border: 1px solid rgba(221, 221, 221, 0.5);
+            border: 1px solid var(--border-color2);
             border-radius: 15px;
             box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
             background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
@@ -85,13 +123,11 @@
     
         .electionDes {
             flex: 1; /* Allow it to grow to match the poster height */
-
-            background-color: #54545431; /* Soft background for a vote-related theme */
-            border-left: 6px solid #cbcbcb; /* Accent border on the left */
+            background-color: var(--glass-bg); /* Soft background for a vote-related theme */
+            border-left: 6px solid var(--border-color2); /* Accent border on the left */
             backdrop-filter: blur(20px);
             border-radius: 8px;
             padding: 10px 16px;
-            margin: 0px 16px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             font-family: 'Arial', sans-serif;
             display: flex;
@@ -101,7 +137,7 @@
         .electionDes h2 {
             margin-bottom: 8px; /* Space below the heading */
             text-transform: uppercase; /* Emphasized text */
-            border-bottom: 2px solid #cdcdcd; /* Thin underline for focus */
+            border-bottom: 2px solid var(--border-color2); /* Thin underline for focus */
             padding-bottom: 4px; /* Space for underline clarity */
             font-size: 3.6rem;
             font-style: italic;
@@ -113,7 +149,7 @@
     
         .electionDes pre {
             white-space: pre-wrap;
-            color: #ffffff; /* Neutral text color for readability */
+            color: var(--text-color); /* Neutral text color for readability */
             font-size: 1.8rem;
             line-height: 1.6; /* Comfortable line spacing */
             text-align: left;
@@ -188,14 +224,14 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        border: 1px solid #dddddd7d;
+        border: 1px solid var(--border-color);
         padding: 20px;
         margin: 10px;
         width: 350px;
         border-radius: 10px;
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         text-align: center;
-        background-color: rgba(255, 255, 255, 0.051);
+        background-color: var(--glass-bg);
         backdrop-filter: blur(20px);
         transition: transform 0.2s;
 
@@ -356,7 +392,7 @@
     padding: 10px;
     width: 90%;
 
-    background-color: rgba(171, 171, 171, 0.212);
+    background-color: var(--glass-bg);
     backdrop-filter: blur(20px);
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -404,3 +440,4 @@
     font-weight: bold; // Optional: make it bold
     margin-bottom: 1rem; // Optional: add some space below
 }
+

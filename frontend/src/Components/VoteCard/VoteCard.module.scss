@@ -1,8 +1,9 @@
 .vote-card {
-    background: linear-gradient(135deg, rgba(60, 60, 60, 0.38), rgba(30, 30, 30, 0.391));
+    background-color: var(--glass-bg);
+    backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 0.8rem;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 15px var(--box-shadow);
     overflow: hidden;
     position: relative;
     break-inside: avoid; /* Prevent breaks between columns */
@@ -65,12 +66,14 @@
     }
 
     &__text-wrapper {
+        width: 100%;
         padding: 1.4rem;
         color: white;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
         align-items: flex-start;
+        overflow: hidden;
 
         .votesLabel {
             background-color: rgb(119, 172, 91);
@@ -97,17 +100,19 @@
             p {
                 font-size: 1.8rem;
                 font-weight: bold;
-                color: rgb(255, 255, 255);
+                color: var(--text-color);
             }
         }
     }
     &__title {
+        overflow: hidden;
         align-self: center;
         font-size: 3rem;
         margin-bottom: 1rem;
-        font-weight: 300;
-        color: #ffffff;
-        text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        font-weight: 400;
+        padding: 10px;
+        color: var(--text-color);
+        // text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
         font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     &__stat{
@@ -126,7 +131,7 @@
             gap: 20px;
             // border: 1px solid wheat;
             border-radius: 4px;
-            background-color: rgba(255, 255, 255, 0.253);
+            background-color: rgba(126, 126, 126, 0.641);
             & img{
                 max-width: 52px;
             }
@@ -141,6 +146,7 @@
     }
     &__due{
         margin-top: 10px;
+        color: var(--text-color);
     }
 
    

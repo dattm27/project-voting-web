@@ -14,7 +14,7 @@ body {
 
 .glassmorphism {
   // background-color: rgba(0, 0, 0, 0.764);
-  background-color: #000000;
+  background-color: var(--solid-bg);
   backdrop-filter: blur(20px);
 
   // &:hover {
@@ -60,7 +60,7 @@ body {
     justify-content: flex-end;
     text-decoration: none;
     align-items: center;
-    color: #909090;
+    color: var(--text-color);
     font-size: 1.6rem;
     font-weight: 400;
     padding: 5px 12px;
@@ -71,7 +71,7 @@ body {
 
     &.active {
       background-color: #bdbdbd22;
-      color: var(--primary-red);
+      color: var(--text-color) !important;
     }
 
     img {
@@ -193,4 +193,16 @@ body {
 .accountAvatar:hover ~ .accountId {
   display: block; 
 }
-
+.themeToggle{
+  background-color: transparent;
+  margin-left: 16px;
+  transform: scale(1.8);
+}
+.history_btn{
+  margin-left: 16px;
+  transform: translateY(3px);
+  width: 40px;
+  img{
+    width: 28px;
+  }
+}

@@ -2,9 +2,9 @@
 
 .content-wrapper {
     padding-top: 100px;
-    max-width: 1300px;
+    max-width: 76%;
     margin: 0 auto;
-    width: 95%;
+    width: 76%;
 }
 
 .masonry-grid {
@@ -83,7 +83,7 @@
 
     span {
         font-size: 1.6rem;
-        color: #fff;
+        color: var(--text-color);
     }
 }
 
