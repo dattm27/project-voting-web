@@ -11,8 +11,12 @@ const candidateRepository = AppDataSource.getRepository(Candidate);
 // Create a new election
 export const createElection = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { id, name, startDate, endDate, description, status, photoLink } = req.body;
-        const election = new Election(id, name, new Date(startDate), new Date(endDate), description, status, photoLink);
+        const { id, name, startDate, endDate, description, status, photoLink, walletAddress } = req.body;
+        if(!walletAddress){
+            res.status(400).json({ message: 'Wallet address is required' });
+            return;
+        }
+        const election = new Election(id, name, new Date(startDate), new Date(endDate), description, status, photoLink, walletAddress);
         const savedElection = await electionRepository.save(election);
         res.status(201).json(savedElection);
     } catch (error) {
@@ -106,10 +110,19 @@ export const getElectionsByFilter = async (req: Request, res: Response): Promise
 // Update an election by ID
 export const updateElection = async (req: Request, res: Response): Promise<void> => {
     try {
+        const { walletAddress } = req.body;
+        if(!walletAddress){
+            res.status(400).json({ message: 'Wallet address is required' });
+            return;
+        }
         const id = req.params.id;
         const election = await electionRepository.findOne({ where: { id: parseInt(id, 10) } });
         if (!election) {
             res.status(404).json({ error: 'Election not found' });
+            return;
+        }
+        if(election.walletAddress !== walletAddress){
+            res.status(403).json({ message: 'You are not authorized to update this election' });
             return;
         }
 
@@ -126,6 +139,11 @@ export const updateElection = async (req: Request, res: Response): Promise<void>
 // Delete an election by ID
 export const deleteElection = async (req: Request, res: Response): Promise<void> => {
     try {
+        const { walletAddress } = req.body;
+        if(!walletAddress){
+            res.status(400).json({ message: 'Wallet address is required' });
+            return;
+        }
         const id = req.params.id;
         const election = await electionRepository.findOne({
             where: { id: parseInt(id, 10) },
@@ -134,6 +152,11 @@ export const deleteElection = async (req: Request, res: Response): Promise<void>
 
         if (!election) {
             res.status(404).json({ error: 'Election not found' });
+            return;
+        }
+
+        if (election.walletAddress !== walletAddress) {
+            res.status(403).json({ message: 'You are not authorized to delete this election' });
             return;
         }
 
