@@ -1,9 +1,9 @@
-import { ApolloClient, InMemoryCache ,gql} from '@apollo/client';
+import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 
 export const client = new ApolloClient({
-    uri: import.meta.env.VITE_GRAPHQL_URI,
-    cache: new InMemoryCache(),
-  });
+  uri: import.meta.env.VITE_GRAPHQL_URI,
+  cache: new InMemoryCache(),
+});
 
 export const GET_ELECTION = gql`
 query MyQuery {
@@ -161,3 +161,20 @@ query HistoryQuery ($electionAddr: String!){
 }
 `;
 
+export const GET_USER_HISTORY = gql`
+query MyQuery($voter: String!) {
+  newVotes(where: {voter: $voter}, orderBy: timestamp, orderDirection: desc) {
+    timestamp
+    transactionHash
+    candidateId {
+      candidateId
+      name
+    }
+    electionId {
+      electionId
+      title
+      electionAddr
+    }
+  }
+}
+`;

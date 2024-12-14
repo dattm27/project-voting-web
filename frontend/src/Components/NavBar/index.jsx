@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { app_logo as Logo } from "../../Assets";
 import styles from './Navbar.module.scss';
 import { Link, useLocation } from "react-router-dom";
-import { search, createVote, homeIcon } from '../../Assets';
+import { search, createVote, homeIcon,history} from '../../Assets';
 import { useAccount } from 'wagmi';
 import { ConnectButton, darkTheme } from "thirdweb/react";
 import { createWallet, inAppWallet } from "thirdweb/wallets";
@@ -125,6 +125,13 @@ const Navbar = () => {
                 <button className={styles.themeToggle} onClick={toggleTheme}>
                     {theme === 'light' ? '🌑' : '🌕'}
                 </button>
+                {isConnected?(<Link
+                    to={`/user/history/${address}`}
+                    state={{ voterAddr: address }}
+                    className={styles['history_btn']}
+                >
+                    <img src={history} alt='history_icon' className={styles.history_icon} />
+                </Link>):(<></>)}
             </div>
             <div
                 className={`${styles.hamburger} ${isOpen ? styles.hamburgerActive : ''}`}

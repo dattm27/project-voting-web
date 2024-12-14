@@ -2,16 +2,15 @@ import { MetaMaskProvider } from "@metamask/sdk-react";
 
 
 import HomePage from '../Pages/HomePage'
-import LoginPage from '../Pages/LoginPage'
 import DefaultLayout from '../Layout/DefaultLayout'
 import SearchPage from '../Pages/Search'
-import { useState} from "react";
 import VotesPage from "../Pages/VotesPage";
 import CreateVote from "../Pages/CreateVote";
 import VoteDetailPage from '../Pages/VoteDetailPage';
 import TestPage from "../Pages/TestPage";
 import NotFoundPage from "../Pages/NotFoundPage";
 import HistoryPage  from "../Pages/HistoryPage";
+import UserHistoryPage  from "../Pages/UserHistoryPage";
 //public routes
 
 function HomeSite() {
@@ -25,6 +24,13 @@ function HistorySite() {
     return (
         <DefaultLayout>
             <HistoryPage />
+        </DefaultLayout>
+    )
+}
+function UserHistorySite() {
+    return (
+        <DefaultLayout>
+            <UserHistoryPage />
         </DefaultLayout>
     )
 }
@@ -82,6 +88,7 @@ const publicRoutes = [
     { path: '/home', component: HomeSite },
     { path: '/vote/:voteAddr', component: VoteDetailSite },
     { path: '/vote/history/:voteAddr', component: HistorySite },
+    { path: '/user/history/:userAddr', component: UserHistorySite },
     { path: '/test', component: TestSite },
     { path: '/search', component: SearchSite },
     { path: '/create-vote', component: CreateVoteSite },
