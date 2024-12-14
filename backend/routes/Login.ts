@@ -1,5 +1,6 @@
 import express from "express";
 import LoginController from "../controllers/Login";
+import authenticateJWT from "../middleware/auth";
 const router = express.Router();
 
 // Route để lấy nonce

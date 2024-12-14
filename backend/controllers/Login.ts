@@ -16,7 +16,7 @@ const generateNonce = (): string => {
 class LoginController {
     // Gửi nonce cho người dùng
     static getNonce(req: Request, res: Response): void {
-        const  walletAddress  = req.params.walletAddress;
+        const walletAddress = req.params.walletAddress;
 
         if (!walletAddress || !ethers.isAddress(walletAddress as string)) {
             res.status(400).json({ message: "Invalid or missing wallet address." });
@@ -31,13 +31,13 @@ class LoginController {
     }
 
     static async createAccessToken(req: Request, res: Response): Promise<void> {
-        const walletAddress= req.params.walletAddress;
+        const walletAddress = req.params.walletAddress;
         if (!walletAddress || !ethers.isAddress(walletAddress as string)) {
             res.status(400).json({ message: "Invalid or missing wallet address." });
             return;
         }
 
-        const token =  jwt.sign({ walletAddress }, JWT_SECRET_KEY, { expiresIn: "1h" });
+        const token = jwt.sign({ walletAddress }, JWT_SECRET_KEY, { expiresIn: "1h" });
         console.log(token);
         res.status(200).json({ token });
     }

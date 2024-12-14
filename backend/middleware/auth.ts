@@ -16,15 +16,14 @@ const authenticateJWT = (req: CustomRequest, res: Response, next: NextFunction) 
 
     console.log("token: " + token);
 
-    jwt.verify(token, process.env.JWT_SECRET_KEY as string, (err, user) => {
-        if (err) {
-            res.status(403).json({ message: 'Invalid token' });
-            return;
-        }
-
-        req.user = user;
-        next();
-    });
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY as string) as {walletAddress : string};
+    req.body.walletAddress = decoded.walletAddress;
+    console.log("walletAddress: " + decoded.walletAddress);
+    if (!decoded.walletAddress) {
+        res.status(401).json({ message: 'Access token is missing or invalid' });
+        return;
+    }
+    next();
 };
 
 export default authenticateJWT;
