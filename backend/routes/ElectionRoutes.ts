@@ -6,10 +6,10 @@ import authenticateJWT from '../middleware/auth';
 const router = Router();
 
 router.post('/elections', authenticateJWT, createElection);
-router.get('/elections', authenticateJWT ,getElections);
-router.get('/elections/:id', authenticateJWT, getElectionById);
+router.get('/elections', getElections);
+router.get('/elections/:id', getElectionById);
 router.put('/elections/:id', authenticateJWT, updateElection);
 router.delete('/elections/:id', authenticateJWT, deleteElection);
-router.get('/elections-filter', authenticateJWT, getElectionsByFilter);
+router.get('/elections-filter', getElectionsByFilter);
 
 export default router;

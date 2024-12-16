@@ -4,8 +4,9 @@ import cors from 'cors';
 import electionRoutes from './routes/ElectionRoutes';
 import candidateRoutes from './routes/CandidateRoutes';
 import AppDataSource from './config/database';
-import loginRoutes from './routes/Login';
-
+import authRoutes from './routes/Auth';
+import logRoutes from './routes/Log';
+ 
 configDotenv();
 
 const app = express();
@@ -14,7 +15,8 @@ app.use(cors());
 app.use(express.json());
 
 // Sử dụng các routes
-app.use('/api/login', loginRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/log', logRoutes);
 app.use('/api', electionRoutes, candidateRoutes);
 
 const PORT = process.env.PORT || 3000;

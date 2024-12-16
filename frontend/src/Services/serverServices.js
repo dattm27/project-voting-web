@@ -1,5 +1,86 @@
 import instance from './AxiosInstance.js'; // Đảm bảo đường dẫn này là chính xác
 import endPointConfig from './endPointConfig.js';
+import { ethers } from 'ethers';
+
+let token;
+
+export const getNonce = async (params) => {
+    try {
+        const walletAddress = params.address;
+        console.log('walletAddress ', params.chainId);
+        const response = await instance.get(
+            `${endPointConfig.endpoints.login}/${walletAddress}`,
+            {
+                params: {
+                    chainId: params.chainId
+                }
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Error logging in:', error);
+        throw error;
+    }
+};
+
+export const verifyNonce = async (params) => {
+    try {
+        console.log('params ', params.signature);
+        await instance.post(`${endPointConfig.endpoints.login}`,
+            {
+                walletAddress: params.payload.address,
+                signature: params.signature
+            }
+        ).then((response) => {
+            token = response.data.token;
+            return response.data;
+        })
+    } catch (error) {
+        console.error('Error logging in:', error);
+        throw error;
+    }
+};
+
+export const isLoggedIn = async ({ walletAddress }) => {
+    try {
+        const response = await instance.get(
+            `${endPointConfig.endpoints.login}/isLogin`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            params: {
+                walletAddress: walletAddress
+            }
+        });
+        return response.data;
+    }
+    catch (error) {
+        console.error('Error logging in:', error);
+        throw error;
+    }
+};
+
+export const doLogout = async () => {
+    try {
+        if (!token) {
+            return true;
+        }
+        const response = await instance.get(
+            `${endPointConfig.endpoints.login}/logout`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response.data;
+    }
+    catch (error) {
+        console.error('Error logging in:', error);
+        throw error;
+    }
+};
+
 
 // Get all elections
 export const getAllElections = async () => {
@@ -37,7 +118,16 @@ export const getElectionByFilter = async (filter) => {
 // Create a new election
 export const createElection = async (electionData) => {
     try {
-        const response = await instance.post(endPointConfig.endpoints.elections, electionData);
+        const response = await instance.post(
+            endPointConfig.endpoints.elections,
+            electionData,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        );
         return response.data;
     } catch (error) {
         console.error('Error creating election:', error);
@@ -48,7 +138,16 @@ export const createElection = async (electionData) => {
 // Update an election by ID
 export const updateElection = async (id, electionData) => {
     try {
-        const response = await instance.put(`${endPointConfig.endpoints.elections}/${id}`, electionData);
+        const response = await instance.put(
+            `${endPointConfig.endpoints.elections}/${id}`,
+            electionData,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        );
         return response.data;
     } catch (error) {
         console.error(`Error updating election with ID ${id}:`, error);
@@ -59,7 +158,14 @@ export const updateElection = async (id, electionData) => {
 // Delete an election by ID
 export const deleteElection = async (id) => {
     try {
-        await instance.delete(`${endPointConfig.endpoints.elections}/${id}`);
+        await instance.delete(
+            `${endPointConfig.endpoints.elections}/${id}`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
     } catch (error) {
         console.error(`Error deleting election with ID ${id}:`, error);
         throw error;
@@ -92,7 +198,16 @@ export const getDetailCandidate = async (id, electionId) => {
 // Create a new candidate
 export const createCandidate = async (candidateData) => {
     try {
-        const response = await instance.post(endPointConfig.endpoints.candidates, candidateData);
+        const response = await instance.post(
+            endPointConfig.endpoints.candidates,
+            candidateData,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        );
         return response.data;
     } catch (error) {
         console.error('Error creating candidate:', error);
@@ -103,7 +218,16 @@ export const createCandidate = async (candidateData) => {
 // Update a candidate by ID and electionId
 export const updateCandidate = async (id, electionId, candidateData) => {
     try {
-        const response = await instance.put(`${endPointConfig.endpoints.candidates}/${id}/${electionId}`, candidateData);
+        const response = await instance.put(
+            `${endPointConfig.endpoints.candidates}/${id}/${electionId}`,
+            candidateData,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        );
         return response.data;
     } catch (error) {
         console.error(`Error updating candidate with ID ${id} and election ID ${electionId}:`, error);
@@ -114,7 +238,15 @@ export const updateCandidate = async (id, electionId, candidateData) => {
 // Delete a candidate by ID and electionId
 export const deleteCandidate = async (id, electionId) => {
     try {
-        await instance.delete(`${endPointConfig.endpoints.candidates}/${id}/${electionId}`);
+        await instance.delete(
+            `${endPointConfig.endpoints.candidates}/${id}/${electionId}`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        );
     } catch (error) {
         console.error(`Error deleting candidate with ID ${id} and election ID ${electionId}:`, error);
         throw error;
@@ -122,4 +254,9 @@ export const deleteCandidate = async (id, electionId) => {
 };
 
 
-updateCandidate(1, 19, {votes : 2})
+//updateCandidate(1, 19, {votes : 2})
+getNonce('0x5B38Da6a701c568545dCfcB03FcB875f56beddC4').then((data) => {
+    console.log(data);
+}).catch((error) => {
+    console.error(error);
+});

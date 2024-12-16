@@ -108,10 +108,11 @@ const Navbar = () => {
                         connectModal={{ size: "compact" }}
                         auth={{
                             getLoginPayload: async (params) => {
-                                return getLoginPayload(params);
+                                return await getLoginPayload(params);
                             },
                             doLogin: async (params) => {
-                                await doLogin(params);
+                                console.log("params", params);
+                                return await doLogin(params);
                             },
                             isLoggedIn: async () => {
                                 return await isLoggedIn();

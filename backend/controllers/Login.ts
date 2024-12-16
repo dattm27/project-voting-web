@@ -1,33 +1,42 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { ethers } from "ethers";
+import { createAuth, type VerifyLoginPayloadParams } from "thirdweb/auth";
+import { privateKeyToAccount } from "thirdweb/wallets";
+import { thirdwebClient } from "../thirdwebClient";
+import { decodeJWT } from "thirdweb/utils";
 
 // Mã bí mật để ký JWT
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY as string;
 
-// Lưu trữ nonce tạm thời (nên sử dụng một giải pháp lưu trữ an toàn hơn trong thực tế, ví dụ Redis)
-const nonces: Record<string, string> = {};
+const thirdwebAuth = createAuth({
+    domain: process.env.CLIENT_DOMAIN!,
+    client: thirdwebClient,
+    adminAccount: privateKeyToAccount({
+        client: thirdwebClient,
+        privateKey: process.env.ADMIN_PRIVATE_KEY!,
+    }),
+});
 
-// Tạo một nonce ngẫu nhiên
-const generateNonce = (): string => {
-    return `Sign this message to log in: ${Math.random().toString(36).substring(2)}`;
-};
 
 class LoginController {
     // Gửi nonce cho người dùng
-    static getNonce(req: Request, res: Response): void {
-        const walletAddress = req.params.walletAddress;
+    static async getPayLoad(req: Request, res: Response): Promise<void> {
+        const address = req.query.address;
+        const chainId = req.query.chainId;
 
-        if (!walletAddress || !ethers.isAddress(walletAddress as string)) {
-            res.status(400).json({ message: "Invalid or missing wallet address." });
+        if (typeof address !== "string") {
+            res.status(400).send("Address is required");
             return;
         }
 
-        // Tạo và lưu nonce
-        const nonce = generateNonce();
-        nonces[walletAddress as string] = nonce;
-
-        res.status(200).json({ walletAddress, nonce });
+        const result = await thirdwebAuth.generatePayload({
+            address,
+            chainId: typeof chainId === "string" ? parseInt(chainId) : undefined,
+        });
+        console.log (result);
+        res.status(200).json(result);
+        return;
     }
 
     static async createAccessToken(req: Request, res: Response): Promise<void> {
@@ -44,41 +53,44 @@ class LoginController {
 
     // Xác thực chữ ký và tạo access token
     static async verifySignature(req: Request, res: Response): Promise<void> {
-        const { walletAddress, signature } = req.body;
+        const payload: VerifyLoginPayloadParams = req.body;
+        const verifiedPayload = await thirdwebAuth.verifyPayload(payload);
+        console.log(verifiedPayload);
 
-        if (!walletAddress || !signature) {
-            res.status(400).json({ message: "Wallet address and signature are required." });
+        if (verifiedPayload.valid) {
+            const jwt = await thirdwebAuth.generateJWT({
+                payload: verifiedPayload.payload,
+            });
+            res.cookie("jwt", jwt);
+            res.status(200).send({ token: jwt });
             return;
         }
 
-        const nonce = nonces[walletAddress];
+        res.status(400).send("Failed to login");
+    }
 
-        if (!nonce) {
-            res.status(400).json({ message: "Nonce not found for wallet address." });
-        }
+    static async isLogin(req: Request, res: Response): Promise<void> {
+        const jwt = req.cookies?.jwt;
 
-        try {
-            // Khôi phục địa chỉ ví từ chữ ký
-            const recoveredAddress = ethers.verifyMessage(nonce, signature);
-
-            if (recoveredAddress.toLowerCase() !== walletAddress.toLowerCase()) {
-                res.status(401).json({ message: "Signature verification failed." });
-                return;
-            }
-
-            // Xóa nonce sau khi xác thực thành công
-            delete nonces[walletAddress];
-
-            // Tạo JWT token
-            const token = jwt.sign({ walletAddress }, JWT_SECRET_KEY, { expiresIn: "1h" });
-
-            res.status(200).json({ token });
-            return;
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: "An error occurred during signature verification." });
+        if (!jwt) {
+            res.send(false);
             return;
         }
+
+        const authResult = await thirdwebAuth.verifyJWT({ jwt });
+
+        if (!authResult.valid) {
+            res.send(false);
+            return;
+        }
+        const user = decodeJWT(jwt).payload.sub;
+        console.log('user: ', user);
+        res.send(true);
+    }
+
+    static async logout(req: Request, res: Response): Promise<void> {
+        res.clearCookie("jwt");
+	    res.send(true);
     }
 }
 
