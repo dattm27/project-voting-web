@@ -2,13 +2,19 @@ import {
   NewCandidate as NewCandidateEvent,
   NewVote as NewVoteEvent,
   OwnershipTransferred as OwnershipTransferredEvent,
+  Pause as PauseEvent,
+  Unpause as UnpauseEvent,
 } from "../generated/templates/Election/Election"
 import {
   NewCandidate,
   NewElection,
   NewVote,
   OwnershipTransferred,
+
 } from "../generated/schema"
+
+
+
 
 export function handleNewCandidate(event: NewCandidateEvent): void {
   let election = NewElection.load(event.params.electionId.toString());
@@ -75,4 +81,22 @@ export function handleOwnershipTransferred(
   entity.transactionHash = event.transaction.hash
 
   entity.save()
+}
+
+export function handlePause(event: PauseEvent): void {
+  //load election 
+  let election = NewElection.load( event.params.electionId.toString())
+  if ( election == null ) return ;
+  //update election status
+  election.status = "PAUSED"
+  election.save()
+}
+
+export function handleUnpause(event: UnpauseEvent): void {
+   //load election 
+   let election = NewElection.load( event.params.electionId.toString())
+   if ( election == null ) return ;
+   //update election status
+   election.status = "ACTIVE"
+   election.save()
 }

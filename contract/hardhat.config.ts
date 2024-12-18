@@ -32,12 +32,14 @@ const config: HardhatUserConfig = {
     my_polygon: {
       url: process.env.RPC, //"https://api.avax-test.network/ext/bc/C/rpc",
       accounts: private_key
+    },
+    fuji: {
+      url: process.env.RPC, //"https://api.avax-test.network/ext/bc/C/rpc",
+      accounts: private_key
     }
   },
   etherscan: {
-    apiKey: {
-      polygonAmoy: api_key,
-    }
+    apiKey: process.env.ETH_API_KEY,
   },
   contractSizer: {
     alphaSort: true,

@@ -1,0 +1,77 @@
+.historyPage {
+    padding: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #f9fafb00;
+    color: var(--text-color);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.historyHeader{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    h1 {
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: var(--text-color);
+    }
+}
+.back_icon{
+    width: 32px;
+}
+.back_btn{
+    position: absolute;
+    left: 0;
+    top: 10px;
+    display: flex;
+    align-items: center;
+    span{
+        color: var(--text-color);
+    }
+}
+.historyTable {
+    min-width: 80%;
+    max-width: 900px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    border-spacing: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    font-size: 2rem;
+}
+
+.historyTable th,
+.historyTable td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.historyTable th {
+    background-color: #0d6dfd94;
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+.historyTable tr:nth-child(even) {
+    background-color: #ffffff23;
+}
+
+.historyTable tr:hover {
+    background-color: #bebebe8e;
+}
+
+.historyTable td a {
+    color: #598de2;
+    text-decoration: none;
+}
+
+.historyTable td a:hover {
+    text-decoration: underline;
+}
