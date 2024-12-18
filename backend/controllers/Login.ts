@@ -34,7 +34,7 @@ class LoginController {
             address,
             chainId: typeof chainId === "string" ? parseInt(chainId) : undefined,
         });
-        console.log(result);
+        console.log("result from generate payload: " , result);
         res.status(200).json(result);
         return;
     }
@@ -54,9 +54,9 @@ class LoginController {
     // Xác thực chữ ký và tạo access token
     static async verifySignature(req: Request, res: Response): Promise<void> {
         const payload: VerifyLoginPayloadParams = LoginController.convertResponeBodyToVerifyLoginPayloadParams(req.body);
-        console.log(payload);
+        console.log("payload from verify request: " , payload);
         const verifiedPayload = await thirdwebAuth.verifyPayload(payload);
-        console.log(verifiedPayload);
+        console.log("verify result: " , verifiedPayload);
 
         if (verifiedPayload.valid) {
             const jwt = await thirdwebAuth.generateJWT({
