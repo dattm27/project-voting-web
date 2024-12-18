@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { ethers } from "ethers";
-import { createAuth, type VerifyLoginPayloadParams } from "thirdweb/auth";
+import { createAuth, LoginPayload, type VerifyLoginPayloadParams } from "thirdweb/auth";
 import { privateKeyToAccount } from "thirdweb/wallets";
 import { thirdwebClient } from "../thirdwebClient";
 import { decodeJWT } from "thirdweb/utils";
@@ -34,7 +34,7 @@ class LoginController {
             address,
             chainId: typeof chainId === "string" ? parseInt(chainId) : undefined,
         });
-        console.log (result);
+        console.log(result);
         res.status(200).json(result);
         return;
     }
@@ -53,7 +53,8 @@ class LoginController {
 
     // Xác thực chữ ký và tạo access token
     static async verifySignature(req: Request, res: Response): Promise<void> {
-        const payload: VerifyLoginPayloadParams = req.body;
+        const payload: VerifyLoginPayloadParams = LoginController.convertResponeBodyToVerifyLoginPayloadParams(req.body);
+        console.log(payload);
         const verifiedPayload = await thirdwebAuth.verifyPayload(payload);
         console.log(verifiedPayload);
 
@@ -67,6 +68,25 @@ class LoginController {
         }
 
         res.status(400).send("Failed to login");
+    }
+
+    static convertResponeBodyToVerifyLoginPayloadParams(body: any): VerifyLoginPayloadParams {
+        const data = body.payload.data;
+        const payload: LoginPayload = {
+            domain: data.domain,
+            address: data.address,
+            statement: data.statement,
+            uri: data.uri,
+            version: data.version,
+            chain_id: data.chain_id,
+            nonce: data.nonce,
+            issued_at: data.issued_at,
+            expiration_time: data.expiration_time,
+            invalid_before: data.invalid_before,
+            resources: data.resources,
+        }
+        const signature = body.signature;
+        return { payload, signature };
     }
 
     static async isLogin(req: Request, res: Response): Promise<void> {
@@ -90,7 +110,7 @@ class LoginController {
 
     static async logout(req: Request, res: Response): Promise<void> {
         res.clearCookie("jwt");
-	    res.send(true);
+        res.send(true);
     }
 }
 
