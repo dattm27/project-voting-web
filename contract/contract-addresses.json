@@ -12,8 +12,8 @@
             "address": "0x451125A80363d800F46a549198D99Ac53e091681"
         },
         "ElectionFactory": {
-            "address": "0x49c736232045404150A5aE78D5C7972304ec7C59",
-            "impl": "0xA262166e8aa81983ccA430a925bE7D164EE659b9"
+            "address": "0x70fCa77527A67599f82ea9Dd74275d7fBB74FA1b",
+            "impl": "0x4dC24b5cF8096E2aeeA354a5BAdd82982Da87893"
         }
     }
 }
