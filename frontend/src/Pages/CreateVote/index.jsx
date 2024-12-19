@@ -81,7 +81,8 @@ function CreateVote() {
                     startDate: new Date().toISOString(),
                     endDate: new Date(endDate).toISOString(),
                     status: '1',
-                    photoLink: photoLink
+                    photoLink: photoLink,
+                    walletAddress: activeAccount.address,
                 };
                 console.log("Election data:", election);
 
