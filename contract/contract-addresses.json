@@ -12,7 +12,7 @@
             "address": "0x451125A80363d800F46a549198D99Ac53e091681"
         },
         "ElectionFactory": {
-            "address": "0x70fCa77527A67599f82ea9Dd74275d7fBB74FA1b",
+            "address": "0xf372fafc8230541a0692F34B0DbE459c3D7f9959",
             "impl": "0x4dC24b5cF8096E2aeeA354a5BAdd82982Da87893"
         }
     }
