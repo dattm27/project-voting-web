@@ -1,6 +1,6 @@
 const endPointConfig = {
-    //serverIP: 'https://project-voting-web.onrender.com',
-    serverIP: 'http://localhost:3000',
+    serverIP: 'https://project-voting-web.onrender.com',
+    //serverIP: 'http://localhost:3000',
     apiBaseURL: '/api/',
     endpoints: {
         elections: 'elections',

@@ -1,6 +1,6 @@
 // const AUTH_API = "http://localhost:3000";
 import endPointConfig from "./endPointConfig";
-const AUTH_API = "http://localhost:4000"; ;
+const AUTH_API = "https://auth-server-1lft.onrender.com";
 import { get, post } from "./api";
 import { avalancheFuji } from "thirdweb/chains";
 export const getLoginPayload = async (params) => {
