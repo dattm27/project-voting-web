@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "types": ["bun"],
+  
+      // other options
+      "esModuleInterop": true,
+  
+      "experimentalDecorators": true,
+  
+      "emitDecoratorMetadata": true
+  
+    }
+}

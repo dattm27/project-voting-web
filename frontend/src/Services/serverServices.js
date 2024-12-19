@@ -121,5 +121,3 @@ export const deleteCandidate = async (id, electionId) => {
     }
 };
 
-
-updateCandidate(1, 19, {votes : 2})

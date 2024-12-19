@@ -1,6 +1,6 @@
 // const AUTH_API = "http://localhost:3000";
 import endPointConfig from "./endPointConfig";
-const AUTH_API = endPointConfig.serverIP ;
+const AUTH_API = "http://localhost:4000"; ;
 import { get, post } from "./api";
 import { avalancheFuji } from "thirdweb/chains";
 export const getLoginPayload = async (params) => {
