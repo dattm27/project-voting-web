@@ -10,9 +10,10 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
 	cors({
-		origin: `${
-			process.env.NODE_ENV === "development" ? "http" : "https"
-		}://${process.env.CLIENT_DOMAIN}`,
+		// origin: `${
+		// 	process.env.NODE_ENV === "development" ? "http" : "https"
+		// }://${process.env.CLIENT_DOMAIN}`,
+		origin: `http://localhost:3333`,
 		credentials: true,
 	})
 );
@@ -58,6 +59,7 @@ app.post("/login", async (req, res) => {
 		console.log('set cookie');
 		res.cookie("jwt", jwt, 
 			{
+				httpOnly: true,
 				secure: true,
 				sameSite: "none",}
 		);
