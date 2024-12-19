@@ -8,8 +8,8 @@ contract ElectionFactory is Initializable, AccessControlUpgradeable {
     bytes32 public constant OPERATOR = keccak256("OPERATOR");
 
     mapping (uint256 => address) electionAddr;
-
-    event NewElection(uint256 id,address indexed election, address owner );
+    mapping (string title => bool) existingElection;
+    event NewElection(uint256 id, string title, address indexed election, address owner,  uint duration );
     
        /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -23,13 +23,16 @@ contract ElectionFactory is Initializable, AccessControlUpgradeable {
         electionCreated = 0 ;
     }
 
-    function createElection  (address _owner) public  onlyRole(OPERATOR)  {
+    function createElection  (string memory _title, uint duration) public {
+        require(existingElection[_title] == false, "DUPLICATE");
         uint256 _electionId = ++ electionCreated;
-        Election _election = new Election(_electionId ,_owner);
+        Election _election = new Election(_electionId ,msg.sender, duration);
+        existingElection[_title] = true;
         electionAddr[_electionId] = address(_election);
-        emit NewElection(_electionId, address(_election), _owner);
+        emit NewElection(_electionId, _title, address(_election), msg.sender, duration);
     
     }
+
 
     function getElectionAddr(uint256 _id) public view returns (address){
         require(_id > 0 && _id <= electionCreated, "invalid id");

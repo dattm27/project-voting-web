@@ -1,78 +1,204 @@
 import styles from './CreateVote.module.scss';
-
-
+import { useState } from 'react';
+import { TransactionButton, useActiveAccount } from 'thirdweb/react';
+import { CONTRACT } from '../../Utils/constant.js';
+import { prepareContractCall } from 'thirdweb';
+import { GET_NEW_VOTE } from '../../GraphQL/client.jsx';
+import { useQuery } from '@apollo/client';
+import { createRoutesFromChildren, useNavigate } from 'react-router-dom';
+import { createElection } from '../../Services/serverServices.js';
+import { uploadImageByFile } from '../../Services/CloudinaryServices.js';
+import { ethers } from 'ethers';
+import { contractABI } from '../../Utils/constant.js';
 function CreateVote() {
+    const [title, setTitle] = useState("");
+    const [endDate, setEndDate] = useState(""); // State for end date and time
+    const [description, setDescription] = useState(""); // State for description
+    const [photo, setPhoto] = useState(null); // State for photo
+    
+    const activeAccount = useActiveAccount();
+    const navigate = useNavigate();
+
+    // Fetch election data using GraphQL query
+    const { refetch } = useQuery(GET_NEW_VOTE, {
+        variables: { owner: activeAccount?.address },
+        skip: !activeAccount
+    });
+
+    // Function to handle fetching new election data and redirecting
+    const handleGetElectionData = async () => {
+        try {
+            const { data } = await refetch();
+            if (data && data.newElections.length > 0) {
+                const electionAddress = data.newElections[0].electionAddr;
+                console.log("Election Address:", electionAddress);
+
+                // Redirect to the election address page
+                navigate(`/vote/${electionAddress}`);
+            } else {
+                console.error("No election data found.");
+                alert("No new election data found!");
+            }
+        } catch (error) {
+            console.error("Failed to fetch updated data:", error);
+            alert("Failed to fetch updated data.");
+        }
+    };
+
+    // Calculate the time difference in seconds
+    const calculateTimeInSeconds = () => {
+        const currentTimestamp = Math.floor(Date.now() / 1000); // Current time in seconds
+        const endTimestamp = Math.floor(new Date(endDate).getTime() / 1000); // End date in seconds
+        if (endTimestamp > currentTimestamp) {
+            return endTimestamp - currentTimestamp; // Time difference in seconds
+        }
+        alert("End date must be in the future.");
+        throw new Error("Invalid end date.");
+    };
+
+    const handleFileUpload = (event) => {
+        const file = event.target.files[0];
+        if (file && (file.type === 'image/jpeg' || file.type === 'image/png')) {
+            console.log("File:", file);
+            setPhoto(file); // Lưu file vào state
+        } else {
+            alert("Please upload a valid image file (JPEG or PNG).");
+        }
+    };
+
+    const handleCreateElection = async (id) => {
+        try{
+            // const {data} = await refetch();
+            // if(data && data.newElections.length > 0){
+                // const electionId = data.newElections[0].electionId;
+                const  electionId = id ;
+                const {photoLink} = await uploadImageByFile(photo);
+                console.log("Photo link:", photoLink);
+                const election = {
+                    id: electionId,
+                    name: title,
+                    description: description,
+                    startDate: new Date().toISOString(),
+                    endDate: new Date(endDate).toISOString(),
+                    status: '1',
+                    photoLink: photoLink,
+                    walletAddress: activeAccount.address,
+                };
+                console.log("Election data:", election);
+
+                const response = await createElection(election);
+                console.log("Election created:", response);
+            // }
+        }
+        catch(error){
+            console.error('Error creating election:', error);
+            throw error;
+        }
+    }
+
     return (
-        <div className={styles['create-vote-page-container']}>
-            <section className={styles.container}>
-                <header>Registration Form</header>
-                <form className={styles.form} action="#">
-                    <div className={styles['input-box']}>
-                        <label>Full Name</label>
-                        <input required placeholder="Enter full name" type="text" />
-                    </div>
+        <div className={styles.container}>
+            <h1>Create your own vote</h1>
 
-                    <div className={styles.column}>
-                        <div className={styles['input-box']}>
-                            <label>Phone Number</label>
-                            <input required placeholder="Enter phone number" type="tel" />
-                        </div>
-                        <div className={styles['input-box']}>
-                            <label>Birth Date</label>
-                            <input required placeholder="Enter birth date" type="date" />
-                        </div>
-                    </div>
+            {/* Input field for vote title */}
+            <div className={styles.inputGroup}>
+                <label htmlFor="title" className={styles.label}>Vote Title</label>
+                <input
+                    id="title"
+                    type="text"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    className={styles.input}
+                    placeholder="Enter the title of your vote"
+                />
+            </div>
 
-                    <div className={styles['gender-box']}>
-                        <label style={{ color: "#000", fontWeight: "800" }}>Gender</label>
-                        <div className={styles['gender-option']}>
-                            <div className={styles.gender}>
-                                <input name="gender" id="check-male" type="radio" />
-                                <label htmlFor="check-male">Male</label>
-                            </div>
-                            <div className={styles.gender}>
-                                <input name="gender" id="check-female" type="radio" />
-                                <label htmlFor="check-female">Female</label>
-                            </div>
-                            <div className={styles.gender}>
-                                <input name="gender" id="check-other" type="radio" />
-                                <label htmlFor="check-other">Prefer not to say</label>
-                            </div>
-                        </div>
-                    </div>
+            {/* Input field for end date and time */}
+            <div className={styles.inputGroup}>
+                <label htmlFor="endDate" className={styles.label}>End Date and Time</label>
+                <input
+                    id="endDate"
+                    type="datetime-local"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                    className={styles.input}
+                />
+            </div>
 
-                    <div className={`${styles['input-box']} ${styles.address}`}>
-                        <label>Address</label>
-                        <input required placeholder="Enter street address" type="text" />
-                        <div className={styles.column}>
-                            <div className={styles['select-box']}>
-                                <select>
-                                    <option hidden>Country</option>
-                                    <option>USA</option>
-                                    <option>UK</option>
-                                    <option>Germany</option>
-                                    <option>Japan</option>
-                                </select>
-                            </div>
-                            <input required placeholder="Enter your city" type="text" />
-                        </div>
-                    </div>
+            {/* Input field for vote description */}
+            <div className={styles.inputGroup}>
+                <label htmlFor="description" className={styles.label}>Description</label>
+                <input
+                    id="description"
+                    type="text"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className={styles.input}
+                    placeholder="Enter the description of your vote"
+                />
+            </div>
 
-                    <button type="submit">Submit</button>
+            {/* File upload for photo */}
+            <div className={styles.inputGroup}>
+                <label htmlFor="photo" className={styles.label}>Upload Photo</label>
+                <input
+                    id="photo"
+                    type="file"
+                    accept="image/jpeg, image/png"
+                    onChange={handleFileUpload}
+                    className={styles.input}
+                />
+            </div>
 
-                    <label htmlFor="file" className={styles['custom-file-upload']}>
-                        <div className={styles.icon}>
-                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#000000">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M10 1C9.73478 1 9.48043 1.10536 9.29289 1.29289L3.29289 7.29289C3.10536 7.48043 3 7.73478 3 8V20C3 21.6569 4.34315 23 6 23H7C7.55228 23 8 22.5523 8 22C8 21.4477 7.55228 21 7 21H6C5.44772 21 5 20.5523 5 20V9H10C10.5523 9 11 8.55228 11 8V3H18C18.5523 3 19 3.44772 19 4V9C19 9.55228 19.4477 10 20 10C20.5523 10 21 9.55228 21 9V4C21 2.34315 19.6569 1 18 1H10ZM9 7H6.41421L9 4.41421V7ZM14 15.5C14 14.1193 15.1193 13 16.5 13C17.8807 13 19 14.1193 19 15.5V16V17H20C21.1046 17 22 17.8954 22 19C22 20.1046 21.1046 21 20 21H13C11.8954 21 11 20.1046 11 19C11 17.8954 11.8954 17 13 17H14V16V15.5ZM16.5 11C14.142 11 12.2076 12.8136 12.0156 15.122C10.2825 15.5606 9 17.1305 9 19C9 21.2091 10.7909 23 13 23H20C22.2091 23 24 21.2091 24 19C24 17.1305 22.7175 15.5606 20.9844 15.122C20.7924 12.8136 18.858 11 16.5 11Z"></path>
-                            </svg>
-                        </div>
-                        <div className={styles.text}>
-                            <span>Click to upload image</span>
-                        </div>
-                        <input id="file" type="file" />
-                    </label>
-                </form>
-            </section>
+            {/* Transaction button to create a new election */}
+            <TransactionButton
+                transaction={() =>
+                    prepareContractCall({
+                        contract: CONTRACT,
+                        method: 'createElection',
+                        params: [title, calculateTimeInSeconds()],
+                    })
+                }
+                className={styles.transactBtn}
+                onTransactionConfirmed={async (tx) => {
+                    // console.log("Transaction confirmed:", tx);
+                    //handleGetElectionData();    ---> khong can phai fetch lai toan bo du lieu nhu the
+                    //lay luon id tu tx log (nhung da bi ma huy -> phai decode)
+                  
+                    try {
+                        const logs = tx.logs;
+                        // console.log ('log', logs);
+                        //xac dinh event can decode tu abi
+                        const abiInterface = new ethers.Interface(contractABI);
+                        const event = abiInterface.getEvent("NewElection");
+                        // console.log('event', event);
+                        //lay ra event tu tx log
+                        const eventLog = logs.find(log => log.topics[0] === event.topicHash);
+                        if (!eventLog) {
+                            throw new Error("Event 'NewElection' not found in logs");
+                        }
+                        // lay id, title, election Address ra tu event log
+                        const {id, election}  = abiInterface.decodeEventLog(event, eventLog.data, eventLog.topics);
+                        await handleCreateElection(id.toString());
+                        alert("Vote created successfully!");
+                        // Redirect to the election address page
+                        navigate(`/vote/${election}`);
+                       
+                    }
+                    catch (error){
+                        console.log(error);
+                    }
+                    
+                    
+                    
+                }}
+                onTransactionFailed={(error) => {
+                    console.error("Transaction failed:", error);
+                    alert("Transaction failed. Please try again.");
+                }}
+            >
+                Create Election
+            </TransactionButton>
         </div>
     );
 }

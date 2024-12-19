@@ -2,12 +2,15 @@ import { MetaMaskProvider } from "@metamask/sdk-react";
 
 
 import HomePage from '../Pages/HomePage'
-import LoginPage from '../Pages/LoginPage'
 import DefaultLayout from '../Layout/DefaultLayout'
-import VotePage from '../Pages/MakeVote'
-import { useState} from "react";
+import SearchPage from '../Pages/Search'
 import VotesPage from "../Pages/VotesPage";
 import CreateVote from "../Pages/CreateVote";
+import VoteDetailPage from '../Pages/VoteDetailPage';
+import TestPage from "../Pages/TestPage";
+import NotFoundPage from "../Pages/NotFoundPage";
+import HistoryPage  from "../Pages/HistoryPage";
+import UserHistoryPage  from "../Pages/UserHistoryPage";
 //public routes
 
 function HomeSite() {
@@ -17,33 +20,25 @@ function HomeSite() {
         </DefaultLayout>
     )
 }
-
-function LoginSite() {
-
-    const [login, setLogin] = useState(null)
+function HistorySite() {
     return (
-        
-            <MetaMaskProvider
-                debug={true}
-                sdkOptions={{
-                    dappMetadata: {
-                        name: "Example React Dapp",
-                        url: window.location.href,
-                    },
-                    infuraAPIKey: import.meta.env.VITE_INFURA_API_KEY,
-                }}
-            >
-                <DefaultLayout login={login}>
-                <LoginPage setLogin={setLogin}/>
-                </DefaultLayout>
-            </MetaMaskProvider>
-        
+        <DefaultLayout>
+            <HistoryPage />
+        </DefaultLayout>
     )
 }
-function VoteSite() {
+function UserHistorySite() {
+    return (
+        <DefaultLayout>
+            <UserHistoryPage />
+        </DefaultLayout>
+    )
+}
+
+function SearchSite() {
     return (
         <DefaultLayout >
-            <VotePage />
+            <SearchPage />
         </DefaultLayout>
     )
 }
@@ -63,14 +58,43 @@ function CreateVoteSite() {
         </DefaultLayout>
     )
 }
+function VoteDetailSite() {
+    return (
+        <DefaultLayout >
+            <VoteDetailPage />
+        </DefaultLayout>
+    )
+}
+
+function TestSite() {
+    return (
+        <DefaultLayout >
+            <TestPage />
+        </DefaultLayout>
+    )
+}
+
+function NotFoundSite() {
+    return (
+        <DefaultLayout >
+            <NotFoundPage />
+        </DefaultLayout>
+    )
+}
 
 
 const publicRoutes = [
-    { path: '/', component: HomeSite },
-    { path: '/login', component: LoginSite },
-    { path: '/votes', component: VotesSite },
-    { path: '/vote', component: VoteSite },
+    { path: '/', component: VotesSite },
+    { path: '/home', component: HomeSite },
+    { path: '/vote/:voteAddr', component: VoteDetailSite },
+    { path: '/vote/history/:voteAddr', component: HistorySite },
+    { path: '/user/history/:userAddr', component: UserHistorySite },
+    { path: '/test', component: TestSite },
+    { path: '/search', component: SearchSite },
     { path: '/create-vote', component: CreateVoteSite },
+
+    //every path that have no match go here
+    { path: '*' , component: NotFoundSite}
 ]
 
 const privateRoutes = [

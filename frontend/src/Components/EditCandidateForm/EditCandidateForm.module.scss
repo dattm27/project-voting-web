@@ -1,0 +1,88 @@
+.title {
+    margin-top: 20px;
+    font-size: 3.6rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.inputField {
+    margin-top: 10px;
+    width: 96%;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: #444;
+    border: 1px solid #555;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 2.4rem;
+    outline: none;
+
+    &:focus {
+        border-color: #3498db;
+    }
+}
+.textAreaField {
+    margin-top: 10px;
+    width: 96%;
+    min-height: 400px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 2rem;
+    background-color: #444;
+    border: 1px solid #555;
+    color: #fff;
+    resize: vertical;
+}
+
+
+label{
+   font-size: 2.2rem;
+   font-weight: 300;
+}
+.imageUpload {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    margin-left: 20px;
+    background-color: #444;
+    border: 1px solid #555;
+    color: #ffffff;
+    border-radius: 4px;
+    margin-bottom: 60px;
+    cursor: pointer;
+    display: block;
+    margin: auto;
+}
+
+.saveBtn {
+    margin-top: 3rem ;
+    padding: 1rem 1rem ;
+    background-color: hsl(112, 72%, 33%) ;
+    color: #fff ;
+    font-size: 2rem ;
+    border: none;
+    border-radius: 4px ;
+    cursor: pointer;
+    margin:auto;
+    display: block;
+    margin-top: 20px;
+    &:hover {
+        background-color: #1a7c34;
+    }
+}
+
+.imagePreviewContainer {
+    margin: 10px 0px 20px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.imagePreview {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
