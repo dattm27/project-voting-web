@@ -24,10 +24,13 @@ export class Election{
     @Column()
     photoLink: string;
 
+    @Column({nullable: true})
+    walletAddress: string;
+
     @OneToMany(() => Candidate, candidate => candidate.election)
     candidates: Candidate[];
 
-    constructor(id, name, startDate, endDate, description, status, photoLink){
+    constructor(id, name, startDate, endDate, description, status, photoLink, walletAddress){
         this.id = id;
         this.name = name;
         this.startDate = startDate;
@@ -35,6 +38,7 @@ export class Election{
         this.description = description;
         this.status = status;
         this.photoLink = photoLink;
+        this.walletAddress = walletAddress;
     }
 }
 

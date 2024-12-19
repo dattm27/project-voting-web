@@ -2,13 +2,39 @@ import { Request, Response } from 'express';
 import { Candidate } from '../models/Candidate';
 import AppDataSource from '../config/database';
 import { CloudinaryServices } from '../services/CloudinaryServices';
+import Election from '../models/Election';
+import { decodeJWT } from 'thirdweb/utils';
 
 const candidateRepository = AppDataSource.getRepository(Candidate);
+const electionRepository = AppDataSource.getRepository(Election);
 
 // Create a new candidate
-export const createCandidate = async (req: Request, res: Response) : Promise<void> => {
+export const createCandidate = async (req: Request, res: Response): Promise<void> => {
     try {
-        const {id, name, birthDay, description, roll, votes, electionId, photoLink} = req.body;
+        const jwt = req.cookies?.jwt;
+        if (!jwt) {
+            res.status(401).json({ error: 'Unauthorized' });
+            return;
+        }
+
+        const user = decodeJWT(jwt).payload.sub;
+        if (!user) {
+            res.status(401).json({ error: 'Unauthorized' });
+            return;
+        }
+
+        const { id, name, birthDay, description, roll, votes, electionId, photoLink } = req.body;
+        
+        const election = await electionRepository.findOne({ where: { 
+            id: parseInt(electionId, 10) ,
+            walletAddress: user,
+        } });
+
+        if (!election) {
+            res.status(404).json({ error: 'Election created by user not found' });
+            return;
+        }
+
         const candidate = new Candidate(id, name, new Date(birthDay), description, roll, votes, electionId, photoLink);
         const savedCandidate = await candidateRepository.save(candidate);
         res.status(201).json(savedCandidate);
@@ -38,7 +64,7 @@ export const getDetailCandidate = async (req: Request, res: Response) => {
         const id = req.params.id;
         const electionId = req.params.electionId;
         const candidate = await candidateRepository.findOne({
-            where: { id: parseInt(id, 10) , electionId: parseInt(electionId, 10) },
+            where: { id: parseInt(id, 10), electionId: parseInt(electionId, 10) },
         });
         if (!candidate) {
             res.status(404).json({ error: 'Candidate not found' });
@@ -54,9 +80,32 @@ export const getDetailCandidate = async (req: Request, res: Response) => {
 // Update a candidate by ID
 export const updateCandidate = async (req: Request, res: Response): Promise<void> => {
     try {
+        const jwt = req.cookies?.jwt;
+        if (!jwt) {
+            res.status(401).json({ error: 'Unauthorized' });
+            return;
+        }
+
+        const user = decodeJWT(jwt).payload.sub;
+        if (!user) {
+            res.status(401).json({ error: 'Unauthorized' });
+            return;
+        }
+        
         const id = req.params.id;
         const electionId = req.params.electionId;
-        const candidate = await candidateRepository.findOne({ 
+        
+        const election = await electionRepository.findOne({ where: { 
+            id: parseInt(electionId, 10) ,
+            walletAddress: user,
+        } });
+
+        if (!election) {
+            res.status(404).json({ error: 'Election created by user not found' });
+            return;
+        }
+        
+        const candidate = await candidateRepository.findOne({
             where: { id: parseInt(id), electionId: parseInt(electionId) },
         });
         if (!candidate) {
@@ -77,10 +126,33 @@ export const updateCandidate = async (req: Request, res: Response): Promise<void
 // Delete a candidate by ID
 export const deleteCandidate = async (req: Request, res: Response): Promise<void> => {
     try {
+        const jwt = req.cookies?.jwt;
+        if (!jwt) {
+            res.status(401).json({ error: 'Unauthorized' });
+            return;
+        }
+
+        const user = decodeJWT(jwt).payload.sub;
+        if (!user) {
+            res.status(401).json({ error: 'Unauthorized' });
+            return;
+        }
+
         const id = req.params.id;
         const electionId = req.params.electionId;
-        const candidate = await candidateRepository.findOne({ 
-            where: { id: parseInt( id) , electionId: parseInt(electionId)},  
+              
+        const election = await electionRepository.findOne({ where: { 
+            id: parseInt(electionId, 10) ,
+            walletAddress: user,
+        } });
+
+        if (!election) {
+            res.status(404).json({ error: 'Election created by user not found' });
+            return;
+        }
+        
+        const candidate = await candidateRepository.findOne({
+            where: { id: parseInt(id), electionId: parseInt(electionId) },
         });
         if (!candidate) {
             res.status(404).json({ error: 'Candidate not found' });

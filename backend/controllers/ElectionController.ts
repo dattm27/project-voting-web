@@ -1,6 +1,7 @@
 import e, { Request, Response } from 'express';
 import { Election } from '../models/Election';
 import { DropBoxServices } from '../services/DropboxServices';
+import { decodeJWT } from 'thirdweb/utils';
 import AppDataSource from '../config/database';
 import Candidate from '../models/Candidate';
 import { CloudinaryServices } from '../services/CloudinaryServices';
@@ -11,8 +12,12 @@ const candidateRepository = AppDataSource.getRepository(Candidate);
 // Create a new election
 export const createElection = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { id, name, startDate, endDate, description, status, photoLink } = req.body;
-        const election = new Election(id, name, new Date(startDate), new Date(endDate), description, status, photoLink);
+        const { id, name, startDate, endDate, description, status, photoLink, walletAddress } = req.body;
+        if (!id || !walletAddress) {
+            res.status(400).json({ error: 'Missing required fields' });
+            return;
+        }
+        const election = new Election(id, name, new Date(startDate), new Date(endDate), description, status, photoLink, walletAddress);
         const savedElection = await electionRepository.save(election);
         res.status(201).json(savedElection);
     } catch (error) {
@@ -67,7 +72,7 @@ export const getElectionsByFilter = async (req: Request, res: Response): Promise
             const lowerCaseTitle = title.toString().toLowerCase();
             queryBuilder.andWhere('LOWER(election.name) LIKE :title', { title: `%${lowerCaseTitle}%` });
         }
-      
+
 
         if (isEnd !== undefined) {
             const now = new Date();
@@ -92,7 +97,7 @@ export const getElectionsByFilter = async (req: Request, res: Response): Promise
             });
 
             elections.map((election) => {
-                console.log('Election '+ election.name + ' has total votes: ' + election.candidates.reduce((total, candidate) => total + candidate.votes, 0));
+                console.log('Election ' + election.name + ' has total votes: ' + election.candidates.reduce((total, candidate) => total + candidate.votes, 0));
             });
         }
 
@@ -106,10 +111,27 @@ export const getElectionsByFilter = async (req: Request, res: Response): Promise
 // Update an election by ID
 export const updateElection = async (req: Request, res: Response): Promise<void> => {
     try {
+        const jwt = req.cookies?.jwt;
+        if (!jwt) {
+            res.status(401).json({ error: 'Unauthorized' });
+            return;
+        }
+
+        const user = decodeJWT(jwt).payload.sub;
+        if (!user) {
+            res.status(401).json({ error: 'Unauthorized' });
+            return;
+        }
+
         const id = req.params.id;
         const election = await electionRepository.findOne({ where: { id: parseInt(id, 10) } });
         if (!election) {
             res.status(404).json({ error: 'Election not found' });
+            return;
+        }
+
+        if (election.walletAddress !== user) {
+            res.status(403).json({ error: 'Forbidden' });
             return;
         }
 
@@ -126,6 +148,18 @@ export const updateElection = async (req: Request, res: Response): Promise<void>
 // Delete an election by ID
 export const deleteElection = async (req: Request, res: Response): Promise<void> => {
     try {
+        const jwt = req.cookies?.jwt;
+        if (!jwt) {
+            res.status(401).json({ error: 'Unauthorized' });
+            return;
+        }
+
+        const user = decodeJWT(jwt).payload.sub;
+        if (!user) {
+            res.status(401).json({ error: 'Unauthorized' });
+            return;
+        }
+
         const id = req.params.id;
         const election = await electionRepository.findOne({
             where: { id: parseInt(id, 10) },
@@ -134,6 +168,11 @@ export const deleteElection = async (req: Request, res: Response): Promise<void>
 
         if (!election) {
             res.status(404).json({ error: 'Election not found' });
+            return;
+        }
+
+        if (election.walletAddress !== user) {
+            res.status(403).json({ error: 'Forbidden' });
             return;
         }
 

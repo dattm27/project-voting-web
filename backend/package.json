@@ -25,6 +25,7 @@
     "express": "^4.21.1",
     "nodejs": "^0.0.0",
     "pg": "^8.13.1",
+    "thirdweb": "^5.79.0",
     "typeorm": "^0.3.20"
   },
   "devDependencies": {
