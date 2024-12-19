@@ -113,13 +113,15 @@ export const updateElection = async (req: Request, res: Response): Promise<void>
     try {
         const jwt = req.cookies?.jwt;
         if (!jwt) {
-            res.status(401).json({ error: 'Unauthorized' });
+            console.log('jwt not exist');
+            res.status(401).json({ error: 'Unauthorized because of jwt not exist' });
             return;
         }
 
         const user = decodeJWT(jwt).payload.sub;
         if (!user) {
-            res.status(401).json({ error: 'Unauthorized' });
+            console.log('user not exist');
+            res.status(401).json({ error: 'Unauthorized because of user not match' });
             return;
         }
 

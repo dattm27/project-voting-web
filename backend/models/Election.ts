@@ -24,7 +24,7 @@ export class Election{
     @Column()
     photoLink: string;
 
-    @Column({nullable: true})
+    @Column()
     walletAddress: string;
 
     @OneToMany(() => Candidate, candidate => candidate.election)

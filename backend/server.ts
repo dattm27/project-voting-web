@@ -3,14 +3,22 @@ import { config as configDotenv } from 'dotenv';
 import cors from 'cors';
 import electionRoutes from './routes/ElectionRoutes';
 import candidateRoutes from './routes/CandidateRoutes';
-import AppDataSource from './config/database'
+import AppDataSource from './config/database';
+import cookieParser from 'cookie-parser';
 
 configDotenv();
 
 const app = express();
 
-app.use(cors());
+app.use(cors(
+  {
+    origin: 'http://localhost:3333',
+    credentials: true,
+  }
+));
 app.use(express.json());
+
+app.use(cookieParser());
 
 // Sử dụng các routes
 app.use('/api', electionRoutes, candidateRoutes);

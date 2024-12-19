@@ -55,7 +55,12 @@ app.post("/login", async (req, res) => {
 		const jwt = await thirdwebAuth.generateJWT({
 			payload: verifiedPayload.payload,
 		});
-		res.cookie("jwt", jwt);
+		console.log('set cookie');
+		res.cookie("jwt", jwt, 
+			{
+				secure: true,
+				sameSite: "none",}
+		);
 		return res.status(200).send({ token: jwt });
 	}
 
