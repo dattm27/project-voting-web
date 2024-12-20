@@ -60,7 +60,6 @@ app.post("/login", async (req, res) => {
 		res.cookie("jwt", jwt, 
 			{
 				httpOnly: true,
-				domain: `.onrender.com`,
 				secure: true,
 				sameSite: "none",}
 		);
@@ -90,7 +89,6 @@ app.get("/isLoggedIn", async (req, res) => {
 app.post("/logout", (req, res) => {
 	res.clearCookie("jwt", {
         httpOnly: true,
-		domain: `.onrender.com`,
         secure: true,
         sameSite: "none",
     });
