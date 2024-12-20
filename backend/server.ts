@@ -10,12 +10,15 @@ configDotenv();
 
 const app = express();
 
-app.use(cors(
-  {
-    origin: 'https://vercel-deploy-chi-henna.vercel.app',
-    credentials: true,
-  }
-));
+app.use(cors({
+  origin: [
+      'https://vercel-deploy-chi-henna.vercel.app', // Frontend
+      'https://auth-server-1lft.onrender.com', // Auth Server
+      'https://project-voting-web.onrender.com', // API Server
+  ],
+  credentials: true,
+}));
+
 app.use(express.json());
 
 app.use(cookieParser());

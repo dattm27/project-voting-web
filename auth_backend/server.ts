@@ -8,15 +8,15 @@ import { decodeJWT } from "thirdweb/utils";
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
-app.use(
-	cors({
-		// origin: `${
-		// 	process.env.NODE_ENV === "development" ? "http" : "https"
-		// }://${process.env.CLIENT_DOMAIN}`,
-		origin: `https://vercel-deploy-chi-henna.vercel.app`,
-		credentials: true,
-	})
-);
+app.use(cors({
+    origin: [
+        'https://vercel-deploy-chi-henna.vercel.app', // Frontend
+        'https://auth-server-1lft.onrender.com', // Auth Server
+        'https://project-voting-web.onrender.com', // API Server
+    ],
+    credentials: true,
+}));
+
 
 const thirdwebAuth = createAuth({
 	domain: process.env.CLIENT_DOMAIN!,
