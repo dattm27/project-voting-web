@@ -57,12 +57,14 @@ app.post("/login", async (req, res) => {
 			payload: verifiedPayload.payload,
 		});
 		console.log('set cookie');
-		res.cookie("jwt", jwt, 
-			{
-				httpOnly: true,
-				secure: true,
-				sameSite: "none",}
-		);
+		res.cookie("jwt", jwt, {
+			httpOnly: true,
+			domain: '.onrender.com',
+			secure: true,
+			sameSite: 'lax',
+			path: '/',
+		});
+		
 		return res.status(200).send({ token: jwt });
 	}
 
@@ -88,9 +90,11 @@ app.get("/isLoggedIn", async (req, res) => {
 
 app.post("/logout", (req, res) => {
 	res.clearCookie("jwt", {
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
+		httpOnly: true,
+		domain: '.onrender.com',
+		secure: true,
+		sameSite: 'lax',
+		path: '/',
     });
 	return res.send(true);
 });
