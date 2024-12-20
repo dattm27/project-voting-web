@@ -12,7 +12,7 @@ const app = express();
 
 app.use(cors(
   {
-    origin: 'http://localhost:3333',
+    origin: 'https://vercel-deploy-chi-henna.vercel.app',
     credentials: true,
   }
 ));
