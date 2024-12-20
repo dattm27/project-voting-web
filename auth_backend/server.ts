@@ -59,7 +59,7 @@ app.post("/login", async (req, res) => {
 		console.log('set cookie');
 		res.cookie("jwt", jwt, {
 			httpOnly: true,
-			domain: 'project-voting-web.onrender.com',
+			domain: 'onrender.com',
 			secure: true,
 			sameSite: 'lax',
 			path: '/',
@@ -91,7 +91,7 @@ app.get("/isLoggedIn", async (req, res) => {
 app.post("/logout", (req, res) => {
 	res.clearCookie("jwt", {
 		httpOnly: true,
-		domain: 'project-voting-web.onrender.com',
+		domain: 'onrender.com',
 		secure: true,
 		sameSite: 'lax',
 		path: '/',
