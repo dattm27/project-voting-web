@@ -87,7 +87,11 @@ app.get("/isLoggedIn", async (req, res) => {
 });
 
 app.post("/logout", (req, res) => {
-	res.clearCookie("jwt");
+	res.clearCookie("jwt", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+    });
 	return res.send(true);
 });
 
