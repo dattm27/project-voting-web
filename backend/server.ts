@@ -16,6 +16,8 @@ app.use(cors({
     'https://vercel-deploy-chi-henna.vercel.app', // Frontend
     'https://auth-server-1lft.onrender.com', // Auth Server
     'https://project-voting-web.onrender.com', // API Server
+    'https://letuandat.id.vn', // Auth Server
+    'https://voting-web.letuandat.id.vn', // API Server
   ],
   credentials: true,
 }));
