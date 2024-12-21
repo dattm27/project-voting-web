@@ -10,6 +10,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
 	origin: [
+		'http://localhost:3000', // Frontend
 		'https://vercel-deploy-chi-henna.vercel.app', // Frontend
 		'https://auth-server-1lft.onrender.com', // Auth Server
 		'https://project-voting-web.onrender.com', // API Server
@@ -59,7 +60,6 @@ app.post("/login", async (req, res) => {
 		console.log('set cookie');
 		res.cookie("jwt", jwt, {
 			httpOnly: process.env.HTTP_ONLY === "true",
-			domain: '.onrender.com',
 			secure: process.env.SECURE === "true",
 			sameSite: process.env.SAME_SITE as 'lax' | 'strict' | 'none',
 		});
@@ -90,7 +90,6 @@ app.get("/isLoggedIn", async (req, res) => {
 app.post("/logout", (req, res) => {
 	res.clearCookie("jwt", {
 		httpOnly: process.env.HTTP_ONLY === "true",
-		domain: '.onrender.com',
 		secure: process.env.SECURE === "true",
 		sameSite: process.env.SAME_SITE as 'lax' | 'strict' | 'none',
 	});
