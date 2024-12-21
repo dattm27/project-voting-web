@@ -9,12 +9,12 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: [
-        'https://vercel-deploy-chi-henna.vercel.app', // Frontend
-        'https://auth-server-1lft.onrender.com', // Auth Server
-        'https://project-voting-web.onrender.com', // API Server
-    ],
-    credentials: true,
+	origin: [
+		'https://vercel-deploy-chi-henna.vercel.app', // Frontend
+		'https://auth-server-1lft.onrender.com', // Auth Server
+		'https://project-voting-web.onrender.com', // API Server
+	],
+	credentials: true,
 }));
 
 
@@ -58,12 +58,12 @@ app.post("/login", async (req, res) => {
 		});
 		console.log('set cookie');
 		res.cookie("jwt", jwt, {
-			httpOnly: true,
-			secure: true,
-			sameSite: 'lax',
-			path: '/',
+			httpOnly: process.env.HTTP_ONLY === "true",
+			domain: process.env.COOKIE_DOMAIN,
+			secure: process.env.SECURE === "true",
+			sameSite: process.env.SAME_SITE as 'lax' | 'strict' | 'none',
 		});
-		
+
 		return res.status(200).send({ token: jwt });
 	}
 
@@ -72,7 +72,7 @@ app.post("/login", async (req, res) => {
 
 app.get("/isLoggedIn", async (req, res) => {
 	const jwt = req.cookies?.jwt;
-	
+
 	if (!jwt) {
 		return res.send(false);
 	}
@@ -89,11 +89,11 @@ app.get("/isLoggedIn", async (req, res) => {
 
 app.post("/logout", (req, res) => {
 	res.clearCookie("jwt", {
-		httpOnly: true,
-		secure: true,
-		sameSite: 'lax',
-		path: '/',
-    });
+		httpOnly: process.env.HTTP_ONLY === "true",
+		domain: process.env.COOKIE_DOMAIN,
+		secure: process.env.SECURE === "true",
+		sameSite: process.env.SAME_SITE as 'lax' | 'strict' | 'none',
+	});
 	return res.send(true);
 });
 
