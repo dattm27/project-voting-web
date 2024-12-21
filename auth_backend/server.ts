@@ -59,7 +59,7 @@ app.post("/login", async (req, res) => {
 		console.log('set cookie');
 		res.cookie("jwt", jwt, {
 			httpOnly: process.env.HTTP_ONLY === "true",
-			domain: process.env.COOKIE_DOMAIN,
+			domain: '.onrender.com',
 			secure: process.env.SECURE === "true",
 			sameSite: process.env.SAME_SITE as 'lax' | 'strict' | 'none',
 		});
@@ -90,7 +90,7 @@ app.get("/isLoggedIn", async (req, res) => {
 app.post("/logout", (req, res) => {
 	res.clearCookie("jwt", {
 		httpOnly: process.env.HTTP_ONLY === "true",
-		domain: process.env.COOKIE_DOMAIN,
+		domain: '.onrender.com',
 		secure: process.env.SECURE === "true",
 		sameSite: process.env.SAME_SITE as 'lax' | 'strict' | 'none',
 	});
