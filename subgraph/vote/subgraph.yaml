@@ -8,9 +8,9 @@ dataSources:
     name: ElectionFactory
     network: fuji
     source:
-      address: "0xf372fafc8230541a0692F34B0DbE459c3D7f9959"
+      address: "0xb176e15E88A0F5668Cc6c9F180804582F82Ca96e"
       abi: ElectionFactory
-      startBlock: 37211055
+      startBlock: 37246491
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
