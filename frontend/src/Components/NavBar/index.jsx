@@ -27,7 +27,7 @@ const Navbar = () => {
 
         doLogout()
 
-    }, [address, isConnected]);
+    }, [isConnected]);
     useEffect(() => {
         switch (location.pathname) {
             case '/create-vote':
