@@ -23,11 +23,11 @@ const Navbar = () => {
         }),
         createWallet("io.metamask"),
     ];
-    useEffect(() => {
+    // useEffect(() => {
 
-        doLogout()
+    //     doLogout()
 
-    }, [isConnected]);
+    // }, [isConnected]);
     useEffect(() => {
         switch (location.pathname) {
             case '/create-vote':
