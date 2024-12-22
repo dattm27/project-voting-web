@@ -13,7 +13,7 @@ const app = express();
 app.use(cors({
   origin: [
     'http://localhost:3000', // Frontend
-    'https://vercel-deploy-chi-henna.vercel.app', // Frontend
+    'https://lohoangtiendat-20215561.io.vn', // Frontend
     'https://auth-server-1lft.onrender.com', // Auth Server
     'https://project-voting-web.onrender.com', // API Server
     'https://letuandat.id.vn', // Auth Server
