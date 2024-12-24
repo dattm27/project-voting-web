@@ -1,127 +1,108 @@
+import Masonry from 'react-masonry-css';
+import { useEffect, useState } from 'react';
+import { useQuery } from '@apollo/client';
 import styles from './VotesPage.module.scss';
+import { GET_ELECTIONS, GET_USER_ELECTIONS } from '../../GraphQL/client.jsx';
 
-const news = [
-    {
-        src: "https://images.pexels.com/photos/127513/pexels-photo-127513.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        alt: 'Amazing First Title',
-        h2: "Amazing First Title",
-        date: "Jan 29, 2018",
-        p: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Est pariatur nemo tempore repellat? Ullam sed officia iure architecto deserunt distinctio, pariatur",
-        a: "Read more"
-    },
-    {
-        src: "https://images.pexels.com/photos/631954/pexels-photo-631954.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        alt: 'Amazing Second Title',
-        h2: "Amazing Second Title that is Quite Long",
-        date: "Jan 29, 2018",
-        p: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam obcaecati ex natus nulla rem sequi laborum quod fugit&hellip;",
-        a: "Read more"
-    },
-    {
-        src: "https://images.pexels.com/photos/247599/pexels-photo-247599.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-        alt: 'Amazing Title',
-        h2: "Amazing Title",
-        date: "Jan 29, 2018",
-        p: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis beatae&hellip;",
-        a: "Read more"
-    },
-    {
-        src: "https://images.pexels.com/photos/127513/pexels-photo-127513.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        alt: 'Amazing First Title',
-        h2: "Amazing First Title",
-        date: "Jan 29, 2018",
-        p: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Est pariatur nemo tempore repellat? Ullam sed officia iure architecto deserunt distinctio, pariatur",
-        a: "Read more"
-    },
-    {
-        src: "https://images.pexels.com/photos/631954/pexels-photo-631954.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        alt: 'Amazing Second Title',
-        h2: "Amazing Second Title that is Quite Long",
-        date: "Jan 29, 2018",
-        p: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam obcaecati ex natus nulla rem sequi laborum quod fugit&hellip;",
-        a: "Read more"
-    },
-    {
-        src: "https://images.pexels.com/photos/247599/pexels-photo-247599.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-        alt: 'Amazing Title',
-        h2: "Amazing Title",
-        date: "Jan 29, 2018",
-        p: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis beatae&hellip;",
-        a: "Read more"
-    },
-    {
-        src: "https://images.pexels.com/photos/127513/pexels-photo-127513.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        alt: 'Amazing First Title',
-        h2: "Amazing First Title",
-        date: "Jan 29, 2018",
-        p: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Est pariatur nemo tempore repellat? Ullam sed officia iure architecto deserunt distinctio, pariatur",
-        a: "Read more"
-    },
-    {
-        src: "https://images.pexels.com/photos/631954/pexels-photo-631954.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        alt: 'Amazing Second Title',
-        h2: "Amazing Second Title that is Quite Long",
-        date: "Jan 29, 2018",
-        p: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam obcaecati ex natus nulla rem sequi laborum quod fugit&hellip;",
-        a: "Read more"
-    },
-    {
-        src: "https://images.pexels.com/photos/247599/pexels-photo-247599.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-        alt: 'Amazing Title',
-        h2: "Amazing Title",
-        date: "Jan 29, 2018",
-        p: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis beatae&hellip;",
-        a: "Read more"
-    },
-    {
-        src: "https://images.pexels.com/photos/127513/pexels-photo-127513.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        alt: 'Amazing First Title',
-        h2: "Amazing First Title",
-        date: "Jan 29, 2018",
-        p: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Est pariatur nemo tempore repellat? Ullam sed officia iure architecto deserunt distinctio, pariatur",
-        a: "Read more"
-    },
-    {
-        src: "https://images.pexels.com/photos/631954/pexels-photo-631954.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        alt: 'Amazing Second Title',
-        h2: "Amazing Second Title that is Quite Long",
-        date: "Jan 29, 2018",
-        p: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam obcaecati ex natus nulla rem sequi laborum quod fugit&hellip;",
-        a: "Read more"
-    },
-    {
-        src: "https://images.pexels.com/photos/247599/pexels-photo-247599.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-        alt: 'Amazing Title',
-        h2: "Amazing Title",
-        date: "Jan 29, 2018",
-        p: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis beatae&hellip;",
-        a: "Read more"
-    },
-];
+import { useActiveAccount } from "thirdweb/react";
+
+import { getAllElections } from '../../Services/serverServices.js';
+import VoteCard from '../../Components/VoteCard'
 
 function VotesPage() {
+    const [filteredElectionData, setFilteredElectionData] = useState([]);
+    const [showUserElections, setShowUserElections] = useState(false);
+    const activeAccount = useActiveAccount();
+
+    const { data: allElectionsData } = useQuery(GET_ELECTIONS);
+    const { data: userElectionsData } = useQuery(GET_USER_ELECTIONS, {
+        variables: { owner: activeAccount?.address || "" },
+        skip: !activeAccount,
+    });
+
+    const [backendElections, setBackendElections] = useState([]);
+
+    useEffect(() => {
+        const fetchBackendElections = async () => {
+            const elections = await getAllElections();
+            setBackendElections(elections);
+        };
+        fetchBackendElections();
+    }, []);
+
+    useEffect(() => {
+        if (showUserElections && activeAccount && userElectionsData?.newElections) {
+            const formattedData = userElectionsData.newElections.map((election) => ({
+                title: election.title,
+                owner: election.owner,
+                id: election.electionId,
+                totalVotes: election.totalVotes,
+                electionAddr: election.electionAddr,
+                electionDue: election.electionEndTime,
+                numOfCandidates: election.numOfCandidates,
+            }));
+            setFilteredElectionData(formattedData);
+        } else if (!showUserElections && allElectionsData?.newElections) {
+            const formattedData = allElectionsData.newElections.map((election) => ({
+                title: election.title,
+                owner: election.owner,
+                id: election.electionId,
+                totalVotes: election.totalVotes,
+                electionAddr: election.electionAddr,
+                electionDue: election.electionEndTime,
+                numOfCandidates: election.numOfCandidates,
+            }));
+            setFilteredElectionData(formattedData);
+        }
+        if (!activeAccount) {
+            setShowUserElections(false);
+        }
+    }, [allElectionsData, userElectionsData, showUserElections, activeAccount]);
+
+    const toggleUserElections = () => {
+        setShowUserElections((prev) => !prev);
+    };
+
+    
+
+    const displayedElections = filteredElectionData;
+
+    // Breakpoints for masonry layout
+    const breakpointColumns = {
+        default: 3, // 3 columns for larger screens
+        768: 2, // 2 columns for tablets
+        576: 1, // 1 column for smaller screens
+    };
+
     return (
         <div className={styles['content-wrapper']}>
-            {news.map((item, index) => (
-                <div className={styles['news-card']} key={index}>
-                    <a href="#" className={styles['news-card__card-link']}></a>
-                    <img 
-                        src={item.src} 
-                        alt={item.alt} 
-                        className={styles['news-card__image']} 
+            <div className={styles['toggle-container']}>
+                <label className={styles['switch']}>
+                    <input
+                        type="checkbox"
+                        checked={showUserElections}
+                        onChange={toggleUserElections}
+                        disabled={!activeAccount}
                     />
-                    <div className={styles['news-card__text-wrapper']}>
-                        <h2 className={styles['news-card__title']}>{item.h2}</h2>
-                        <div className={styles['news-card__post-date']}>{item.date}</div>
-                        <div className={styles['news-card__details-wrapper']}>
-                            <p className={styles['news-card__excerpt']}>{item.p}</p>
-                            <a href="#" className={styles['news-card__read-more']}>
-                                {item.a} <i className="fas fa-long-arrow-alt-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            ))}
+                    <span className={styles['slider']} />
+                </label>
+                <span>
+                    {showUserElections ? 'Show All Elections' : 'Show My Elections'}
+                </span>
+            </div>
+            {displayedElections.length > 0 ? (
+                <Masonry
+                    breakpointCols={breakpointColumns}
+                    className={styles['masonry-grid']}
+                    columnClassName={styles['masonry-column']}
+                >
+                    {displayedElections.map((election, index) => (
+                        <VoteCard election={election} backendElections={backendElections} key={index}/>
+                    ))}
+                </Masonry>
+            ) : (
+                <h2>It looks like you haven&apos;t created any elections yet!</h2>
+            )}
         </div>
     );
 }

@@ -3,11 +3,13 @@ import { HardhatRuntimeEnvironment } from "hardhat/types";
 import Web3 from "web3";
 import { saveContract } from "../scripts/utils";
 import * as dotenv from "dotenv";
+import * as fs from "fs";
+const addresses = JSON.parse(fs.readFileSync("./contract-addresses.json", "utf-8"));
 dotenv.config();
 
 const deploy: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
     const { deployments, getNamedAccounts, network } = hre;
-    const { deploy } = deployments;
+    const { deploy, execute } = deployments;
     const { deployer } = await getNamedAccounts();
     const web3 = new Web3(process.env.RPC!);
 
@@ -54,6 +56,19 @@ const deploy: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
     } catch (e) {
         console.log(e);
     }
+
+    // Sử dụng execute để upgrade proxy lên implementation mới
+    await execute(
+        "DefaultProxyAdmin", // tên proxy bạn đã triển khai
+        { 
+            from: deployer, 
+            log: true,  
+            gasPrice: (await web3.eth.getGasPrice()).toString() ,
+            gasLimit: 5000000, // Thêm gasLimit vào đây
+        },
+        "upgrade", // gọi hàm upgradeTo trên proxy
+        data.address, data.implementation!
+    );
 };
 
 // Gán tag cho deploy script

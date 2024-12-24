@@ -5,3 +5,4 @@ cache
 typechain-types/
 .env
 deployments/
+frontend/package.json

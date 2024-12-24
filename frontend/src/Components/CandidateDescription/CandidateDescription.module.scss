@@ -1,0 +1,46 @@
+.descriptionLabel {
+    flex: 1; /* Allow it to grow to match the poster height */
+    background-color: #54545431; /* Soft background for a vote-related theme */
+    border-left: 6px solid #cbcbcb; /* Accent border on the left */
+    backdrop-filter: blur(20px); /* Frosted glass effect */
+    border-radius: 8px;
+    padding: 16px; /* Adjusted padding for better readability */
+    margin: 16px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    font-family: 'Arial', sans-serif; /* Clean, readable font */
+    display: flex;
+    flex-direction: column; /* Vertical alignment of children */
+    max-height: 400px; /* Set maximum height for the container */
+    overflow-y: auto; /* Make content scrollable if it exceeds max height */
+    transition: box-shadow 0.3s ease, border-color 0.3s ease; /* Smooth interactive effects */
+}
+
+.descriptionLabel pre {
+    white-space: pre-wrap; /* Preserve formatting and allow wrapping */
+    color: #ffffff; /* Neutral text color for readability */
+    font-size: 1.8rem; /* Comfortable text size */
+    line-height: 1.6; /* Comfortable line spacing */
+    text-align: left; /* Left-aligned text */
+    flex: 1; /* Allow content to expand vertically */
+    padding-right: 8px; /* Space for scroll visibility */
+    overflow-y: auto; /* Enable vertical scrolling for long content */
+    scrollbar-width: thin; /* Narrow scrollbar for modern feel (Firefox) */
+    scrollbar-color: #cbcbcb #545454; /* Colors for scrollbar (Firefox) */
+}
+
+.descriptionLabel pre::-webkit-scrollbar {
+    width: 8px;
+}
+
+.descriptionLabel pre::-webkit-scrollbar-track {
+    background: #545454; /* Track background */
+}
+
+.descriptionLabel pre::-webkit-scrollbar-thumb {
+    background: #cbcbcb; /* Scroll thumb color */
+    border-radius: 4px; /* Rounded corners */
+}
+
+.descriptionLabel pre::-webkit-scrollbar-thumb:hover {
+    background: #b0b0b0; /* Highlighted thumb color on hover */
+}

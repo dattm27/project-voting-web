@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { create_vote, make_vote, newsfeed_vote } from '../../Assets/images';
+import { create_vote, make_vote, newsfeed_vote } from '../../Assets/index';
 
 import styles from './HomePage.module.scss';
 

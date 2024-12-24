@@ -31,6 +31,8 @@ export function handleInitialized(event: InitializedEvent): void {
   entity.save()
 }
 
+
+
 export function handleNewElection(event: NewElectionEvent): void {
   let entity = new NewElection(
     event.params.id.toString()
@@ -43,7 +45,10 @@ export function handleNewElection(event: NewElectionEvent): void {
   entity.blockNumber = event.block.number
   entity.blockTimestamp = event.block.timestamp
   entity.transactionHash = event.transaction.hash
-  entity.title = event.params.title;
+  entity.title = event.params.title
+  entity.status = "ACTIVE"
+  entity.duaration = event.params.duration
+  entity.electionEndTime = event.block.timestamp.plus( event.params.duration)
   entity.save()
 
   //create Election Instance

@@ -1,11 +1,19 @@
 {
-    "my_polygon": {
-        "Voting": {
-            "address": "0x1239def2c8Dba1c5699EDB8CA1e0B070262802d5"
+    "sepolia": {
+        "ERC20Token": {
+            "address": "0xD63d1Cf8C3B29629D473C6CC9baC282e6d0676B5"
+        },
+        "PoolV2": {
+            "address": "0xCe3cDA8d1348477065F3f97A8F3F914C5aA7d7D8"
+        }
+    },
+    "fuji": {
+        "Election": {
+            "address": "0x451125A80363d800F46a549198D99Ac53e091681"
         },
         "ElectionFactory": {
-            "address": "0x130559aB237019Eb1C7750cc1715503b500f0FE1",
-            "impl": "0x89DB8F98D776894E62C6D3f24F0c607CE1D69121"
+            "address": "0xf372fafc8230541a0692F34B0DbE459c3D7f9959",
+            "impl": "0x4dC24b5cF8096E2aeeA354a5BAdd82982Da87893"
         }
     }
 }

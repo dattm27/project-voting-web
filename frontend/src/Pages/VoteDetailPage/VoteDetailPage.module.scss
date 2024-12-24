@@ -1,0 +1,443 @@
+.votePage {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
+    .voteHeadBar{
+        display: flex;
+        justify-content: center;
+        position: relative;
+        width: 90%;
+        h1{
+            font-size: 4.6rem;
+            margin-bottom: 20px;
+            color: var(--text-soft-color);
+        }
+        .history_btn{
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            span{
+                font-weight: 500;
+                font-size: 2rem;
+            }
+            .history_icon{
+                width: 30px;
+            }
+        }
+        .history_btn:hover{
+            color: var(--primary-red);
+        }
+        .back_icon{
+            width: 32px;
+        }
+        .back_btn{
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            span{
+                color: var(--text-color);
+            }
+        }
+    }
+    h2 {
+        color: var(--text-soft-color);
+        padding-top: 20px;
+        
+    }
+
+
+    .voteHeading {
+        display: flex;
+        justify-content: space-between;
+        width: 90%;
+        height: 64vh;
+        align-items: stretch; /* Ensure equal height of children */
+        margin: 0 100px;
+        .electionPoster {
+            width: auto; /* Dynamically adjust width */
+            max-width: 70%;
+            height: 100%; /* Maintain aspect ratio */
+            margin-right: 60px;
+            border: 1px solid var(--border-color2);
+            border-radius: 15px;
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(20px);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+    
+            .electionImage {
+                width: 100%;
+                max-width: 40vw;
+                height: 100%;
+                display: block;
+                object-fit: cover;
+                transition: transform 3s ease;
+            }
+            .editImageBtn {
+                position: absolute;
+                z-index: 100;
+                top: 10px;
+                right: 10px;
+                /* Added for better placement */
+                background-color: #ab435b;
+                color: white;
+                /* Contrasting text color for better visibility */
+                border: none;
+                padding: 8px 12px;
+                /* Comfortable padding */
+                font-size: 2rem;
+                /* Readable font size */
+                font-weight: bold;
+                /* For emphasis */
+                border-radius: 0.5rem;
+                /* Rounded corners for a smoother look */
+                cursor: pointer;
+                /* Indicates interactivity */
+                box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+                /* Subtle shadow for depth */
+                transition: all 0.3s ease;
+                /* Smooth transitions for hover effects */
+    
+                /* Active Effect */
+                &:active {
+                    transform: scale(0.95);
+                    /* Pressed effect */
+                    background-color: #7e2436;
+                    /* Slightly darker for active state */
+                }
+            }
+        }
+    
+        .electionDes {
+            flex: 1; /* Allow it to grow to match the poster height */
+            background-color: var(--glass-bg); /* Soft background for a vote-related theme */
+            border-left: 6px solid var(--border-color2); /* Accent border on the left */
+            backdrop-filter: blur(20px);
+            border-radius: 8px;
+            padding: 10px 16px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+        }
+    
+        .electionDes h2 {
+            margin-bottom: 8px; /* Space below the heading */
+            text-transform: uppercase; /* Emphasized text */
+            border-bottom: 2px solid var(--border-color2); /* Thin underline for focus */
+            padding-bottom: 4px; /* Space for underline clarity */
+            font-size: 3.6rem;
+            font-style: italic;
+            margin-bottom: 20px;
+            color: transparent;
+            background-image: linear-gradient(120deg, var(--violet), rgb(59, 111, 178));
+            background-clip: text;
+        }
+    
+        .electionDes pre {
+            white-space: pre-wrap;
+            color: var(--text-color); /* Neutral text color for readability */
+            font-size: 1.8rem;
+            line-height: 1.6; /* Comfortable line spacing */
+            text-align: left;
+            overflow-y: auto; /* Enable vertical scrolling */
+            flex: 1; /* Allow content to expand vertically */
+            padding-right: 8px; /* Space for scroll visibility */
+            scrollbar-width: thin; /* Narrow scrollbar for modern feel (Firefox) */
+            scrollbar-color: #cbcbcb #545454; /* Colors for scrollbar (Firefox) */
+        }
+    
+        .electionDes p::-webkit-scrollbar {
+            width: 8px;
+        }
+    
+        .electionDes p::-webkit-scrollbar-track {
+            background: #545454; /* Track background */
+        }
+    
+        .electionDes p::-webkit-scrollbar-thumb {
+            background: #cbcbcb; /* Scroll thumb color */
+            border-radius: 4px; /* Rounded corners */
+        }
+    
+        .electionDes p::-webkit-scrollbar-thumb:hover {
+            background: #b0b0b0; /* Highlighted thumb color on hover */
+        }
+    }
+    
+
+    .candidatesList {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+        margin-top: 30px;
+
+    }
+
+    .electionCard {
+        border: 1px solid rgba(221, 221, 221, 0.5);
+        margin: 10px;
+        width: 350px;
+        height: 540px;
+        border-radius: 15px;
+        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+        backdrop-filter: blur(20px);
+        overflow: hidden;
+        transition: transform 0.3s, box-shadow 0.3s;
+
+        .electionImage {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            transition: transform 3s ease;
+        }
+
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            width: 90%;
+            /* Adjust width for smaller screens */
+            margin: 15px auto;
+            /* Center card */
+        }
+    }
+
+
+    .candidateCard {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid var(--border-color);
+        padding: 20px;
+        margin: 10px;
+        width: 350px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        background-color: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        transition: transform 0.2s;
+
+        &:hover {
+            transform: translateY(-5px);
+        }
+
+        .candidateImage {
+            width: 308px;
+            height: 308px;
+            display: block;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+
+        h2 {
+            font-size: 18px;
+            color: #ffffff;
+            margin: 10px 0;
+        }
+
+        p {
+            font-size: 14px;
+            color: #ffffff;
+            margin: 5px 0;
+        }
+
+        .transactBtn {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            max-width: 100px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+
+
+            &__vote {
+                &:hover {
+                    background-color: #218838;
+                }
+            }
+
+            &__voted {
+                background-color: #ccc;
+                cursor: not-allowed;
+
+            }
+
+            &__notallow {
+                cursor: not-allowed;
+            }
+        }
+
+        .editBtn {
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #ab435b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            min-width: 100px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+
+            &:hover {
+                background-color: #66343f;
+            }
+        }
+
+        .votesLabel {
+            background-color: rgb(119, 172, 91);
+            margin-top: 20px;
+            width: 50%;
+            // padding: 8px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            .iconContainer {
+                border: 2px solid rgb(133, 197, 99);
+                padding: 5px;
+                margin-right: 20px;
+                background-color: #ffffff;
+                height: 100%;
+                overflow: hidden;
+                border-radius: 8px;
+
+                .votesIcon {
+                    width: 30px;
+                }
+            }
+
+            p {
+                font-size: 1.8rem;
+                font-weight: bold;
+                color: rgb(255, 255, 255);
+            }
+        }
+
+        .addCandiateBtn {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background-color: transparent;
+            border-radius: 11px;
+        }
+    }
+
+    .addCardImg {
+        padding: 100px;
+    }
+
+}
+
+.total_vote {
+    padding: 2px;
+    margin-top: 8px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    // border: 1px solid wheat;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.253);
+    & img{
+        max-width: 52px;
+    }
+    & span{
+        font-weight: 500;
+        font-size: 3rem;
+
+    }
+}
+
+.progressBarContainer {
+    width: 10%;
+    padding: 20px;
+    margin: 10px 0;
+    
+    .votePercentage {
+        font-size: 2rem;
+        color: #666;
+        margin-left: 5px;
+    }
+}
+
+.overallProgressBar {
+    margin-bottom: 20px;
+    padding: 10px;
+    width: 90%;
+
+    background-color: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.voteInfo {
+    display: inline-block;
+    margin-right: 15px;
+    font-size: 2.4rem;
+    color: #ffffff;
+}
+
+.progressSegment {
+    display: flex;
+    align-items: center;
+    width: 90%;
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.499);
+
+    .votePercentage {
+        font-size: 1rem;
+        color: #ffffff;
+        margin-left: 10px;
+        font-weight: bold;
+    }
+}
+
+.ProgressBar {
+    width: 90%;
+    height: 12px;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: #e0e0e000;
+}
+
+.ProgressBar div {
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+.overallProgressHeading {
+    font-size: 4rem; // Adjust the size as needed
+    font-weight: bold; // Optional: make it bold
+    margin-bottom: 1rem; // Optional: add some space below
+}
+

@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+  
+      // other options
+      "esModuleInterop": true,
+  
+      "experimentalDecorators": true,
+  
+      "emitDecoratorMetadata": true
+  
+    }
+}

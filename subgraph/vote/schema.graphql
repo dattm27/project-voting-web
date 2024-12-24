@@ -17,6 +17,9 @@ type NewElection @entity(immutable: false) {
   transactionHash: Bytes!
   totalVotes: Int!
   numOfCandidates: Int!
+  duaration: BigInt!
+  electionEndTime: BigInt!
+  status: String!
 }
 
 type RoleAdminChanged @entity(immutable: true) {

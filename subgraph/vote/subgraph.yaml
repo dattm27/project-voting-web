@@ -8,9 +8,9 @@ dataSources:
     name: ElectionFactory
     network: fuji
     source:
-      address: "0x58Bae326da65f5192E7c272224FFfd868964C5f9"
+      address: "0xb176e15E88A0F5668Cc6c9F180804582F82Ca96e"
       abi: ElectionFactory
-      startBlock: 36486519
+      startBlock: 37246491
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -27,7 +27,7 @@ dataSources:
       eventHandlers:
         - event: Initialized(uint64)
           handler: handleInitialized
-        - event: NewElection(uint256,string,indexed address,address)
+        - event: NewElection(uint256,string,indexed address,address,uint256)
           handler: handleNewElection
         - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
           handler: handleRoleAdminChanged
@@ -60,4 +60,9 @@ templates:
           handler: handleNewVote
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleOwnershipTransferred
+        - event:  Pause(uint256)
+          handler: handlePause
+        - event: Unpause(uint256)
+          handler: handleUnpause
+          
       file: ./src/election.ts
