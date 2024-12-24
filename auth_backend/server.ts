@@ -13,6 +13,8 @@ app.use(cors({
         'https://vercel-deploy-chi-henna.vercel.app', // Frontend
         'https://auth-server-1lft.onrender.com', // Auth Server
         'https://project-voting-web.onrender.com', // API Server
+		'http://localhost:3333', // Localhost for development
+		
     ],
     credentials: true,
 }));
