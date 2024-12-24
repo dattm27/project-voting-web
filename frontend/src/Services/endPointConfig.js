@@ -1,5 +1,5 @@
 const endPointConfig = {
-    serverIP: 'https://project-voting-web.onrender.com',
+    serverIP: 'https://voting-web.letuandat.id.vn',
     //serverIP: 'http://localhost:3000',
     apiBaseURL: '/api/',
     endpoints: {

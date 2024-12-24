@@ -12,10 +12,14 @@ const app = express();
 
 app.use(cors({
   origin: [
-      'https://vercel-deploy-chi-henna.vercel.app', // Frontend
-      'https://auth-server-1lft.onrender.com', // Auth Server
-      'https://project-voting-web.onrender.com', // API Server
-      'http://localhost:3333', // Localhost for development
+
+    'http://localhost:3000', // Frontend
+    'http://localhost:3333', // Frontend
+    'https://lohoangtiendat-20215561.io.vn', // Frontend
+    'https://auth-server-1lft.onrender.com', // Auth Server
+    'https://project-voting-web.onrender.com', // API Server
+    'https://letuandat.id.vn', // Auth Server
+    'https://voting-web.letuandat.id.vn', // API Server
   ],
   credentials: true,
 }));
